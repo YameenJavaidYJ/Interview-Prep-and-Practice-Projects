@@ -1,0 +1,7 @@
+Explain MVC architecture
+
+    Model → Handles data & business logic.
+    View → UI representation.
+    Controller → Receives requests, interacts with model, returns response (view or API).   
+        
+        Separation of concerns → maintainable & testable code.

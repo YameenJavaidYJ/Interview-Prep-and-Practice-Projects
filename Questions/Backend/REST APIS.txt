@@ -1,0 +1,13 @@
+What are RESTful APIs and how do they work?
+
+REST (Representational State Transfer) is an architectural style for APIs.
+
+RESTful APIs use HTTP methods:
+
+    -> GET → read
+    -> POST → create
+    -> PUT/PATCH → update
+    -> DELETE → remove
+
+They are stateless, meaning each request contains all necessary info (no session stored on server).
+    Example: /users/1 returns user with id=1.

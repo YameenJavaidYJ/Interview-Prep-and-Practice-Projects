@@ -1,0 +1,5 @@
+4. What are microservices and how do they differ from monolithic architectures?
+
+    Monolith → all features in one big codebase, tightly coupled, harder to scale independently.
+    Microservices → application split into small, independent services (e.g., user service, payment service). Each has its own DB & API.
+    👉 Pros: scalability, deploy independently. Cons: more complexity (network, monitoring, coordination).

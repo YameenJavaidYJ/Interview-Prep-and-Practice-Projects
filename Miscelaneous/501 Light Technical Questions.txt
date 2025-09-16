@@ -1,0 +1,55 @@
+API Development
+
+    Q: Have you built REST APIs or GraphQL APIs?
+
+    “Yes, I’ve mainly built RESTful APIs using Express and NestJS. I focus on clean architecture, proper 
+    routing, and modular structure. While most of my work has been REST-based, I understand GraphQL concepts 
+    and I’m open to working with it if needed.”
+
+    Q: How do you handle authentication & authorization?
+
+    “I usually implement JWT-based authentication and role-based authorization. In some cases, 
+    I’ve worked with OAuth2 as well. I ensure tokens are securely stored, passwords are hashed, 
+    and sensitive routes are protected with middleware or guards.”
+
+    GraphQL is a query language for APIs where clients can request exactly the data they need, 
+    unlike REST which gives fixed responses. It reduces overfetching/underfetching and often improves efficiency.
+
+
+Databases
+
+    Q: Which databases have you used (SQL, MongoDB, PostgreSQL)?
+
+    “I’ve worked with both relational and non-relational databases — primarily PostgreSQL and MongoDB. 
+    I’m comfortable designing schemas, writing queries, and integrating them with backend APIs.”
+
+    Q: Can you optimize queries or handle migrations?
+
+    “Yes. For SQL, I use indexes, query optimization, and joins carefully to improve performance. For migrations, 
+    I’ve worked with TypeORM and Sequelize in Node projects. In MongoDB, I use proper indexing and schema design to 
+    keep queries fast.”
+
+Performance & Scaling
+
+    Q: How do you handle large amounts of requests?
+
+    “I use techniques like load balancing, efficient database queries, connection pooling, and pagination. 
+    At the API level, I’ve used rate limiting and caching to handle traffic spikes. For heavy tasks, 
+    I also consider background jobs/queues.”
+
+    Q: What’s your experience with caching (Redis, etc.)?
+
+    “I’ve used Redis for caching frequently accessed data, like user sessions or repeated queries, which 
+    reduces database load and improves response times.”
+
+    LoadBalancing 
+        -> (Infra Level) Usually handled by a load balancer (NGINX, HAProxy, AWS ELB, etc.).
+        -> (Backend Code Level) Job Queues / Rate Limiting
+
+DevOps Basics
+
+    Q: Have you deployed apps? On which platforms (AWS, Azure, or GCP) and CI/CD pipelines..?
+
+    “Yes, I’ve deployed applications on AWS EC2 and DigitalOcean droplets, and I’ve containerized apps using Docker.
+    For CI/CD, I’ve set up pipelines with GitHub Actions and GitLab CI to automate builds and deployments. 
+    I also have basic experience with NGINX as a reverse proxy.”

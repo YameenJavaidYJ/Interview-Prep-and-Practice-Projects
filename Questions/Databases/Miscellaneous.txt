@@ -1,0 +1,23 @@
+Sharding and Indexing
+
+What are indexes in databases and how do they work?
+
+Indexes = data structures (often B-trees or Hashes) that improve query speed by allowing faster lookups.
+Example: Index on email lets DB find user quickly instead of scanning entire table.
+Tradeoff: Faster reads, slower writes (because index must update).
+👉 Useful for search-heavy tables.
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+How do transactions work in databases?
+
+A transaction = a sequence of operations performed as a single logical unit.
+
+Follow ACID properties:
+
+    Atomicity → all or nothing.
+    Consistency → database remains valid.
+    Isolation → concurrent transactions don’t interfere.
+    Durability → once committed, changes survive crashes.
+    👉 Example: Bank transfer = debit + credit must both succeed or rollback.

@@ -1,0 +1,61 @@
+How do you handle authentication and authorization in web apps?
+
+    Authentication → verifying identity (login via JWT, sessions, OAuth, etc.).
+    Authorization → verifying permissions (role-based access, ACL).
+    
+    Use JWT or sessions for login state.
+    Middleware to check roles/permissions before serving routes.
+
+
+
+* What’s the difference between JWT and server-side sessions?
+* When would you choose JWT over Express sessions (or vice versa)?
+* What are the trade-offs between stateless and stateful authentication?
+
+-----------------------------------------------------------------------------------------------------------
+
+    I’d choose JWT when I need a stateless, scalable solution — like APIs or microservices where I don’t want to maintain a 
+    session store. They’re also good when tokens need to be shared across multiple services.
+    But I’d choose server-side sessions (Express session) when I need easy revocation (cancellation) and security — like in 
+    traditional web apps where managing sessions in Redis or DB is fine. Sessions are easier to invalidate, and the server 
+    has more control. So it’s really a trade-off: 
+        
+    JWT = scalability & statelessness, 
+    Sessions = control & revocability.
+
+-----------------------------------------------------------------------------------------------------------
+
+JWT (JSON Web Token)
+    Where stored: Usually in client storage (localStorage, cookies).
+    
+    How  it works:
+        User logs in → server issues a signed JWT.
+        Client attaches JWT to every request (e.g., in Authorization: Bearer <token>).
+        Server verifies the signature → trusts claims (no DB lookup needed).
+    
+    Pros:
+        Stateless: Server doesn’t store sessions → scales horizontally easily.
+        Works well for microservices / APIs (token can be shared across services).
+        Can embed claims (user roles, expiry, etc.) inside token.
+    
+    Cons:
+        Harder to revoke early (must wait for expiry unless you maintain a blacklist).
+        Bigger payload (each request carries JWT).
+        If stored in localStorage, can be vulnerable to XSS.
+
+-----------------------------------------------------------------------------------------------------------
+
+Express Session (Server-side Sessions)
+    Where stored: Session data stored in server (usually memory, Redis, DB). Client just gets a session ID (usually via cookie).
+    
+    How it works:
+        User logs in → server creates session in memory/store.
+        Client gets a session cookie with ID.
+        On each request, server looks up session ID to restore user state.
+    Pros:
+        Easy to invalidate sessions (just delete from server).
+        Payload is tiny (cookie with ID).
+        Generally more secure by default (no sensitive data stored client-side).
+    Cons:
+        Stateful: Server must manage sessions; scaling requires centralized store (Redis, DB).
+        More overhead in clustered deployments (session replication/sync).

@@ -1,0 +1,58 @@
+Closures vs Currying
+
+* What is a closure? 
+* What is currying? 
+How are they different? Give examples. 
+* When would you use currying?
+
+• Closure: a function + lexical environment of captured variables. 
+Even after outer function returns, inner function still has access to those variables. Example: a counter factory. 
+
+------------------------------------
+
+    function createCounter() {
+    let count = 0; // private variable
+
+    return function() {
+        count++; 
+        return count;
+    };
+    }
+
+    const counter1 = createCounter();
+    console.log(counter1()); // 1
+    console.log(counter1()); // 2
+    console.log(counter1()); // 3
+
+    const counter2 = createCounter();
+    console.log(counter2()); // 1 (independent counter)
+
+-------------------------------------
+
+• Currying: transforming a function that -------------------------------------takes N arguments into a sequence of functions each taking one argument; 
+i.e. f(a,b,c) → f(a)(b)(c). Currying normally uses closures. 
+
+-------------------------------------
+
+    // Normal function
+    function add(a, b, c) {
+    return a + b + c;
+    }
+    console.log(add(1, 2, 3)); // 6
+
+    // Curried version
+    function curriedAdd(a) {
+    return function(b) {
+        return function(c) {
+        return a + b + c;  // closure keeps 'a' and 'b'
+        };
+    };
+    }
+
+    console.log(curriedAdd(1)(2)(3));
+
+------------------------------------
+
+
+• Differences: currying is a structure/technique for arguments, closure is about scope and capturing context.
+• Use cases: partial application, functional composition, pipelines, etc.

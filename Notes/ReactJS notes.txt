@@ -1,0 +1,308 @@
+-> Keep Rendering Functions PURE (what are pure functions)
+-> Class Components vs Functional Components
+-> Controlled and UnControlled Components
+-> Redux vs Context APIs
+-> React and Closures
+-> React component names must always start with a capital letter, while HTML tags must be lowercase.
+-> Functions starting with use are called Hooks.
+-> what is react strict mode and impurities ?
+
+
+
+
+
+HOOKS:
+
+    -> HOOKS CAN'T BE CALLED INSIDE FUNCTIONS OR CONDITIONS
+    -> CALL THEM AT THE TOP LEVEL OF YOUR COMPONENT
+
+    useState (State: A Component's Memory)
+    -> useState is a React Hook that lets you add a state variable to your component.
+
+    ->  setAge(a => a + 1); // setAge(42 => 43) updaterFunction where a is called pending state 
+    -> 1. Passing the initializer function will be called on every render reason unclear still
+        + when component rerender the code runs form top to bottom So any JavaScript expressions at the 
+            top level of the function run again.
+    -> render tree
+    -> Same component at the same position preserves state etc rules {}  
+        React sees always exactly one <Counter> at the same position in the tree.
+        {isPlayerA && <Counter person="Taylor" />}
+        {!isPlayerA && <Counter person="Sarah" />}
+        React will see two different nodes
+
+    -> see through mutating state at the end of useState docs 
+            // ✅ Correct: replacing with new state
+            return [...prevTodos, createTodo()];
+
+    -> inititalizer funciton vs updater function
+        // this callback style is called updater function
+        An updater function → setCount(prev => prev + 1)
+
+    useReducer: go through documentation once 
+        useReducer is a React Hook that lets you add a reducer to your component.
+
+    useRef: hold information that is not use for rendering
+        -> dont't read or write refs during rendering instead use state for this or direct dom manupulation
+        -> experiment with ref dom manipulation
+        -> do read the mapWidget example for useRef
+
+    forwardRef: allows a parent to pass that ref into a child component.
+
+
+    -- EXPLORE STRICT MODE THOUROUGHLY WITH USE EFFECT --
+
+    ---------------------------------------------------------------------
+
+    ❌ Example 2: Incorrect Effect (buggy cleanup)
+    
+            export default function BadTimer() {
+            const [count, setCount] = useState(0);
+
+            useEffect(() => {
+                console.log("⚠️ setting interval (but no cleanup!)");
+                setInterval(() => {
+                setCount(c => c + 1);
+                }, 1000);
+
+                // 🚩 forgot to return cleanup
+            }, []);
+
+            return <h1>{count}</h1>;
+            }
+--------------------------------------------------------------------------------------------------------------
+
+    useEffect: lets you synchronize a component with an external system.
+        -> dependacy array (optional) ractive values   
+        -> can be used to make api calls
+        -> issues with adding fetch directly in useEffect wil cause issues with caching and server rendering later 
+        (go through this issue in code level)
+        -> passing dependancy (run only when reactive states change)
+        -> empty array (runs only on first render)
+        -> not dependancy array (runs effect on every render)
+        -> useEffect(() => {
+            const connection = createConnection(serverUrl, roomId);
+            connection.connect();
+            
+            // this will only run when unmounting component
+            return () => {
+                connection.disconnect();
+            };
+        }); // No dependency array at all
+        -> Anything your effect reads from the component scope (state, props, or functions/variables declared outside the effect) 
+            must be included in the dependency array
+
+    
+
+    useEffectEvent: React Hook that lets you extract non-reactive logic into an Effect Event.
+    useLayoutEffect (some useCase) explore it later
+    useWindowListener (some useCase) explore it later   
+    useIntersectionObserver    
+    
+
+    
+    ---> memoization Hooks <----
+
+--------------------------------------------------------------------------------------------------------------
+
+    useCallback: React Hook that lets you cache a function definition between re-renders.
+    -> use in combination with memo or useEffect else redundant (code noise)
+                        
+    -> useCallback(()=>{},[depx,depy])
+    
+    Skipping re-rendering of components 
+        -> is a function wrapped in useCallback is passed to child components they wont re render now
+        -> unless dependancy array changes
+    
+    Updating state from a memoized callback
+        
+        -> function TodoList()
+        
+        const [todos, setTodos] = useState([]);
+
+        const handleAddTodo = useCallback((text) => {
+            const newTodo = { id: nextId++, text };
+            setTodos(todos => [...todos, newTodo]);
+        }, []); //
+
+        -> now in this case function reference will not change and also setTodos will work because of updater function approach 
+        -> if updater function is not used then the value at the time of function creation
+
+    Preventing an Effect from firing too often (dicussed above with memo example same issue when function in dependancy array)
+        
+        -> Every reactive value must be declared as a dependency of your Effect. 
+    
+    Optimizing a custom Hook
+        -> If you’re writing a custom Hook, it’s recommended to wrap any functions that it returns into useCallback:
+        -> This ensures that the consumers of your Hook can optimize their own code when needed.
+
+    ISSUES:
+        -> if no dependancy array then useCallback will give new reference every time
+
+--------------------------------------------------------------------------------------------------------------
+
+    --- useMemo vs React.memo ---
+    --- useMemo -> for values
+    --- useCallback -> for functions
+    --- React.memo -> for components so the states passed to them if have not changed the component will not rerender
+
+    --- but now a days with introduction of React Compiler it is detected automatically at build time
+        that where what is required
+        (will be stable released later but RC version available in babel compiler)
+
+    use Memo : React Hook that lets you cache the result of a calculation between re-renders.
+
+--------------------------------------------------------------------------------------------------------------
+
+    -> useMemo(calculateValue, dependencies) 
+    
+    where calculateValue is a callback that takes no parametre example
+        
+        const visibleTodos = useMemo(
+            () => filterTodos(todos, tab), // this is the callback funciton that is called when reactive dependancies change
+            [todos, tab]
+        );
+
+        console.time('filter array');
+        const visibleTodos = filterTodos(todos, tab);
+        console.timeEnd('filter array');
+
+        -> on average if computation is greater than 1ms then memoize
+        -> if interactions are are coarse then skip memoization
+        -> if granualar then memoize
+
+
+    Skipping expensive recalculations 
+        -> using useMemo value on calculation will be on first render and on propchange
+    Skipping re-rendering of components 
+        -> since above the component will be rendered only when that prop changes
+    Preventing an Effect from firing too often 
+        -> adding options in dependacy array my fire Effect but since option will be wrapped in useMemo it wo't react unless changed
+    Memoizing a dependency of another Hook
+    Memoizing a function
+
+--------------------------------------------------------------------------------------------------------------
+
+lazy lets you defer loading component’s code until it is rendered for the first time.
+
+const SomeComponent = lazy(load)  
+lazy (load) 
+lazy function  
+    -> const MarkdownPreview = lazy(() => import('./MarkdownPreview.js')); -> lazy component
+    -> callabck returns a promise
+
+<Suspense fallback={<Loading />}>
+  <h2>Preview</h2>
+  <MarkdownPreview />
+</Suspense>
+
+Suspense fallback for component until loaded
+
+--------------------------------------------------------------------------------------------------------------
+
+React Internal Phase
+
+Render Phase (a.k.a. reconciliation)
+
+    React calls your function components (or render() in class components).
+    Builds a new virtual DOM tree.
+    Prepares a “diff plan” for what needs to change in the browser.
+    ⚡ This phase is pure: React should not touch the DOM here, only calculate.
+
+Commit Phase
+
+    React applies the diff to the actual DOM.
+    Runs DOM mutations, refs, layout effects.
+
+--------------------------------------------------------------------------------------------------------------
+
+React LifeCycle
+    -> Components may mount, update, unmount
+    -> A component mounts when it’s added to the screen.
+    -> A component updates when it receives new props or state, usually in response to an interaction.
+    -> A component unmounts when it’s removed from the screen.
+
+--------------------------------------------------------------------------------------------------------------
+
+what are directives? (react server componenets)
+
+what are apis in React js?
+
+React vs React DOM vs React Compiler
+
+Some Eventhandlers
+    -> window.addEventListener()
+    -> window.removeEventListener()
+    -> animation.start()
+    -> animat.ion,reset() 
+
+
+HYDRATION:
+
+1. What happens with plain CSR (client-side rendering)?
+
+    With only client-side React, the browser downloads an empty index.html with maybe just a <div id="root"></div>.
+    React runs in the browser, builds the UI with JavaScript, and injects it into that empty div.
+    Until JS loads and runs, the user sees a blank screen → not great for performance or SEO.
+
+2. What happens with SSR (server-side rendering)?
+
+    The server runs React components first, producing ready-made HTML.
+    That HTML is sent to the browser → so users see the full UI immediately (faster load, better SEO).
+    But… this HTML is static: it looks right, but there are no event listeners attached yet (buttons don’t “work”).
+
+3. Hydration
+
+    Hydration is the process where:
+    The browser loads the static HTML from the server.
+    React on the client renders the same components again, producing the same virtual DOM.
+    Instead of re-painting the UI, React compares this virtual DOM with the already existing HTML and attaches event listeners (click, input, etc.) to it.
+    👉 After hydration, the static server-rendered HTML becomes a fully interactive React app.
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+function MyComponent() {
+  const [didMount, setDidMount] = useState(false);
+
+  useEffect(() => {
+    setDidMount(true);
+  }, []);
+
+  if (didMount) {
+    // ✅ client-only JSX
+  } else {
+    // 💤 initial (server + pre-hydration) JSX
+  }
+}
+
+2. What’s going on
+
+On the server render, useEffect does not run.
+    So didMount stays false.
+    The server sends down the initial JSX to the browser.
+
+When the app hydrates in the browser, React runs effects.
+    The useEffect sets didMount = true.
+    That triggers a re-render.
+    Now the component shows the client-only JSX.
+
+So the flow is:
+
+    SSR: render initial fallback → HTML is sent.
+    Hydration: React attaches to HTML.
+    Effect runs → state updates → re-render with client-only UI.
+
+3. Why use this?
+
+    This pattern is used when you need something that:
+    Cannot be rendered on the server (e.g. depends on window, browser APIs, local storage, media queries, etc).
+    But you still want the server to output something for SEO or initial paint.
+
+    Example:
+    
+    if (!didMount) return <div>Loading map...</div>;
+        return <MapComponent />;
+
+
+
+-----------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,52 @@
+1. HR / Soft Questions (non-technical, high chance)
+
+1. Tell me about yourself
+    -> I’m a backend developer with experience in building scalable APIs using Node.js, Express, and NestJS. 
+    -> I’ve worked with both relational and non-relational databases, handled authentication/authorization, 
+        and optimized systems for performance. I enjoy solving backend challenges like data modeling, API design, and deployment. I’m now looking for a role where I can grow further, contribute to impactful projects, and learn from a strong engineering team.”
+
+2. Why do you want to switch?
+    -> I’ve had a good learning experience in my current role, but I’m looking for new challenges and growth.
+
+3. What’s your current role and responsibilities?
+    -> In my current role, I design and develop backend services, primarily using Express and NestJS, 
+    focusing on building scalable and efficient APIs. 
+    -> I work on database design, query optimization, authentication and authorization, and ensure 
+    overall performance and scalability.
+
+    -> I collaborate closely with frontend developers to integrate features seamlessly, and I’m involved in 
+    deployment and basic DevOps tasks. Additionally, 
+    -> I perform peer code reviews, guide junior developers on trade-offs and technical decisions, and 
+    proactively identify and manage technical debt to maintain long-term code quality.”
+
+
+4. What tech stack do you work with?
+    -> My main stack is Node.js, Express, NestJS, and REST APIs, along with databases like PostgreSQL and MongoDB. 
+    -> I’ve also used Redis for caching and JWT/OAuth for authentication. For deployments, 
+    -> I’ve worked with Docker and cloud services like AWS/DigitalOcean.”
+
+5. How much experience do you have in backend development?
+    -> I have around 3 years of hands-on experience in backend development with Node.js, focusing on Express and NestJS.
+
+
+6. What are your salary expectations?
+    -> I’m currently at around 250k, and I’m looking for growth both in role and compensation. Based on market standards 
+    and my skills, 
+    -> I’d expect something in the 300–400k range, but I’m flexible depending on responsibilities and overall benefits.”
+
+7. Are you okay with on-site work in Lahore?
+“Yes, I’m comfortable with on-site work in Lahore.”
+
+8. When can you join?
+Yes, the official notice period is 2 months, but in my case, I’ve discussed it with my manager and we’ve agreed 
+I can transition earlier. I’ve already completed most of my handovers, so 2 weeks is realistic
+
+
+.....................................
+
+Example Introduction
+
+    I have solid backend development experience with Node.js, particularly using Express and NestJS. 
+    I’ve built APIs, integrated databases like [MySQL/MongoDB/Postgres], implemented authentication, 
+    and optimized performance for scalable systems. I’ve also worked on deployments and have experience 
+    collaborating with frontend teams to deliver end-to-end solutions.

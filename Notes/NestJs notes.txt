@@ -1,0 +1,152 @@
+-> Do you know how NestJS helps teams compared to Express? (testability, structure, maintainability
+-> https://angular.dev/guide/di (Dependancy Injection)
+-> NestFactory
+-> Dream make application such as Nest Js Layout
+-> to use nest with vanilla javascript we use Babel compiler
+-> what is typescript stricter --strict feature
+-> do check for Express vs Nest js
+-> Nestjs allows promises and obeservables
+-> Fastify vs Nest if one is to mention on resume that i know both
+-> Complex Objects Query Parser that is object in query param
+-> Providers (Custom, Optional Later if required go through) 
+-> Scropes (when each request has its own scope for provider)
+-> Property based injection vs Constructor based 
+-> Nest's default dependancy injection (retrieve existing instances or instantiate providers dynamically)
+    -> Explore moduleRef usecase
+-> Explore NestFactory abortOnError false option in bootstrap
+-> nest vs fastify in case of nestjs (platofrm agnostic / independance)
+
+---------------------------------------> DIRECTORY STRUCTURE <-----------------------------------
+
+-> Controller
+-> Decorators link classes with the necessary metadata
+-> Standard vs Libranry specific returning of response
+-> Nestjs Decorators
+-> @All, @Headers, @Redirect
+-> Explore usages for each and other missed out decorators when working on project
+
+-> Subdomain routing and other routing things missed out
+-> Fastify does not support subdomain routing
+
+---------------------------------------> DIRECTORY STRUCTURE <-----------------------------------
+
+-----------------------------------------------> MODULES <----------------------------------------
+    (imported modules)
+    (shared modules-> exports such as services one instance shared accross all modules) 
+    (importing and reexporting)
+    -> Lifecycle hooks -> Module classes can implement lifecycle interfaces:
+
+        OnModuleInit → runs when the module is initialized.
+        OnModuleDestroy → runs before the module is destroyed.
+        OnApplicationBootstrap → runs after the whole app has bootstrapped.
+        OnApplicationShutdown → runs during app shutdown (useful for cleanup, closing DB connections).
+
+    -> Access to ModuleRef for dynamic dependency resolution.
+    -> Custom setup/teardown logic inside the module class
+        
+        initMetrics() {
+            console.log('Metrics system initialized');
+        }
+
+    -> Global Modules
+    -> Dynamic Modules 
+        (thing is tricky for now as we can have multiple was such as dynamic injection such as moduleRef)
+
+Ref: https://chatgpt.com/c/68b5b711-b618-8332-a055-45ae3d26ac7d
+-> search dynamic modules
+
+--------------------------------------------> MIDDLE WARES <----------------------------------------
+
+Middleware functions can perform the following tasks:
+-> function called before route handler
+-> access to request and response Objects and the nest() function
+-> execute any code.
+-> make changes to the request and the response objects.
+-> end the request-response cycle.
+-> call the next middleware function in the stack.
+-> if the current middleware function does not end the request-response cycle, 
+    it must call next() to pass control to the next middleware function. 
+    Otherwise, the request will be left hanging.
+-> configure used for middleware (see the syntax then)
+-> we can also customize which base routes and request method to apply to
+-> route wildcards
+-> path: '*' for all routes such as auth middleware
+-> app.use(new AuthMiddleware().use); -> Global Middleware
+-> we have options to excluse routes so we will get better gist of it later
+-> class based middleware vs functional middleware
+-> global middleware and multiple middleware
+-> consumer.apply(AuthMiddleware).forRoutes(CatsController, DogsController) -> specific controllers
+
+--------------------------------------------> MIDDLE WARES <----------------------------------------
+
+------------------------------------------> EXCEPTION FILTERS <-------------------------------------
+
+-> get the gist of exception filters later
+-> Why use ArgumentsHost?
+
+    Cross-platform abstraction
+    You don’t have to hardcode req/res everywhere. Your filter/middleware can work for HTTP, WebSocket, and Microservices.
+
+    Flexibility
+    You can extract the exact arguments you need. Example: log user info from req in HTTP, or log pattern in RPC.
+
+    Custom filters/interceptors
+    You can build generic filters that handle exceptions across multiple transports with the same code.
+
+    Because NestJS supports multiple contexts:
+
+    HTTP (Express/Fastify) → req, res, next
+    WebSockets → client, data
+    Microservices → message, context
+
+-> explore binding filters, catch and global filter
+
+
+------------------------------------------> EXCEPTION FILTERS <-------------------------------------
+
+
+------------------------------------------------> PIPES <-------------------------------------------
+
+-> transform data
+-> validate data if error throw exception
+-> used instead of zod validator as in express js
+-> they are the distinguishing feature of nest js
+-> Builtin Pipes, Custom Pipes, Pipes Binding
+-> callable pipes (instance pipe) vs class pipes where instance pipes can have parametres
+-> validation pipe -> transform
+-> when working explore how metaType is deduced
+
+
+
+
+------------------------------------------------> PIPES <-------------------------------------------
+
+
+>> Just for Information <<
+
+>> moduleRef
+
+import { Injectable, ModuleRef } from '@nestjs/common';
+
+@Injectable()
+export class DynamicService {
+  constructor(private moduleRef: ModuleRef) {}
+
+  async doSomething() {
+    const repo = this.moduleRef.get('IAdminRepository', { strict: false });
+    return repo.findAll();
+  }
+}
+
+when to use
+
+-> Conditional resolution (runtime resolution)
+-> Lazy resolution (If resolving everything in constructor causes circular dependencies)
+-> Dynamic providers / plugins (ports and multiple adapters)
+
+
+
+
+
+
+

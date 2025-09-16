@@ -1,0 +1,10 @@
+1. What is the difference between == and === in JavaScript?
+
+    == is the loose equality operator, which compares two values for equality after performing type coercion if necessary. This means it converts the operands to the same type before comparing.
+    === is the strict equality operator, which compares both the values and their types, without performing type conversion.
+
+2.  What would be the result of 3+2+"7"?
+
+    57
+
+3. Is JavaScript compiled or interpreted?

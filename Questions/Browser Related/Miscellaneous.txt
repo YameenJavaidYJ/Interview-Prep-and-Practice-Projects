@@ -1,0 +1,48 @@
+🔹 Browser Internals & Rendering
+    Walk me through what happens in the browser when you type a URL and hit enter.
+    Explain the difference between the DOM, CSSOM, and Render Tree.
+    What are critical rendering paths and how can you optimize them?
+    How do browsers handle reflows and repaints? Give examples of code that might trigger each.
+    What’s the difference between a composite layer and the main thread in rendering?
+
+🔹 Networking & Critical Flows
+    What’s the role of DNS resolution, TCP handshake, and TLS negotiation in a page load?
+    How do HTTP/1.1, HTTP/2, and HTTP/3 affect browser request flows?
+    How does the browser decide when to open a new connection vs. reuse an existing one?
+    Explain the concept of preload, prefetch, and prerender in resource loading.
+    Why might the order of script tags impact page performance?
+
+🔹 JavaScript & Execution
+    How does the JavaScript event loop work in a browser?
+    What’s the difference between macrotasks and microtasks?
+    How does the browser handle asynchronous rendering when JavaScript execution blocks the UI?
+    What are Web Workers and how do they interact with the DOM?
+    How does the browser optimize garbage collection in JS engines like V8?
+
+🔹 Security in Browsers
+    Explain Same-Origin Policy (SOP) and why it’s important.
+    What are CORS preflight requests and when are they triggered?
+    How do XSS and CSRF attacks exploit browser behavior?
+    What’s the difference between sessionStorage, localStorage, cookies, and IndexedDB in terms of security?
+    Why do browsers use sandboxing for tabs and iframes?
+
+🔹 Performance & Optimization
+    How would you reduce the Time to Interactive (TTI) of a web app?
+    How do browsers handle lazy loading of images and scripts?
+    What is a Critical Rendering Path waterfall (e.g., in Chrome DevTools) and how do you interpret it?
+    What are long tasks, and how would you debug them in a browser?
+    How does the browser cache work (memory cache, disk cache, service worker cache)?
+
+🔹 Debugging & Tools
+    How would you diagnose layout thrashing using Chrome DevTools?
+    What’s the difference between Performance tab vs. Network tab in DevTools profiling?
+    How would you debug a memory leak in a web app?
+    How can you simulate network throttling and CPU slowdown in the browser?
+    What’s the role of Lighthouse in web performance auditing?
+
+🔹 System Design & Browser Architecture
+    How do modern browsers achieve process isolation for tabs?
+    Why do browsers use multi-process architecture instead of a single process?
+    How does the browser scheduler prioritize rendering vs. scripting vs. user input?
+    What’s the role of a GPU process in rendering pipelines?
+    If you had to design a lightweight browser, what trade-offs would you consider?

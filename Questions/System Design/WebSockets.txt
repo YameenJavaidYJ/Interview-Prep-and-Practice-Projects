@@ -1,0 +1,54 @@
+WebSockets / Real-time two-way communication
+
+* When would you use WebSockets? 
+* How are they different from HTTP? 
+* How to scale WebSockets? 
+* What issues (connections, state, fallback, scaling) are there?
+* What are webhooks?
+
+🔹 WebSockets 
+    -> allow persistent two-way connection (NOT IN NORMAL HTTP REQUEST) (client ↔ server) for real-time updates 
+    -> (notifications, live availability updates, etc.).
+
+🔹 Differences: lower latency, push from server possible, require stateful connections.
+
+🔹 Scaling: need sticky sessions, scalable connection servers 
+    -> (e.g. using message brokers, clusters, load balancing), managing many open connections 
+        (resource constraints), fallback (long polling).
+
+🔹 Security, reconnection strategies, heartbeat / ping-pong messages.
+
+🔹 Webhooks are HTTP callbacks. 
+    -> A server sends an HTTP request (usually POST) to a pre-configured URL when an event occurs.
+
+    How they work:
+    
+    -> You register a webhook endpoint (a public HTTP URL).
+    -> When the provider system has an event (e.g., “payment succeeded”), it makes an outbound HTTP request to your endpoint with event data.
+    -> Your service processes it.
+    -> They are HTTP requests, but the difference is that you don’t pull, the provider pushes data to you.
+
+    Use cases:
+    
+    -> Stripe sending a “payment completed” event
+    -> GitHub sending a “new commit pushed” event
+    -> Slack sending “new message posted” to an integration
+
+    Webook PUSH (server adapts to the client’s exposed endpoint (headers, auth, JSON schema))
+    Normal HTTP REQUEST PULL (client adapts to servers API contract (enpoints | request format | response schehma))
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Q: How are WebSockets and Webhooks different from HTTP requests?
+
+    WebSockets start as an HTTP handshake but then upgrade to a persistent, two-way channel. 
+    They’re used for true real-time communication like chat apps or stock tickers.
+
+    Webhooks, on the other hand, are HTTP requests, but reversed in direction: instead of the client asking the server, 
+    the server proactively calls your registered endpoint whenever an event occurs. They’re event-driven, stateless, 
+    and one-way.
+
+    A normal HTTP request is always client-initiated and one-time, while WebSockets are bidirectional, and Webhooks are 
+    server-initiated but one-way.
+
+-------------------------------------------------------------------------------------------------------------------------

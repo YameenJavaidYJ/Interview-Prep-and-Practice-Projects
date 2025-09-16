@@ -1,0 +1,6 @@
+2. Difference between SQL and NoSQL databases
+
+SQL: Relational, structured schema, ACID compliance, good for complex queries. (e.g., PostgreSQL, MySQL)
+
+    NoSQL: Non-relational, flexible schema, horizontally scalable, BASE (eventually consistent). (e.g., MongoDB, Cassandra)
+    Use SQL for transactions, NoSQL for scalability/unstructured data.

@@ -1,0 +1,40 @@
+Booking Website, Peak Hours, Distributing Redis Locks, Rate Limiter vs Circuit Breaker
+
+Design a booking system (say for hotels / flights / tickets). 
+    
+    * How do you handle high traffic at peak hours? 
+    * How you ensure two people don’t book the same seat (race condition)? 
+    * How to distribute locks using Redis? 
+    * Where do you use rate limiting, where circuit breakers? 
+    * How to ensure consistency, availability, latency?
+
+🔹Throughput & Scalability: 
+    -> Auto-scaling of backend, load balancers, caching layers, queuing, separating read/write paths.
+
+🔹Concurrency control / Locking: 
+    -> Use Redis distributed locks (e.g. SETNX + expiry) to manage critical sections (seat availability update). 
+    -> But careful with failures (lock leakage, etc.).
+
+🔹Rate Limiter: 
+    -> limit requests per user/IP globally or per other metrics to avoid overload / abuse. 
+    -> Could be implemented at gateway or API layer; can use token bucket, leaky bucket, sliding window. 
+
+🔹Circuit Breaker: 
+    -> for downstream dependencies (payment gateways, other services). 
+    -> Only open when failure thresholds exceeded; fallback logic. Helps system stay responsive when parts fail. 
+
+---------------------------------------------------------------------------------------------------------------
+
+CONSISTENCY: 
+
+    🔹Use distributed caching (Redis) to cache frequently used data (rooms availability, static metadata) to 
+        reduce DB load.
+    🔹Database design: 
+        -> ACID vs eventual consistency trade-offs; 
+            how to partition/shard database; use replication.
+    🔹Handling peak hours: 
+        -> maybe queueing systems (message queues) for non-critical tasks, 
+        -> circuit breakers for failure points, rate limiting to throttle.
+    🔹Monitoring / Logging / Metrics: 
+        -> necessary to know when locks are contended, failure rates, latencies.
+    🔹Data partitioning / horizontal scaling.

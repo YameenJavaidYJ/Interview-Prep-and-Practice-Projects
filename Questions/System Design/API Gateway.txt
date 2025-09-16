@@ -1,0 +1,34 @@
+API Gateways
+
+* What is an API gateway? Why use it? 
+* What responsibilities should it have? 
+* Where in your booking system architecture it fits?
+
+----------------------------------------------------------------------------------------------------------------
+
+An API Gateway acts as a front door for all client requests, providing routing, security, monitoring, and performance 
+optimizations, so that backend services remain decoupled and focused on business logic.
+
+----------------------------------------------------------------------------------------------------------------
+
+🔹 An API Gateway is a single entry point that sits between clients (web/mobile apps) and backend services/microservices.
+It receives requests from clients → routes them to the right service → aggregates results → sends response back.
+
+🔹 Why use it?
+    
+    Centralized access → clients don’t need to know all service endpoints.
+    Decoupling → hides microservice complexity.
+    Security → enforces authentication, authorization, rate-limiting.
+    Performance → enables caching, request batching, load balancing.
+    Cross-cutting concerns → logging, monitoring, retries.
+
+🔹 Responsibilities of an API Gateway
+
+    Routing – forward request to correct backend service.
+    Authentication & Authorization – validate tokens/credentials.
+    Rate Limiting & Throttling – prevent abuse.
+    Caching – reduce latency & backend load.
+    Request Transformation – protocol translation (HTTP → gRPC, REST ↔ GraphQL).
+    Response Aggregation – combine results from multiple services.
+    Monitoring & Logging – track metrics, errors, traffic.
+    Fallbacks & Circuit Breaking – improve resilience.

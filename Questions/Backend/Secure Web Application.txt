@@ -1,0 +1,9 @@
+How do you secure a web application?
+
+    Authentication & Authorization → Strong identity management.
+    Input Validation & Sanitization → Prevent XSS, SQL injection.
+    HTTPS everywhere → Encrypt communication.
+    Rate limiting → Prevent brute-force/DDoS.
+    CSRF & CORS protections.
+    Secure storage of secrets → Environment variables, vaults.
+    👉 Security is layered defense (defense-in-depth).

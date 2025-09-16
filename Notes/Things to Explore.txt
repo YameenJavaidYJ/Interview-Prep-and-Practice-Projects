@@ -1,0 +1,81 @@
+React vs Next js
+Rate Limiters
+Monolithic Architecture
+Microservices Architecture
+Monorepo
+Turborepo
+CRDT
+PALLAS UI
+Panda css
+Bash
+Forward Proxy vs Reverse Proxy
+What is Vibe Coding
+Domain Driven Design 
+Clean Architecture 
+How can edit response in bulk that is add middlewares
+What is event loop
+What are middlewares
+How is socket connection distinguished accross different sessions
+What is useEffect
+What is Domain Driven Design
+What is Clean Architecture
+What is Event Driven Design
+What is React js 
+What is Next js
+Multiply Matirces using SQL
+Which is best for SEO 
+Deployment on Vercel/Render
+Formatter vs Linter
+Reactive systems (microservices or event-driven architectures)
+Ssg ssr csr which is fit for seo Plus differences 
+How React manages dom
+What is virtual dom how it consolidates
+Patterns on front end
+Trpc orpc
+Redux vs redux saga vs redux toolkit vs context api
+Controlled uncontrolled components
+Use memo vs use ref vs use callback vs memoization
+React.memo
+Infeastructure as code
+Pullumi
+NestJS
+NextJS
+SvelteJS
+RemixJS
+Rust - beginner
+Haskell - just started
+
+Sockets
+⁠LLMS integration
+⁠Pulumi for Serverless BE with Lambdas
+⁠NextJS serverless
+⁠CI/CD pipelines
+⁠AWS - EC2, App Runner, Cognito Auth, VPC 
+⁠FirebaseAuth, FireStore
+⁠Supabase
+⁠Elastic Search
+⁠TailwindCSS
+⁠AntDesign
+⁠ChakraUI
+⁠MaterialUI
+⁠ShadCN
+⁠PDF Generation + Download
+⁠Mailgun, SendGrid, Twilio, SQS, SES
+⁠Hyper-Fetch
+⁠Fastify
+Logging, Config, Caching, Monitoring, Multer
+
+Terra foam
+
+
+
+// USE CASE INFRASTRUCTURE LEVEL RATE LIMITS GETTINGS REACHED
+AMAZON SQS
+LAMBDA
+
+KAFKA (EXPLORE)
+
+
+
+
+

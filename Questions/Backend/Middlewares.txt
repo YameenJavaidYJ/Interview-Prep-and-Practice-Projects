@@ -1,0 +1,10 @@
+Explain middleware in web frameworks like Express.js
+
+Middleware functions sit between request and response.
+
+They can:
+
+    Modify request/response
+    Run authentication checks
+    Handle errors
+    Log requests

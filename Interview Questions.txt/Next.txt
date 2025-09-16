@@ -1,0 +1,33 @@
+
+-> Difference between getStaticProps and getServerSideProps?
+-> In Next.js 13, are components server or client by default?
+-> What’s the purpose of getStaticPaths?
+-> Which folder contains API routes in Next.js?
+-> Difference between Link and a tags?
+-> How do you add middleware in Next.js? 
+-> How does Incremental Static Regeneration (ISR) work?
+-> What’s the difference between next/head and next/document?
+-> How do you prefetch links in Next.js?
+-> What’s the purpose of next/image?
+-> How do you secure environment variables in Next.js?
+-> What happens if you fetch data inside a client component?
+-> How does Next.js optimize SEO?
+-> What is static optimization?
+-> What’s the difference between a dynamic route and a catch-all route?
+-> How do you deploy a Next.js app on Vercel?
+-> What’s the default rendering mode in Next.js 13 App Router? 
+-> What does generateStaticParams replace in the App Router?
+-> What’s the difference between middleware and API routes?
+-> Where do you configure redirects in Next.js?
+-> Which hook is required in client components?
+-> How does Next.js handle code splitting?
+-> What does the revalidate property in fetch options do?
+-> Difference between dynamic = "force-dynamic" and dynamic = "error" in Next.js 13?
+-> Which component replaces Image optimization in Next.js?
+-> What is the purpose of app/layout.tsx?
+-> How does streaming work in Next.js with React Server Components?
+-> Where do you add custom headers in Next.js responses?
+-> What’s the difference between next export and next build?
+-> How do you add internationalization (i18n) in Next.js?
+-> What does next/script help optimize?
+-> How does Next.js improve Web Vitals like LCP and CLS?

@@ -1,0 +1,35 @@
+1. Design a URL Shortener (like Bitly)
+    How would you generate unique short URLs?
+    How would you handle collisions?
+    What database schema would you use?
+    How would you make it scale to millions of requests per second?
+
+2. Design a Rate Limiter
+    How would you prevent abuse (e.g., a user sending 1000 requests per second)?
+    Which algorithms could you use? (token bucket, leaky bucket, sliding window, fixed window)
+    Could you use Redis for this?
+    How do you handle rate limiting in a distributed setup (multiple servers)?
+
+3. Design a Chat Application (like WhatsApp Web or Slack)
+    How do you support real-time messaging (WebSockets, SSE, polling)?
+    How do you ensure message delivery if a user is offline?
+    How do you store chat history?
+    How do you scale to millions of concurrent connections?
+
+4. Design an Authentication + Session Management System
+    What’s the difference between sessions and JWTs?
+    How do you handle user sessions in a load-balanced environment?
+    How do you secure tokens (refresh tokens, CSRF protection)?
+    How do you support SSO (Google login, etc.)?
+
+5. Design a File Upload Service (like Google Drive or S3)
+    How do you handle large file uploads (chunking, resumable uploads)?
+    How do you store files (object storage vs relational DB)?
+    How do you serve files back efficiently (CDN)?
+    How would you scale for millions of users?
+
+6. Design a Notification System (Email, SMS, Push)
+    How do you handle retries if a notification fails?
+    How do you queue messages (Kafka, RabbitMQ, Redis Streams)?
+    How do you make sure notifications are not duplicated?
+    How do you support scheduling (send tomorrow at 9AM)?

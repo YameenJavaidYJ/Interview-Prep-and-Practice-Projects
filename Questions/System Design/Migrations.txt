@@ -1,0 +1,53 @@
+Migrations
+* Why we run database migrations? 
+* What are risks? 
+* How to manage schema changes in production without downtime?
+
+🔹 Migrations 
+    allow evolving DB schema as application evolves
+    adding/removing fields, changing constraints, moving data etc safely.
+
+🔹 Risks with Database Migrations
+    
+    Downtime / Locking Issues
+        Large schema changes (e.g. adding a column with default value, altering big tables) can lock tables.
+        This blocks reads/writes → leads to downtime during migration.
+    Data Loss
+        Dropping a column/table without proper backup can permanently lose important data.
+        Even type changes (varchar(50) → varchar(20)) may silently truncate values.
+    Inconsistent Environments
+        If migrations are not version-controlled or applied inconsistently, dev/staging/prod schemas may diverge.
+        Leads to “works on my machine” bugs.
+    Rollback Complexity
+        Schema changes are often irreversible (e.g. dropping a column).
+        Rolling back might require restoring backups or writing reverse migrations manually.
+    Performance Degradation
+        Adding indexes on large tables, or migrating large datasets, can cause CPU/IO spikes.
+        Queries may slow down until migration finishes.
+    Application Breakage
+        If you change schema in a way the application doesn’t expect (rename a column, change type), code may crash.
+        Especially risky if frontend/backend versions are not deployed in sync with DB changes.
+    Long-running Data Migrations
+        Moving or transforming billions of rows can take hours → risk of timeouts, lock contention, failed jobs.
+    Concurrency Issues
+        If app is live and migration is writing to a table, concurrent user writes may conflict.
+        Can cause partial updates, inconsistent state, or deadlocks.
+
+🔹 How to Mitigate These Risks (Safe Practices)
+    
+    Backward Compatibility First
+        Deploy migrations in a way old + new app versions can both work.
+        Example: Add a new column instead of renaming, write to both old+new, migrate data, then drop old column later.
+    Zero-Downtime Migrations
+        Break large changes into smaller steps.
+        Add columns without defaults, backfill data in batches.
+        Use ONLINE schema changes if DB supports it (MySQL ALTER TABLE ... ALGORITHM=INPLACE, Postgres CONCURRENTLY).
+    Version Control + Rollbacks
+        Every migration should be in version control (e.g. with tools like Flyway, Liquibase, Sequelize, Prisma).
+        Plan rollback scripts or ensure backups exist.
+    Blue-Green Deployments
+        Run migrations in a way that supports deploying new code alongside old, then gradually cut over.
+    Test on Staging with Prod-like Data 
+        Test migration performance and correctness before prod.
+    Run Data Transformations Separately
+        Schema change first (fast), then run data migrations asynchronously in background jobs (batches).

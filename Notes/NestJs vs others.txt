@@ -1,0 +1,111 @@
+1. Architecture and Design Patterns
+
+    NestJS is heavily influenced by Angular, emphasizing modular architecture and dependency injection (DI).
+
+    Modules: Organize code into self-contained units (@Module decorator).
+
+    Why it matters: Makes apps more maintainable and testable.
+
+    Providers and Dependency Injection: Services, repositories, or classes can be injected into controllers or other providers using DI (@Injectable()).
+
+    Why it matters: Promotes loose coupling; Express has no built-in DI.
+
+    Controllers: Handle routing but are decoupled from business logic.
+
+    Services: Encapsulate business logic; injected into controllers.
+
+    Interview angle: “I chose NestJS because its DI and modular architecture encourage maintainable and testable code, unlike Express which can become monolithic as the app grows.”
+
+2. Decorators and Metadata
+
+    NestJS relies heavily on TypeScript decorators:
+
+    @Controller(), @Get(), @Post(), @Param(), @Body(), etc.
+
+    @Injectable(), @Module()
+
+    Custom decorators: e.g., @Roles(), @CurrentUser()
+
+    Why it matters: They provide declarative, readable code, reducing boilerplate. Express does routing manually.
+
+3. Middleware, Guards, Interceptors, and Pipes
+
+    These are NestJS abstractions over Express middleware, but with more control and structure:
+
+    Middleware: Same as Express, but integrated into modules.
+
+    Guards (CanActivate): Authorization logic.
+
+    Interceptors (@UseInterceptors): Transform responses, handle logging, caching.
+
+    Pipes (@UsePipes): Input validation, transformation, e.g., ValidationPipe.
+
+    Express has middleware, but Nest adds guards, interceptors, and pipes, making cross-cutting concerns cleaner.
+
+4. Exception Filters
+
+    @Catch() decorators handle exceptions globally or per controller.
+
+    Express requires manual try/catch or next(err) calls.
+
+    NestJS makes error handling declarative and structured.
+
+5. Built-in Support for TypeScript & Decorators
+
+    NestJS is TypeScript-first.
+
+    Express can be used with TS, but Nest enforces type safety from the ground up.
+
+    Advantage: Fewer runtime errors, better IDE support.
+
+6. Integration with Other Tools
+
+    NestJS has first-class support for things like:
+
+    ORMs: TypeORM, Prisma
+
+    GraphQL: @Resolver, @Query, @Mutation
+
+    Websockets: @WebSocketGateway()
+
+    Microservices: RabbitMQ, Kafka, gRPC, MQTT
+
+    Why it matters: Express requires more boilerplate for the same integrations.
+
+7. Testing
+
+    Nest provides testing utilities for unit and e2e tests out-of-the-box.
+
+    DI makes mocking services easy.
+
+    Express testing often requires more setup, e.g., with supertest.
+
+8. Why NestJS over Express
+
+    Structured, opinionated framework → faster development for large apps.
+
+    Built-in DI, modularity, and decorators → cleaner and maintainable code.
+
+    Out-of-the-box support for advanced features: GraphQL, WebSockets, microservices.
+
+    TypeScript-first approach → fewer runtime errors, better developer experience.
+
+    Checklist of Unique NestJS Topics for Interview Prep
+
+    Modules & Dependency Injection
+
+    Controllers & Providers
+
+    Decorators (@Controller, @Injectable, @Module)
+
+    Middleware, Guards, Pipes, Interceptors
+
+    Exception Filters
+
+    TypeScript-first architecture
+
+    Integration with GraphQL, WebSockets, ORMs, Microservices
+
+    Testing utilities (unit and e2e)
+
+    Rationale: structure, maintainability, and scalable architecture

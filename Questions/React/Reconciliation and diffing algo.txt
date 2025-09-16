@@ -1,0 +1,86 @@
+Reconciliation / Diffing Algorithm, how React DOM paints
+
+    * What is reconciliation in React? How does the diffing algorithm work? 
+    * How do React updates cause DOM updates? 
+    * What are the costs/optimizations in React rendering (e.g. use of keys)? 
+    * How does React batch updates or work with fibers?
+
+🔹 What is Reconciliation in React?
+
+    Reconciliation is React’s process of updating the DOM efficiently when component state or props change.
+    Instead of re-rendering the whole DOM tree, React creates a Virtual DOM (VDOM) representation, 
+    compares it with the previous one, and updates only the changed parts in the real DOM.
+    
+    This process is broken down into two phases:
+        Render (Reconciliation) → Build a new VDOM, run the diffing algorithm.
+        Commit → Apply minimal changes to the real DOM.
+
+🔹 How does the Diffing Algorithm work?
+
+    React uses a heuristic algorithm called the Diffing algorithm for reconciliation based on these assumptions:
+
+    Elements of different types will produce different trees
+    We can set which elements are static and do not need to be checked.
+    React checks the root elements for changes and the updates depend on the types of the root elements,
+
+    Element in different types: Whenever the type of the element changes in the root, react will scrap the old tree
+    and build a new one i.e a full rebuild of the tree.
+    Elements of the same type: When the type of changed element is the same, React then checks for attributes of both 
+    versions and then only updates the node which has changes without any changes in the tree. The component will be 
+    updated in the next lifecycle call.
+
+    Different element types → replace the subtree.
+    Same type element → update props.
+    Lists → keys are critical.
+
+🔹 How do React updates cause DOM updates?
+
+    State/prop change → component re-renders (function called again).
+    React builds a new Virtual DOM.
+    Diffing algorithm compares new vs. old VDOM.
+    React produces a set of mutations (patches).
+    React applies patches in the commit phase (actual DOM changes, layout, paint).
+
+
+🔹 Costs & Optimizations in React Rendering
+
+    Main costs:
+
+        Re-rendering components unnecessarily.
+        Diffing large trees without stable keys.
+        Frequent re-creation of objects/functions (causing child components to re-render).
+
+    Optimizations:
+
+        Keys in lists → stable, unique keys prevent full re-mounts.
+        React.memo → memoize functional components (skip re-render if props don’t change).
+        useCallback / useMemo → prevent re-creating functions/objects on every render.
+        Windowing libraries (react-window, react-virtualized) → only render visible items in long lists.
+        Concurrent features → React can interrupt rendering, prioritize urgent updates.
+
+
+🔹 How does React batch updates / use Fibers?
+
+    Batching:
+    
+        Multiple state updates inside event handlers are batched into a single render.
+        
+        Example:
+
+            setCount(c => c + 1);
+            setCount(c => c + 1);
+
+        → React applies both before committing, so only one re-render occurs.
+
+    Fiber architecture (React 16+)
+
+        Fiber is React’s reimplementation of the reconciliation engine.
+
+        It breaks work into small units that can be paused, resumed, or aborted.
+
+        Enables concurrent rendering → React can pause a low-priority render if something urgent 
+            (like a user typing) happens.
+
+        Each Fiber node represents a unit of work (a component instance).
+
+-----------------------------------------------------------------------------------------------------------------------

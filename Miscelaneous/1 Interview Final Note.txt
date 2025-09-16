@@ -1,0 +1,9 @@
+Mock Interviews:
+    Pramp or Interviewing.io.
+
+Behavioral Questions:
+    Prepare STAR format answers for questions like “Tell me about a challenge you faced”.
+
+Resume Update:
+    Highlight RBAC migration, in-app notifications, technical debt reduction.
+    Use action verbs and quantify impact (e.g., Reduced build time by 40%).     

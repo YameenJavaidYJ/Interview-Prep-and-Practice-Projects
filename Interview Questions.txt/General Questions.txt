@@ -1,0 +1,8 @@
+-> ClearGrid needs to visualize millions of real-time financial transactions in a browser without crashing. 
+    How would you design the frontend for performance?
+
+-> Describe a situation where you optimized frontend performance. What trade-offs did you face?
+
+-> Suppose ClearGrid wants to add AI-driven debt repayment recommendations directly in the UI. How would you integrate this on the frontend (consider performance + UX)?
+
+-> Describe a case where you had to debug a complex React performance bottleneck. How did you identify and fix it?

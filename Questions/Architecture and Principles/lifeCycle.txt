@@ -1,0 +1,50 @@
+The lifecycle of an Effect 
+
+Component's Lifecycle
+
+Every React component goes through the same lifecycle:
+
+    A component mounts when it’s added to the screen (DOM).
+    A component updates when it receives new props or state, usually in response to an interaction.
+    A component unmounts when it’s removed from the screen.
+
+-----------------------------------------------------------------------------------------
+
+Effect's Lifecycle
+
+Setup phase (effect body runs)
+
+    -> After React has painted the DOM, it runs the effect callback you passed to useEffect.
+
+Cleanup phase
+
+    -> Before the effect runs again (on the next render) or before the component unmounts, 
+    -> React runs the cleanup function you returned.
+
+Re-run decision
+
+    -> React only re-runs the effect when dependencies in its dependency array change.
+    -> If you pass [], it runs only once on mount (and cleanup on unmount).
+    -> If you pass [dep], it runs whenever dep changes.
+
+
+-----------------------------------------------------------------------------------------
+
+SO Basically Components Life Cycle works alongside Effects
+
+React treats it like this:
+
+    On Mount (first render)
+
+        Component mounts → React paints UI.
+        Then it runs the effect callback (console.log("effect setup")).
+
+    On Update (when deps change)
+
+        Before running the new effect, React calls the cleanup from the previous run.
+        Then it runs the effect setup again with the new dependencies.
+
+    On Unmount
+
+        React removes the component from the tree.
+        It calls the cleanup one last time.

@@ -1,0 +1,69 @@
+ACID Properties (Databases / Transactions)
+    
+    Ensures reliable database transactions.
+    A – Atomicity: "All or nothing." If one step fails, the whole transaction rolls back.
+    C – Consistency: Database moves from one valid state to another (no broken constraints).
+    I – Isolation: Transactions don’t interfere (dirty reads, phantom reads avoided).
+    D – Durability: Once committed, changes persist (even after crash).
+
+    In interviews: often tested in DB transactions, banking systems, booking websites.
+
+SOLID Principles (OOP / Design)
+    
+    Helps write maintainable & scalable code.
+    
+    S – Single Responsibility: One class = one job.
+    O – Open/Closed: Open for extension, closed for modification.
+    L – Liskov Substitution: Subclass should replace parent without issues.
+        
+        -> Bird (fly)
+        -> Sparrow (fly) (Bird: sparrow) will fly using bird.fly that will use then sparrow's fly
+        -> Penguin (fly but throw exception) will fly using penguin's fly and throw exception there
+
+    I – Interface Segregation: Many small, specific interfaces > one fat interface.
+        
+        -> Clients should not be forced to depend on methods they do not use.
+        
+        -> class IMachine:
+                def print(self, document):
+                    pass
+
+                def scan(self, document):
+                    pass
+
+                def fax(self, document):
+                    pass
+
+    D – Dependency Inversion
+        -> classes should depend in interfaces or abstract classes in case of concrete classes
+        -> High-level modules should not depend on low-level modules. Both should depend on abstractions.
+        -> Abstractions should not depend on details. Details should depend on abstractions.
+
+        -> High-level module depends on abstraction. rely on abstraction to route to the exact method
+        -> Low-level module also depends on abstraction. (one is implementing the abstraction)
+
+        -> class MySQLDatabase:
+                def connect(self):
+                    print("Connected to MySQL Database")
+
+            class PasswordReminder:
+                def __init__(self, db: MySQLDatabase):
+                    self.db = db
+
+
+ 
+------------------------------------------------------------------------------------------------------------
+
+KISS Principle ("Keep It Simple, Stupid")
+    
+    Design should be as simple as possible.
+    Avoid unnecessary complexity, abstractions, or over-engineering.
+
+    In interviews: used to explain why you prefer clarity & simplicity over fancy patterns.
+
+DRY Principle ("Don’t Repeat Yourself")
+    
+    Avoid code duplication → Extract common logic into reusable functions, classes, or modules.
+    Leads to maintainable and less error-prone code.
+
+In interviews: use when talking about clean code practices.

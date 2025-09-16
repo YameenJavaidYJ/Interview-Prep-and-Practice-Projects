@@ -1,0 +1,16 @@
+Write a function in TypeScript that takes a string and returns the longest substring without repeating characters.
+
+longestUniqueSubstring("abcabcbb") // "abc" (length 3)
+
+Constraints: O(n) time.
+
+
+Write a function in TypeScript that finds the first missing positive integer in an unsorted array.
+
+Example:
+
+firstMissingPositive([3, 4, -1, 1]) // 2
+firstMissingPositive([1, 2, 0])     // 3
+
+
+Constraints: O(n) time, O(1) extra space.

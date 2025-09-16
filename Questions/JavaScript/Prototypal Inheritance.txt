@@ -1,0 +1,57 @@
+Prototype inheritance in JavaScript allows objects to inherit properties and methods from other objects. 
+Each object in JavaScript has an internal link to another object called its prototype. 
+This chain of prototypes forms the prototype chain.
+
+
+When you access a property or method on an object, JavaScript first checks the object itself. 
+If the property or method isn’t found, it moves up the prototype chain until it finds the property or reaches 
+the end of the chain (null).
+
+
+    const parent = {
+        greet: function () {
+            console.log("Hello from the parent object!");
+        }
+    };
+
+    const child = Object.create(parent);
+
+    child.sayHi = function () {
+        console.log("Hi from the child object!");
+    };
+
+    child.greet();
+    child.sayHi();
+
+---------------------------------------------------------------------------------------------------------------
+
+Where the prototypal inheritance happens:
+
+const child = Object.create(parent);
+
+This line is the key.
+
+It creates a new object child.
+
+It sets the prototype of child to be parent.
+In other words: child.__proto__ === parent.
+
+----------------------------------------------------------------------------------------------------------------
+
+Prototype Chain
+
+The prototype chain is the mechanism that JavaScript uses to resolve properties and methods. 
+If an object doesn’t have a requested property, the JavaScript engine searches up the prototype chain.
+
+    function Animal(name) {
+        this.name = name;
+    }
+
+    Animal.prototype.speak = function () {
+        console.log(`${this.name} makes a sound.`);
+    };
+
+    const dog = new Animal("Buddy");
+
+    console.log(dog.name);
+    dog.speak();

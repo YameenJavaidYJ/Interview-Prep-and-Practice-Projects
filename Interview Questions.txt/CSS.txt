@@ -1,0 +1,75 @@
+-> Which property is used to apply styles depending on the width of the viewport?
+     a) @import
+     b) @media
+     c) @supports
+     d) @keyframes
+
+-> What’s the difference between absolute and relative positioning?
+
+-> Which CSS layout is best for a 2D grid-based dashboard?
+    a) Flexbox
+    b) Grid
+    c) Float-based
+    d) Inline-block
+
+-> What does position: sticky; require to work correctly?
+
+-> How do you make text overflow show an ellipsis (...)?
+
+-> Which of these has the lowest specificity?
+    a) div
+    b) .container div
+    c) #id div
+    d) button.primary
+
+-> What does clamp(1rem, 2vw, 3rem) do?
+
+-> Which pseudo-class selects the first child of a parent?
+
+-> What does display: contents; do?
+
+-> In a flex container, which property defines how extra space is distributed among children?
+
+-> How do you load a custom font in CSS?
+
+-> Which CSS property improves scroll performance on mobile devices?
+
+-> What’s the difference between inline and inline-block?
+
+-> What does aspect-ratio: 16 / 9; do?
+
+-> How do you define a CSS Grid with auto-sized rows?
+
+-> What happens if you set z-index: -1 on an element?
+
+-> Which CSS property controls the spacing between columns in a CSS Grid?
+
+-> How do you make a child element ignore pointer events? (name the property and value)
+
+-> What does contain: layout; do and when would you use it?
+
+-> Which display type allows its children to flow horizontally and wrap to the next line (flex/grid/inline etc.)?
+
+-> Write the CSS to create a responsive two-column layout that becomes one column below 768px.
+
+-> What is the effect of transform: translateZ(0) on an element?
+
+-> Which unit is relative to the viewport width?
+
+-> How do you create a circular avatar using CSS? (short code)
+
+-> What is gap in Flexbox and Grid — how does it behave differently (if at all)?
+
+-> How does filter: blur(4px) affect painting/compositing and performance?
+
+-> Which property would you use to prevent text selection on an element?
+
+-> What is the purpose of @supports in CSS? Give a short example.
+
+-> How do you center an absolutely positioned element both vertically and horizontally inside a relative parent?
+
+-> What does isolation: isolate; do?
+
+-> When using CSS transitions, why might you prefer transform over top/left for motion animations?
+
+-> Which properties contribute to layout reflow (force layout) when changed? Name at least three.

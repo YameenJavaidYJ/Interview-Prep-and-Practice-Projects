@@ -1,0 +1,9 @@
+useState vs useRef
+
+* When to use useState, when useRef? 
+* How does useRef help avoid re‐rendering?
+
+🔹useState holds state that, when changed, triggers re‐render of component.
+🔹useRef holds a mutable ref object whose .current persists across renders, but changing it does not cause re-render.
+🔹Useful for storing DOM references, timers, or values where you want mutability without causing re-render.
+🔹Also useful to hold previous values (prev props/state) without triggering new render cycle

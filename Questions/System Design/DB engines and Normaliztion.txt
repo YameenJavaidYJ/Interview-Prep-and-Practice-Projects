@@ -1,0 +1,47 @@
+Why Different DB engines exist, SQL vs PostgreSQL vs MySQL
+
+* When to choose MySQL vs PostgreSQL? 
+* What are their differences? 
+* Why use NoSQL sometimes? 
+* Why normalize data, when to denormalize?
+
+🔹 MySQL vs PostgreSQL: Differences in feature set (Postgres more advanced types, richer SQL standard support, 
+more concurrency control, better for complex queries). Amazon Web Services, Inc.
+
+🔹 Why different DB engines: DBMS (Database Management System)
+    -> A database engine is the underlying software that stores, retrieves, and manages data. 
+    -> core component of a DBMS that handles how data is written, read, indexed, locked, and queried.
+    -> in MySql we have (InnoDB or MyISAM)
+    
+    -> fast transactions vs heavy analytics
+    -> flexible schema vs ACID
+    
+    -> to suit different use cases: OLTP vs OLAP; 
+    -> OLTP (Online Transaction Processing) vs OLAP (Online Analytical Processing)
+    
+    -> read vs write heavy; consistency requirements; type of data (structured, semi-structured, unstructured)
+
+    --------------------------------------------------------------------------------------------------
+
+    Because applications have very different needs. A ticket booking website needs an OLTP database like PostgreSQL 
+    or MySQL, which can handle thousands of concurrent transactions per second while ensuring ACID guarantees so 
+    no two people get the same seat.
+
+    But if I want to analyze booking trends, like “which destinations sell out fastest during peak hours,” 
+    I’d use an OLAP database like Snowflake or BigQuery — optimized for large, complex, read-heavy analytical 
+    queries.
+
+    Similarly, if I need real-time caching of seat availability, I might use Redis (an in-memory key-value store).
+    That’s why multiple database engines exist: each one is optimized for different workloads, and modern systems 
+    often combine them (polyglot persistence).
+
+    --------------------------------------------------------------------------------------------------
+
+🔹 Normalization: 
+    -> reduce redundancy, avoid update anomalies, maintain data integrity. 
+    -> But too much normalization can hurt performance (lots of joins), so sometimes denormalize for read performance.
+
+🔹 ORMs: what they are, why they exist: 
+    -> map between objects in code and relational tables; 
+    -> aid productivity, help manage migrations, queries in more programmatic way; 
+    -> but trade-offs (performance overhead, less control, N+1 problems)

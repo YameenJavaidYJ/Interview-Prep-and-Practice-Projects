@@ -1,0 +1,15 @@
+Difference between == and === in JavaScript
+    == → loose equality, checks values after type coercion.
+    === → strict equality, checks both value and type.
+
+What are promises in JavaScript and how do they work?
+    A Promise represents a value that may be available now, later, or never.
+    States: pending → fulfilled → rejected.
+
+What is event delegation in JavaScript?
+    -> attaching a single event listener to a parent element, 
+    -> which handles events on its child elements using event bubbling.
+
+Prototypal inheritance in JavaScript
+    -> In JS, objects can inherit properties/methods from other objects via the prototype chain.
+    

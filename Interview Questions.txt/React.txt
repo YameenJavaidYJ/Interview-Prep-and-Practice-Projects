@@ -1,0 +1,60 @@
+-> Which hook is used to handle side effects?
+
+-> What is the difference between useCallback and useMemo?
+
+-> What happens if you call setState inside render()?
+
+-> What’s the difference between controlled and uncontrolled components?
+
+-> Which method unmounts components in class components?
+
+-> What’s the difference between context API and Redux?
+
+-> In React 18, what is concurrent rendering?
+
+->  What happens if you update state using the same value?
+
+    Code:
+
+        const [count, setCount] = useState(0);
+        setCount(count + 1);
+        setCount(count + 1);
+
+What’s count after execution?
+
+How do you lazy-load a component?
+
+What does key prop help React with?
+
+What’s the difference between hydration and rendering in SSR?
+
+What is the purpose of useReducer compared to useState?
+
+What’s the difference between class components and functional components in React 18?
+
+Which lifecycle method is replaced by useEffect?
+
+What’s the difference between React.memo and useMemo?
+
+How do you prevent a component from re-rendering unnecessarily?
+
+What happens if two components share the same context provider?
+
+In React 18, what is automatic batching?
+
+What happens if you forget to add a dependency in a useEffect array?
+
+Code:
+
+const [value, setValue] = useState(0);
+setValue(prev => prev + 1);
+setValue(prev => prev + 1);
+
+
+What is value after execution?
+
+How do you use Suspense for data fetching?
+
+Why should you not use array index as a key in lists?
+
+What’s the difference between SSR and CSR in React apps?    

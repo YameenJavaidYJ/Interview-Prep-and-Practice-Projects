@@ -1,0 +1,29 @@
+Cloud-native applications are applications that are built to fully take advantage of cloud computing — meaning they’re designed from the ground up to be:
+
+Scalable – They can easily handle growth (like going from 100 users to 1 million) by adding more resources automatically.
+
+Resilient – If one part of the system fails, the whole app doesn’t crash. It keeps running smoothly.
+
+Flexible – They can be updated, deployed, or rolled back quickly without downtime.
+
+Portable – They can run on different cloud providers (GCP, AWS, Azure) thanks to containerization (e.g., Docker, Kubernetes).
+
+👉 How they’re built:
+
+Usually developed with microservices architecture instead of one big monolithic app.
+
+Packaged with containers (like Docker).
+
+Managed and orchestrated using Kubernetes or similar tools.
+
+Use cloud-managed services (databases, queues, caching, monitoring, etc.).
+
+Examples of cloud-native apps:
+
+Netflix (handles millions of streams reliably).
+
+Uber (scales globally, handles spikes in rides).
+
+Slack (real-time messaging with massive concurrency).
+
+Given your experience with Docker, Kubernetes, GCP, and microservice-friendly frameworks like NestJS, you’re already working in the cloud-native space.
