@@ -1,10 +1,500 @@
+0. What is JavaScript Hoisting?
+
+    // https://www.geeksforgeeks.org/javascript/javascript-hoisting/
+
+    Hoisting refers to the behavior where JavaScript moves the declarations of variables, functions, and 
+    classes to the top of their scope during the compilation phase.
+
+    for (var i = 0; i < 3; i++) {
+        setTimeout(function() {
+            console.log(i); // 3, 3, 3
+        }, 100);
+    }
+
+    Explanation:
+    1. **Hoisting**: The 'var i' declaration is hoisted to the top of the function/global scope
+    2. **Function Scope**: 'var i' has function scope, not block scope - it exists outside the for loop
+    3. **Asynchronous Behavior**: setTimeout callbacks execute after the loop completes
+    4. **Closure**: Each callback function closes over the same 'i' variable reference
+    5. **Final Value**: When callbacks execute, the loop has finished and i = 3
+    
+    What actually happens (due to hoisting):
+    var i; // hoisted declaration
+    for (i = 0; i < 3; i++) {
+        setTimeout(function() {
+            console.log(i); // All refer to the same 'i'
+        }, 100);
+    }
+    // i is now 3, then timeouts execute
+
+    Solutions:
+    // Using let (block scope)
+    for (let i = 0; i < 3; i++) {
+        setTimeout(function() {
+            console.log(i); // 0, 1, 2
+        }, 100);
+    }
+
+    // Using IIFE (Immediately Invoked Function Expression)
+    for (var i = 0; i < 3; i++) {
+        (function(j) {
+            setTimeout(function() {
+                console.log(j); // 0, 1, 2
+            }, 100);
+        })(i);
+    }
+
+--------------------------------------------------------------------------------------------------------
+
 1. What is the difference between == and === in JavaScript?
 
     == is the loose equality operator, which compares two values for equality after performing type coercion if necessary. This means it converts the operands to the same type before comparing.
     === is the strict equality operator, which compares both the values and their types, without performing type conversion.
 
-2.  What would be the result of 3+2+"7"?
+    Examples:
+    console.log(5 == "5");   // true (type coercion)
+    console.log(5 === "5");  // false (different types)
+    console.log(null == undefined);  // true
+    console.log(null === undefined); // false
 
-    57
+2. What would be the result of 3+2+"7"?
+
+    Answer: "57"
+    
+    Explanation:
+    - 3 + 2 = 5 (numeric addition)
+    - 5 + "7" = "57" (string concatenation, 5 is converted to string)
 
 3. Is JavaScript compiled or interpreted?
+
+    JavaScript is mostly interpreted, but modern browsers also compile it just-in-time (JIT) to make it faster.
+    -> How many times a code is repeatedly running using some heuristic cost of interpreting vs cost of compiling is compared
+    -> If cost of interpreting is greater than compiling then it's compiled
+
+4. How many ways can an HTML element be accessed in JavaScript code?
+
+    There are several ways to access HTML elements in JavaScript:
+    -> document.getElementById('id') - Access by ID
+    -> document.getElementsByClassName('class') - Access by class name
+    -> document.getElementsByTagName('tag') - Access by tag name
+    -> document.querySelector('selector') - Access by CSS selector (first match)
+    -> document.querySelectorAll('selector') - Access by CSS selector (all matches)
+    -> document.getElementsByName('name') - Access by name attribute
+
+5. What's the return-value difference between x++ and ++x?
+
+    x++: post-increment -> returns the old value, then increments.
+    ++x: pre-increment -> increments first, then returns the new value.
+
+    Example:
+    let x = 5;
+    console.log(x++); // 5 (returns 5, then x becomes 6)
+    console.log(++x); // 7 (increments to 7, then returns 7)
+
+6. What's the difference between var, let, and const, and what is the Temporal Dead Zone?
+
+    var: Declares variables with function or global scope and allows re-declaration and updates within the same scope.
+    let: Declares variables with block scope, allowing updates but not re-declaration within the same block.
+    const: Declares block-scoped variables that cannot be reassigned after their initial assignment.
+
+    Temporal Dead Zone (TDZ): 
+        -> It's the period between entering a scope and the point where a let or const variable is declared. 
+        -> During this time, accessing the variable causes a ReferenceError, because the variable exists but hasn't 
+            been initialized yet.
+
+    // TDZ example
+    console.log(x);            // ReferenceError (x in TDZ)
+    let x = 10;
+
+    console.log(y);            // undefined (var is initialized at hoist time)
+    var y = 10;
+
+    -> y is hoisted but undefined at the point console.log(y)
+    var y;          // declaration is hoisted
+    console.log(y); // at this point, y exists but is undefined
+    y = 10;         // assignment happens here
+
+7. What is Variable Scope in JavaScript?
+    
+    In JavaScript, variables are accessed and modified through one of the following scopes:
+
+    Global Scope: Outermost level (accessible everywhere).
+    Local Scope: Inner functions can access variables from their parent functions due to lexical scoping.
+    Function Scope: Variables are confined to the function they are declared in.
+    Block Scope: Variables declared with let or const are confined to the nearest block (loops, conditionals, etc.).
+
+    -----------------------
+
+    Variables declared with var are scoped to the function in which they are declared.
+    They are not limited by blocks like if or for.
+
+    function test() {
+        if (true) {
+            var x = 10;   // function-scoped
+        }
+        console.log(x); // ✅ Works! x is visible here
+    }
+    console.log(x); // ❌ Error: x is not defined
+    test();
+
+    -----------------------
+
+    Variables declared with let or const are limited to the nearest block { }.
+    Blocks can be created by if, for, while, { }, etc.
+
+    function test() {
+        if (true) {
+            let y = 20;   // block-scoped
+            const z = 30; // block-scoped
+        }
+        console.log(y); // ❌ Error: y is not defined
+    }
+    test();
+
+    -------------------------
+
+    "Local scope" usually refers to variables declared inside a function (accessible only within that function).
+    Inner (nested) functions can also access their parent's variables because of lexical scoping.
+
+    function outer() {
+        let a = 100; // local to outer
+
+        function inner() {
+            console.log(a); // ✅ Can access outer's variable
+        }
+
+        inner();
+        console.log(a); // ✅ Accessible here too
+    }
+    outer();
+
+8. What is the difference between Lexical and Dynamic Scoping?
+
+    Lexical Scoping (Static Scoping):
+        -> The scope of a variable is determined by its position in the source code at the time of writing.
+        -> JavaScript uses lexical scoping.
+        -> The inner function looks up variables in the outer function where it was defined, not where it was called.
+
+    Dynamic Scoping (Not in JS):
+        -> The scope is determined by the call stack at runtime, not where the function is written.
+        -> Languages like older versions of Lisp or Bash use dynamic scoping.
+        -> The function uses variables from the function that called it, even if it was defined elsewhere.
+
+    Example:
+        function outer() {
+            let x = 10;
+            
+            function inner() {
+                console.log(x); // Uses x from outer (lexical scoping)
+            }
+            
+            return inner;
+        }
+        
+        const myFunc = outer();
+        myFunc(); // Prints 10, not from where it's called
+
+9. What is the use of isNaN, and how is it different from Number.isNaN?
+
+    isNaN():
+    -> Converts the value to a number first, then checks if it's NaN
+    -> Can give unexpected results due to type coercion
+    -> Example: isNaN('hello') returns true, isNaN('123') returns false
+    
+    Number.isNaN():
+    -> Only returns true if the value is actually NaN (no type conversion)
+    -> More reliable and predictable
+    -> Example: Number.isNaN('hello') returns false, Number.isNaN(NaN) returns true
+
+10. What does this code log?
+
+    const arr = [1, 2, 3];
+    arr[10] = 99;
+    console.log(arr.length); // -> 11
+    console.log(arr[5]);     // -> undefined
+    
+    Explanation:
+    -> Setting arr[10] creates sparse array with empty slots
+    -> Array length becomes 11 (highest index + 1)
+    -> Accessing arr[5] returns undefined (empty slot)
+
+11. What are "truthy" and "falsy" values in JavaScript?
+
+    Falsy values: false, 0, "" (empty string), null, undefined, NaN, 0n (BigInt zero)
+    Truthy values: Everything else (e.g., any non-empty string, any non-zero number, objects, arrays, functions)
+
+    Examples:
+    if ("hello") { } // truthy
+    if (0) { }       // falsy
+    if ([]) { }      // truthy (empty array is still an object)
+    if ({}) { }      // truthy (empty object)
+
+12. What are undeclared and undefined variables?
+
+    Undefined: It occurs when a variable is declared but not assigned any value. Undefined is not a keyword.
+    Undeclared: It occurs when we try to access any variable which is not initialized or declared earlier using var, let, or const keywords.
+
+    Examples:
+    let x;           // x is undefined
+    console.log(x);  // undefined
+    console.log(y);  // ReferenceError: y is not declared
+
+13. What will be the result of this expression?
+
+    console.log(null ?? 'default');      // -> 'default'
+    console.log(undefined ?? 'default'); // -> 'default'
+    console.log(false ?? 'default');     // -> false
+    
+    The nullish coalescing operator (??) returns the right-hand side only if the left is null or undefined.
+    Unlike ||, it doesn't treat falsy values like false, 0, or '' as nullish.
+
+14. Write a JavaScript code for adding new elements dynamically.
+
+    <html>
+    <head>
+    </head>
+    <body>
+        <button onclick="create()">
+            Click Here!
+        </button>
+
+        <script>
+            function create() {
+                let geeks = document.createElement('div');
+                geeks.textContent = "Geeksforgeeks";
+                geeks.setAttribute('class', 'note');
+                document.body.appendChild(geeks);
+            }
+        </script>
+    </body>
+    </html>
+
+15. How to delete property-specific values?
+
+    let gfg = {Course: "DSA", Duration: 30};
+    delete gfg.Course;
+    console.log(gfg); // {Duration: 30}
+
+    Alternative methods:
+    // Using destructuring
+    const {Course, ...rest} = gfg;
+    console.log(rest); // {Duration: 30}
+
+16. What will be the output of this code?
+
+    let x = 0;
+    console.log(x++); // 0 (post-increment)
+    console.log(++x); // 2 (pre-increment, x was already 1)
+
+17. What is the difference between null and undefined in JavaScript?
+
+    undefined: 
+    A primitive value automatically assigned to:
+        - Uninitialized variables
+        - Missing function arguments
+        - Missing object properties
+
+    null:
+    A primitive value that you assign intentionally to represent:
+        - "no value", "empty", or "non-existent"
+        - It means: "value is deliberately empty"
+
+    Examples:
+    let a;           // undefined
+    let b = null;    // null
+    console.log(typeof a); // "undefined"
+    console.log(typeof b); // "object" (this is a known quirk)
+
+18. What are template literals and when do you use them?
+
+    Template literals are strings enclosed in backticks (`) that allow:
+    - String interpolation using ${expression}
+    - Multi-line strings
+    - Tagged templates
+
+    Examples:
+    const name = "John";
+    const age = 30;
+    
+    // String interpolation
+    const message = `Hello, my name is ${name} and I'm ${age} years old.`;
+    
+    // Multi-line strings
+    const multiLine = `
+        This is line 1
+        This is line 2
+        This is line 3
+    `;
+
+19. What is the output of this snippet?
+
+    const a = [1, 2, 3];
+    const b = [1, 2, 3];
+    console.log(a == b, a === b);   // -> false, false
+    
+    Explanation: Both arrays have different references in memory, even though they contain the same values.
+
+20. How to extend class in JavaScript?
+
+    Using the 'extends' keyword:
+    
+    class Animal {
+        constructor(name) {
+            this.name = name;
+        }
+        
+        speak() {
+            console.log(`${this.name} makes a sound`);
+        }
+    }
+    
+    class Dog extends Animal {
+        constructor(name, breed) {
+            super(name); // Call parent constructor
+            this.breed = breed;
+        }
+        
+        speak() {
+            console.log(`${this.name} barks`);
+        }
+    }
+    
+    const dog = new Dog("Buddy", "Golden Retriever");
+    dog.speak(); // "Buddy barks"
+
+21. Is JavaScript statically typed or dynamically typed?
+
+    JavaScript is dynamically typed because we don't have to tell JavaScript what kind of data (number, text, true/false, etc.) a variable will hold when you create it. The type is decided automatically when the program runs.
+
+    Example:
+    let x = 5;      // number
+    x = "hello";    // now string
+    x = true;       // now boolean
+
+22. Explain the working of timers in JavaScript. Also explain the drawbacks of using the timer, if any.
+
+    JavaScript provides several timer functions:
+    
+    1. setTimeout(): Executes code once after a delay
+    2. setInterval(): Executes code repeatedly at intervals
+    3. setImmediate(): Executes code on the next iteration of the event loop
+    4. requestAnimationFrame(): Optimized for animations
+    
+    Examples:
+    setTimeout(() => console.log("After 1 second"), 1000);
+    const interval = setInterval(() => console.log("Every 2 seconds"), 2000);
+    clearInterval(interval); // Stop the interval
+    
+    Drawbacks:
+    - Not precise timing due to event loop
+    - Can cause memory leaks if not cleared
+    - Blocking operations can delay execution
+    - Battery drain on mobile devices
+
+24. What is a higher-order function in JavaScript?
+
+    A higher-order function is a function that:
+    - Takes one or more functions as arguments, OR
+    - Returns a function as its result
+    
+    Examples:
+    // Function that takes another function as argument
+    function greet(name, formatter) {
+        return formatter(name);
+    }
+    
+    function uppercase(str) {
+        return str.toUpperCase();
+    }
+    
+    console.log(greet("john", uppercase)); // "JOHN"
+    
+    // Built-in higher-order functions
+    [1, 2, 3].map(x => x * 2);     // [2, 4, 6]
+    [1, 2, 3].filter(x => x > 1);  // [2, 3]
+
+25. What is lexical scope in JavaScript?
+
+    Lexical scope in JavaScript refers to the way variables are resolved based on their location in the source code. 
+    A variable's scope is determined by the position of the code where it is defined, and it is accessible to any nested 
+    functions or blocks. This means that functions have access to variables in their own scope and the outer (lexical) scopes, 
+    but not to variables in inner scopes.
+
+    let outer = "I am outside!";
+    function inner() {
+        console.log(outer); // Can access outer variable
+    }
+    inner(); // "I am outside!"
+
+26. Explain the concept of promises and how they work.
+
+    A Promise in JavaScript is an object that represents the result of an asynchronous operation. 
+    It can be in one of three states: 
+        pending, fulfilled (resolved), or rejected.
+
+    You create a promise using new Promise(), passing an executor function with resolve and reject callbacks. 
+        When the operation succeeds, resolve() is called; if it fails, reject() is used. 
+        Promises are handled with .then() for success and .catch() for failure. 
+        They can be chained to handle sequences of asynchronous tasks in a more readable way.
+
+    Examples:
+    // Creating a promise
+    const myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const success = Math.random() > 0.5;
+            if (success) {
+                resolve("Operation successful!");
+            } else {
+                reject("Operation failed!");
+            }
+        }, 1000);
+    });
+
+    // Using the promise
+    myPromise
+        .then(result => console.log(result))
+        .catch(error => console.error(error))
+        .finally(() => console.log("Promise completed"));
+
+    // Promise chaining
+    fetch('/api/data')
+        .then(response => response.json())
+        .then(data => processData(data))
+        .then(result => displayResult(result))
+        .catch(error => handleError(error));
+
+27. How to explain closures in JavaScript and when to use it?
+
+    The closure is created when a child function keeps the environment of the parent's scope even after the parent's function has already executed. The Closure is a locally declared variable related to a function. The closure will provide better control over the code when using them.
+
+    function foo() { 
+        let b = 1; 
+        function inner() { 
+            return b; 
+        } 
+        return inner; 
+    } 
+    let get_func_inner = foo(); 
+    console.log(get_func_inner()); // 1
+
+    Use cases for closures:
+    - Data privacy and encapsulation
+    - Function factories
+    - Callback functions
+    - Module patterns
+    - Event handlers that need to remember state
+
+    Example - Data Privacy:
+    function createCounter() {
+        let count = 0;
+        return {
+            increment: () => ++count,
+            decrement: () => --count,
+            getCount: () => count
+        };
+    }
+    
+    const counter = createCounter();
+    console.log(counter.increment()); // 1
+    console.log(counter.getCount());  // 1
+    // count is private and cannot be accessed directly
