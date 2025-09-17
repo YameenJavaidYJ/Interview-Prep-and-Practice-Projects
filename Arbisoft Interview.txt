@@ -1,0 +1,304 @@
+# JavaScript & React Interview Notes
+
+This document summarizes key interview questions, explanations, and examples based on JavaScript, asynchronous behavior, and React.
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 1. Object Copying and Mutability
+
+### Example 1: Independent Object Creation
+
+    const dataNum1 = { a: 10, b: 20 };
+    const dataNum2 = {};
+    dataNum2.a = 30;
+    dataNum2.b = 20;
+    dataNum1.a = 30;
+    console.log(dataNum2);
+
+    Output → { a: 30, b: 20 }
+
+    Explanation: dataNum2 is created independently and later assigned its own properties.
+
+### Example 2: Shallow Copy with Spread Operator
+
+    const dataNum3 = { a: 10, b: 20 };
+    const dataNum4 = { ...dataNum3 };
+    dataNum3.a = 30;
+    console.log(dataNum4);
+
+    Output → { a: 10, b: 20 }
+
+    Explanation: The spread operator creates a shallow copy of the object.
+
+### Example 3: Nested Objects - Shallow Copy Limitation
+
+    const dataNum5 = { a: 10, b: 20, c: { d: 40 } };
+    const dataNum6 = { ...dataNum5 };
+    dataNum5.c.d = 50;
+    console.log(dataNum6);
+
+    Output → { a: 10, b: 20, c: { d: 50 } }
+
+    Explanation: Nested objects are NOT deeply cloned, so both objects share the same reference for 'c'.
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 2. Hoisting in JavaScript
+
+### Basic Hoisting Example
+
+    console.log(a);
+    var a = 10;
+
+    Output → undefined
+
+    Explanation: Variable declarations (var) are hoisted but not initialized.
+
+### Function Scope Hoisting
+
+    var a = 10;
+    function b() {
+      console.log(a);
+      var a = 20;
+    }
+    b();
+
+    Output → undefined
+
+    Explanation: The inner 'a' shadows the outer one, but due to hoisting, it is declared at the top with value 'undefined' until assignment.
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 3. Promises
+
+A Promise in JavaScript has three states:
+
+    1. Pending     → Initial state
+    2. Fulfilled   → Operation completed successfully
+    3. Rejected    → Operation failed
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 4. Async/Await vs Promises
+
+    async function name() {
+      return await Promise.resolve({ id: 2 });
+    }
+
+    console.log(name());
+
+    Output → Promise { <pending> }
+
+    Explanation: Async functions always return a Promise, even if you return a value.
+
+### Key Differences:
+    • Promises     → Chainable with .then() and .catch()
+    • Async/Await  → Syntactic sugar to write asynchronous code in a synchronous style
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 5. Event Propagation
+
+    • preventDefault()           → Prevents the default action of an element (e.g., stopping form submission)
+    • stopPropagation()          → Stops further propagation of the event in the bubbling/capturing phase
+    • stopImmediatePropagation() → Stops other listeners of the same event from executing
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 6. Event Loop Example
+
+    console.log("Start");
+
+    setTimeout(() => {
+      console.log("Timeout 1");
+    }, 0);
+
+    Promise.resolve()
+      .then(() => {
+        console.log("Promise 1");
+        return Promise.resolve();
+      })
+      .then(() => {
+        console.log("Promise 2");
+      });
+
+    setTimeout(() => {
+      console.log("Timeout 2");
+    }, 0);
+
+    console.log("End");
+
+    Output → Start
+             End
+             Promise 1
+             Promise 2
+             Timeout 1
+             Timeout 2
+
+    Explanation: Microtasks (Promises) run before macrotasks (setTimeout) in the event loop.
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 7. Debouncing vs Throttling
+
+    • Debouncing → Ensures a function is executed only after a certain time has passed since the last call
+                   (useful for search input)
+    
+    • Throttling → Ensures a function is executed at most once every given interval
+                   (useful for scroll events)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 8. Function Binding Issue
+
+### Problem Example
+
+    const obj = {
+      a: 10,
+      b: 20,
+      c: () => {
+        return b;
+      }
+    }
+
+    console.log(obj.c());
+
+    Error → ReferenceError: b is not defined
+
+    Explanation: 'b' is not in scope.
+
+### Solution
+
+    const obj = {
+      a: 10,
+      b: 20,
+      c() {
+        return this.b;
+      }
+    }
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 9. Closure Issue with Loops
+
+### Problem Example
+
+    for (var i = 0; i <= 5; i++) {
+      setTimeout(() => {
+        console.log(i);
+      }, i * 1000);
+    }
+
+    Output → 6 6 6 6 6 6
+
+    Explanation: 'var' is function-scoped.
+
+### Solution
+
+    for (let i = 0; i <= 5; i++) {
+      setTimeout(() => console.log(i), i * 1000);
+    }
+
+    Output → 0 1 2 3 4 5
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 10. React Concepts
+
+### Virtual DOM vs Real DOM
+    • Real DOM    → Directly updates the DOM (slower)
+    • Virtual DOM → Updates a lightweight copy, React compares diffs and applies efficient updates
+
+### useMemo vs useCallback
+    • useMemo     → Memoizes a computed value
+    • useCallback → Memoizes a function reference
+
+### Controlled vs Uncontrolled Components
+    • Controlled   → Value is controlled via React state (value + onChange)
+    • Uncontrolled → Value managed by DOM itself (access via ref)
+
+### Prop Drilling and Solutions
+    • Prop Drilling → Passing props through multiple layers unnecessarily
+    • Solutions     → Context API, Redux, Zustand, Recoil, or useContext hook
+
+### useReducer vs useState
+    • useState    → Simple state management
+    • useReducer  → Good for complex state logic with multiple transitions
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## 11. Coding Problem: Memoize Function
+
+### Problem Statement
+Create a memorize function that caches results of a given function. 
+If the function's arguments don't change, it returns the cached result. 
+If arguments change, it calls the actual function and returns the new result.
+
+### Example Usage
+
+    function slowAdd(a, b) {
+      console.log("Calling slowAdd...");
+      return a + b;
+    }
+
+    const memorizedAdd = memorize(slowAdd);
+
+    // First call: calculates and caches result
+    console.log(memorizedAdd(2, 3)); // Output: "Calling slowAdd...", 5
+
+    // Second call with same args: returns cached result, no log
+    console.log(memorizedAdd(2, 3)); // Output: 5
+
+    // Call with different args: calls original function again
+    console.log(memorizedAdd(4, 3)); // Output: "Calling slowAdd...", 7
+
+    // Again with (4, 3): returns from cache
+    console.log(memorizedAdd(4, 3)); // Output: 7
+
+### Solution
+
+    function memorize(fn) {
+      const cache = new Map();
+
+      return function (...args) {
+        const key = JSON.stringify(args);
+
+        if (cache.has(key)) {
+          return cache.get(key);
+        }
+
+        const result = fn.apply(this, args);
+        cache.set(key, result);
+        return result;
+      };
+    }
+
+    // Example usage:
+    function slowAdd(a, b) {
+      console.log("Calling slowAdd...");
+      return a + b;
+    }
+
+    const memorizedAdd = memorize(slowAdd);
+
+    console.log(memorizedAdd(2, 3)); // "Calling slowAdd...", 5
+    console.log(memorizedAdd(2, 3)); // 5 (cached)
+    console.log(memorizedAdd(4, 3)); // "Calling slowAdd...", 7
+    console.log(memorizedAdd(4, 3)); // 7 (cached)
+
+### Key Features
+    ✓ Handles multiple arguments
+    ✓ Efficient caching
+    ✓ Works for primitives and serializable objects
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## Summary
+
+These are the most common JavaScript & React interview questions. Key areas to focus on:
+
+    • JavaScript Fundamentals    → Scope, closures, hoisting
+    • Asynchronous Programming   → Event loop & async behavior
+    • React Hooks               → useState, useReducer, useMemo, useCallback
+    • Performance Optimization  → Memoization, debouncing, throttling
+    • Problem Solving           → Practical coding challenges
