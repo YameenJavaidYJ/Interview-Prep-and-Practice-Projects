@@ -9,15 +9,12 @@ This document summarizes key interview questions, explanations, and examples bas
 ### Example 1: Independent Object Creation
 
     const dataNum1 = { a: 10, b: 20 };
-    const dataNum2 = {};
-    dataNum2.a = 30;
-    dataNum2.b = 20;
-    dataNum1.a = 30;
+    const dataNum2 = dataNum1;
     console.log(dataNum2);
 
     Output → { a: 30, b: 20 }
 
-    Explanation: dataNum2 is created independently and later assigned its own properties.
+    Explanation: dataNum2 is directly assignment.
 
 ### Example 2: Shallow Copy with Spread Operator
 
@@ -141,10 +138,10 @@ A Promise in JavaScript has three states:
 
 ## 7. Debouncing vs Throttling
 
-    • Debouncing → Ensures a function is executed only after a certain time has passed since the last call
+    • Debouncing (Kind of Timeout) → Ensures a function is executed only after a certain time has passed since the last call
                    (useful for search input)
     
-    • Throttling → Ensures a function is executed at most once every given interval
+    • Throttling (Kind of Interval) → Ensures a function is executed at most once every given interval
                    (useful for scroll events)
 
 ═══════════════════════════════════════════════════════════════════════════════
@@ -255,22 +252,43 @@ If arguments change, it calls the actual function and returns the new result.
     // Again with (4, 3): returns from cache
     console.log(memorizedAdd(4, 3)); // Output: 7
 
+
+    const memorize (func) = {
+        
+        return func;
+    }
+
+    ...args is called rest paramter in form of function
+    Rest parameters in JavaScript provide a way for a 
+    function to accept an indefinite number of arguments 
+    as an array. 
+    They are indicated by three dots (...) followed by the 
+    name of the parameter, and this parameter must always be 
+    the last formal parameter in the function definition.
+    ...args convert what ever is passed function in in array
+    (1,2,3) will be converted to [1,2,3] and stored in args
+
 ### Solution
 
     function memorize(fn) {
-      const cache = new Map();
+        const mapStore = new Map();
+        
+        return (...args) => {
+            const key = JSON.stringify(args);
 
-      return function (...args) {
-        const key = JSON.stringify(args);
+            if (mapStore.has(key)) {
+                return mapStore.get(key);
+            }
 
-        if (cache.has(key)) {
-          return cache.get(key);
-        }
+            const result = fn.apply(this, args);
+            cache.set(key, result);
+            return result;
+        };
+    }
 
-        const result = fn.apply(this, args);
-        cache.set(key, result);
-        return result;
-      };
+    const test = {
+        a: 3,
+        b: 5
     }
 
     // Example usage:
@@ -278,6 +296,30 @@ If arguments change, it calls the actual function and returns the new result.
       console.log("Calling slowAdd...");
       return a + b;
     }
+
+    const memorizedAdd = memorize(slowAdd);
+
+    console.log(memorizedAdd(2, 3)); // "Calling slowAdd...", 5
+
+    --------------------------------------
+
+    function memoize(func) {
+        const cache = new Map();
+
+        return function(...args) {  // <-- rest parameter collects arguments into an array
+            const key = JSON.stringify(args); 
+
+            if (cache.has(key)) {
+            return cache.get(key);
+            }
+
+            const result = func(...args);  // <-- spreading turns the array back into separate arguments
+            cache.set(key, result);
+            return result;
+        };
+    }
+
+    --------------------------------------
 
     const memorizedAdd = memorize(slowAdd);
 
@@ -302,3 +344,27 @@ These are the most common JavaScript & React interview questions. Key areas to f
     • React Hooks               → useState, useReducer, useMemo, useCallback
     • Performance Optimization  → Memoization, debouncing, throttling
     • Problem Solving           → Practical coding challenges
+
+
+const person = {
+    fullName: function(city, country) {
+        return this.firstName + " " + this.lastName + "," + city + "," + country;
+    }
+}
+
+const person1 = {
+    firstName:"John",
+    lastName: "Doe"
+}
+
+person.fullName.call(person1, "Oslo", "Norway");
+
+person.fullName.apply(person1, ["Oslo", "Norway"]);
+
+-------------------------------------------------------
+
+The call() method takes arguments separately.
+
+The apply() method takes arguments as an array.
+
+UnderStand this, apply, call
