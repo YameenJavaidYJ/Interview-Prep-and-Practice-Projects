@@ -30,7 +30,7 @@ Re-run decision
 
 -----------------------------------------------------------------------------------------
 
-SO Basically Components Life Cycle works alongside Effects
+So Basically Components Life Cycle works alongside Effects
 
 React treats it like this:
 

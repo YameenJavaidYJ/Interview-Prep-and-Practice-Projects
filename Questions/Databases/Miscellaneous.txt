@@ -21,3 +21,33 @@ Follow ACID properties:
     Isolation → concurrent transactions don’t interfere.
     Durability → once committed, changes survive crashes.
     👉 Example: Bank transfer = debit + credit must both succeed or rollback.
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+What is sharding in databases?
+
+Sharding = horizontal partitioning of data across multiple database instances/servers.
+
+Key Concepts:
+• Split large dataset into smaller, more manageable pieces (shards)
+• Each shard contains subset of data based on a shard key
+• Distributes load across multiple servers
+
+Common Sharding Strategies:
+1. Range-based: Partition by value ranges (e.g., A-M users on shard1, N-Z on shard2)
+2. Hash-based: Use hash function on shard key to determine shard
+3. Directory-based: Lookup service maps keys to shards
+
+Benefits:
+    Improved performance (parallel processing)
+    Better scalability (horizontal scaling)
+    Reduced load per server
+
+Challenges:
+    Complex queries across shard    
+    Rebalancing when adding/removing shard 
+    Loss of ACID properties across shards
+    Hotspots if sharding key poorly chosen
+
+👉 Example: E-commerce app shards user data by user_id hash, so each server handles subset of users.

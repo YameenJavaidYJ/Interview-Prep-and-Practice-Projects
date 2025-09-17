@@ -5,21 +5,33 @@ Why Different DB engines exist, SQL vs PostgreSQL vs MySQL
 * Why use NoSQL sometimes? 
 * Why normalize data, when to denormalize?
 
-🔹 MySQL vs PostgreSQL: Differences in feature set (Postgres more advanced types, richer SQL standard support, 
-more concurrency control, better for complex queries). Amazon Web Services, Inc.
+🔹 MySQL vs PostgreSQL: Key Differences
 
-🔹 Why different DB engines: DBMS (Database Management System)
+MySQL:
+    -> Faster for simple read-heavy operations and web applications
+    -> Simpler setup and administration, more lightweight
+    -> Better performance for basic CRUD operations
+    -> Widely adopted, especially in LAMP stack environments
+
+PostgreSQL:
+    -> More advanced data types (JSON, arrays, custom types)
+    -> Superior SQL standard compliance and complex query support
+    -> Better concurrency control with MVCC (Multi-Version Concurrency Control)
+    -> More robust for analytical workloads and complex business logic
+
+🔹 Why different DB engines: DBMS (Database Management System) - MySql has (InnoDB or MyISAM)
     -> A database engine is the underlying software that stores, retrieves, and manages data. 
     -> core component of a DBMS that handles how data is written, read, indexed, locked, and queried.
-    -> in MySql we have (InnoDB or MyISAM)
-    
-    -> fast transactions vs heavy analytics
-    -> flexible schema vs ACID
-    
     -> to suit different use cases: OLTP vs OLAP; 
     -> OLTP (Online Transaction Processing) vs OLAP (Online Analytical Processing)
     
-    -> read vs write heavy; consistency requirements; type of data (structured, semi-structured, unstructured)
+    
+    -> fast transactions vs heavy analytics
+    -> flexible schema vs ACID compliance
+    -> read vs write heavy workloads
+    -> consistency requirements
+    -> type of data (structured, semi-structured, unstructured)    
+    
 
     --------------------------------------------------------------------------------------------------
 

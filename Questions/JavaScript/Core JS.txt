@@ -1,4 +1,9 @@
-0. What is JavaScript Hoisting?
+0. What are primitive types and non-primitive types in JS?
+
+    Primitive types (Number, String, Boolean, Undefined, Null, Symbol, BigInt) are stored by value in stack memory and are immutable.
+    Non-primitive types (Objects, Arrays, Functions) are stored by reference in heap memory and are mutable.
+
+1. What is JavaScript Hoisting?
 
     // https://www.geeksforgeeks.org/javascript/javascript-hoisting/
 
@@ -48,7 +53,8 @@
 
 1. What is the difference between == and === in JavaScript?
 
-    == is the loose equality operator, which compares two values for equality after performing type coercion if necessary. This means it converts the operands to the same type before comparing.
+    == is the loose equality operator, which compares two values for equality after performing type coercion if necessary. 
+        This means it converts the operands to the same type before comparing.
     === is the strict equality operator, which compares both the values and their types, without performing type conversion.
 
     Examples:
@@ -364,7 +370,8 @@
 
 21. Is JavaScript statically typed or dynamically typed?
 
-    JavaScript is dynamically typed because we don't have to tell JavaScript what kind of data (number, text, true/false, etc.) a variable will hold when you create it. The type is decided automatically when the program runs.
+    JavaScript is dynamically typed because we don't have to tell JavaScript what kind of data (number, text, true/false, etc.) a 
+    variable will hold when you create it. The type is decided automatically when the program runs.
 
     Example:
     let x = 5;      // number

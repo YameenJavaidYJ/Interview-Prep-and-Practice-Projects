@@ -1,0 +1,65 @@
+What are RESTful APIs and how do they work?
+
+REST (Representational State Transfer) is an architectural style for APIs.
+
+RESTful APIs use HTTP methods:
+
+    -> GET → read
+    -> POST → create
+    -> PUT/PATCH → update
+    -> DELETE → remove
+
+They are stateless, meaning each request contains all necessary info (no session stored on server).
+    Example: /users/1 returns user with id=1.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+What is CORS and how do you handle it?
+
+    CORS (Cross-Origin Resource Sharing) → browser security policy that restricts requests from different origins.
+
+    Handled by setting response headers on server:
+
+    Access-Control-Allow-Origin
+    Access-Control-Allow-Methods
+    Access-Control-Allow-Headers
+    👉 In Express: use the cors middleware.
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+What is XSS?
+
+    XSS (Cross-Site Scripting) → malicious scripts injected into trusted websites that execute in users' browsers.
+
+    Types:
+    • Stored XSS: Malicious script stored on server (e.g., in database comments)
+    • Reflected XSS: Script reflected off server in URL parameters or form data
+    • DOM-based XSS: Client-side script modifies DOM unsafely
+
+    Prevention:
+    • Input validation and sanitization
+    • Output encoding (escape HTML, JS, CSS)
+    • Content Security Policy (CSP) headers
+    • Use frameworks that auto-escape (React, Angular)
+    • HttpOnly cookies to prevent script access
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+What is CSRF?
+
+    CSRF (Cross-Site Request Forgery) → attacker tricks user into making unwanted requests to a site where they're authenticated.
+
+    How it works:
+    • User logged into site A
+    • Visits malicious site B
+    • Site B makes request to site A using user's session
+    • Site A processes request thinking it's legitimate
+
+    Prevention:
+    • CSRF tokens (synchronizer token pattern)
+    • SameSite cookie attribute
+    • Double-submit cookies
+    • Check Referer/Origin headers
+    • Use POST for state-changing operations
+    • Re-authentication for sensitive actions

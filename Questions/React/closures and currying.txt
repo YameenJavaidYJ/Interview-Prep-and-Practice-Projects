@@ -29,7 +29,7 @@ Even after outer function returns, inner function still has access to those vari
 
 -------------------------------------
 
-• Currying: transforming a function that -------------------------------------takes N arguments into a sequence of functions each taking one argument; 
+• Currying: transforming a function that takes N arguments into a sequence of functions each taking one argument; 
 i.e. f(a,b,c) → f(a)(b)(c). Currying normally uses closures. 
 
 -------------------------------------

@@ -59,3 +59,7 @@ Express Session (Server-side Sessions)
     Cons:
         Stateful: Server must manage sessions; scaling requires centralized store (Redis, DB).
         More overhead in clustered deployments (session replication/sync).
+
+
+-----------------------------------------------------------------------------------------------------------
+
