@@ -14,7 +14,7 @@ This document summarizes key interview questions, explanations, and examples bas
 
     Output → { a: 30, b: 20 }
 
-    Explanation: dataNum2 is directly assignment.
+    Explanation: dataNum2 is direct assignment.
 
 ### Example 2: Shallow Copy with Spread Operator
 
@@ -26,6 +26,8 @@ This document summarizes key interview questions, explanations, and examples bas
     Output → { a: 10, b: 20 }
 
     Explanation: The spread operator creates a shallow copy of the object.
+
+    for DeepCopy use structuredClone
 
 ### Example 3: Nested Objects - Shallow Copy Limitation
 
@@ -214,7 +216,7 @@ A Promise in JavaScript has three states:
     • Controlled   → Value is controlled via React state (value + onChange)
     • Uncontrolled → Value managed by DOM itself (access via ref)
 
-### Prop Drilling and Solutions
+### Prop Drilling and Solutions 
     • Prop Drilling → Passing props through multiple layers unnecessarily
     • Solutions     → Context API, Redux, Zustand, Recoil, or useContext hook
 
@@ -307,7 +309,7 @@ If arguments change, it calls the actual function and returns the new result.
         const cache = new Map();
 
         return function(...args) {  // <-- rest parameter collects arguments into an array
-            const key = JSON.stringify(args); 
+            const key = JSON.stringify(args ); 
 
             if (cache.has(key)) {
             return cache.get(key);
@@ -368,3 +370,4 @@ The call() method takes arguments separately.
 The apply() method takes arguments as an array.
 
 UnderStand this, apply, call
+

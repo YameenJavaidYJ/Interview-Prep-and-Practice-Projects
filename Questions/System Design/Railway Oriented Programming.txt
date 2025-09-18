@@ -1,0 +1,4 @@
+Railway-Oriented Programming (ROP) offers benefits such as improved code readability and clarity by explicitly 
+showing success and failure paths, enhanced robustness through consistent, type-safe error handling that avoids 
+unexpected exceptions, better modularity and testability as each functional step is an isolated, composable unit, 
+and simplified maintenance as new steps can be easily added to the "railway" chain

@@ -1,0 +1,125 @@
+JavaScript Event Methods
+-------------------------------------------------------------------
+
+1. preventDefault()
+-> Purpose: Prevents the browser's default behavior for an event
+
+-> Example 1 - Form Submission:
+   -> HTML:
+      <form id="myForm">
+        <input type="text" name="username" />
+        <button type="submit">Submit</button>
+      </form>
+
+   -> JavaScript:
+      document.getElementById('myForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevents form from submitting and page refresh
+        console.log('Form submission prevented');
+        // Handle form data with JavaScript instead
+      });
+
+-> Example 2 - Link Navigation:
+   -> HTML:
+      <a href="https://google.com" id="myLink">Click me</a>
+
+   -> JavaScript:
+      document.getElementById('myLink').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevents navigation to the URL
+        console.log('Link click prevented');
+        // Custom behavior instead of navigation
+      });
+
+-------------------------------------------------------------------
+
+2. stopPropagation()
+-> Purpose: Stops the event from bubbling up (or capturing down) to parent/child elements
+
+-> Example:
+   -> HTML:
+      <div id="parent">
+        Parent Div
+        <div id="child">
+          Child Div
+          <button id="button">Click Me</button>
+        </div>
+      </div>
+
+   -> JavaScript:
+      // Without stopPropagation - all three will fire when button is clicked
+      document.getElementById('parent').addEventListener('click', () => {
+        console.log('Parent clicked');
+      });
+
+      document.getElementById('child').addEventListener('click', () => {
+        console.log('Child clicked');
+      });
+
+      document.getElementById('button').addEventListener('click', (e) => {
+        console.log('Button clicked');
+        e.stopPropagation(); // Stops event from bubbling to child and parent
+      });
+
+   -> Result: Only "Button clicked" will log
+   -> Without stopPropagation: "Button clicked", "Child clicked", "Parent clicked"
+
+-------------------------------------------------------------------
+
+3. stopImmediatePropagation()
+-> Purpose: Stops other event listeners on the same element from executing, and also stops propagation
+
+-> Example:
+   -> HTML:
+      <button id="myButton">Click Me</button>
+
+   -> JavaScript:
+      const button = document.getElementById('myButton');
+
+      // First listener
+      button.addEventListener('click', (e) => {
+        console.log('First listener');
+        e.stopImmediatePropagation(); // Stops other listeners on same element
+      });
+
+      // Second listener - this won't execute
+      button.addEventListener('click', () => {
+        console.log('Second listener'); // This won't run
+      });
+
+      // Third listener - this won't execute either
+      button.addEventListener('click', () => {
+        console.log('Third listener'); // This won't run
+      });
+
+   -> Result: Only "First listener" will log
+
+-------------------------------------------------------------------
+
+Key Differences Summary:
+-> preventDefault():
+   -> Stops Default Behavior: ✅
+   -> Stops Event Bubbling: ❌
+   -> Stops Other Listeners on Same Element: ❌
+
+-> stopPropagation():
+   -> Stops Default Behavior: ❌
+   -> Stops Event Bubbling: ✅
+   -> Stops Other Listeners on Same Element: ❌
+
+-> stopImmediatePropagation():
+   -> Stops Default Behavior: ❌
+   -> Stops Event Bubbling: ✅
+   -> Stops Other Listeners on Same Element: ✅
+
+-------------------------------------------------------------------
+
+Combined Usage Example:
+-> JavaScript:
+   document.getElementById('myForm').addEventListener('submit', function(e) {
+     e.preventDefault(); // Don't submit the form
+     e.stopPropagation(); // Don't let parent elements handle this event
+     
+     // Your custom form handling logic here
+     console.log('Form handled with custom logic');
+   });
+
+-> Key Point: These methods serve different purposes and can be used together when needed!

@@ -1,0 +1,120 @@
+---------------------------------------------------------------------
+                    RESILIENCE PATTERNS & CIRCUIT BREAKERS
+---------------------------------------------------------------------
+
+When people talk about resilient applications—especially in distributed systems and microservices—"circuit breakers" are just one of the patterns. There are several other terms and related resilience patterns often mentioned alongside them:
+
+---------------------------------------------------------------------
+                        COMMON RESILIENCE PATTERNS
+---------------------------------------------------------------------
+
+    • Retries 
+        → Automatically reattempting a failed operation with backoff.
+
+    • Exponential Backoff / Jitter 
+        → Smart retry strategies to avoid overwhelming a failing service.
+
+    • Timeouts 
+        → Setting limits so requests don't hang indefinitely.
+
+    • Fail Fast 
+        → Quickly returning errors instead of waiting on long failures.
+
+    • Bulkheads 
+        → Isolating parts of the system so a failure in one doesn't cascade.
+
+    • Rate Limiting / Throttling 
+        → Preventing overload by limiting requests.
+
+    • Fallbacks / Graceful Degradation 
+        → Providing a backup response (e.g., cached data, default values) when the main service fails.
+
+    • Load Shedding 
+        → Dropping lower-priority requests when resources are constrained.
+
+    • Service Mesh Resilience Features 
+        → (e.g., Istio, Linkerd) built-in retries, circuit breakers, and failover.
+
+    • Chaos Engineering 
+        → Intentionally injecting failures (like with Chaos Monkey) to test resilience.
+
+---------------------------------------------------------------------
+                        WHAT IS A CIRCUIT BREAKER?
+---------------------------------------------------------------------
+
+A circuit breaker is like an electrical circuit breaker at home:
+
+    1. If a downstream service is failing repeatedly, instead of hammering it with requests 
+       (and making things worse), the breaker "opens" and short-circuits requests.
+
+    2. After a cool-off period, it "half-opens" to test if the service has recovered.
+
+    3. If it's healthy again, it "closes" and resumes normal calls.
+
+---------------------------------------------------------------------
+                            WHEN TO USE IT
+---------------------------------------------------------------------
+
+Use a circuit breaker if:
+
+    ✓ You call an external API or microservice that may become slow or unavailable.
+    ✓ You need to protect your app from being blocked by repeated failed calls.
+    ✓ You want graceful fallbacks instead of app crashes or timeouts.
+
+---------------------------------------------------------------------
+                        NODE.JS IMPLEMENTATION
+---------------------------------------------------------------------
+
+In Node.js/Express, you can use libraries like:
+
+    • opossum → popular circuit breaker implementation.
+    • cockatiel → more policy-based resilience (retries, backoff, etc.).
+
+---------------------------------------------------------------------
+                            CODE EXAMPLE
+---------------------------------------------------------------------
+
+    const express = require('express');
+    const axios = require('axios');
+    const CircuitBreaker = require('opossum');
+
+    const app = express();
+    const PORT = 3000;
+
+    async function fetchData() {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts/1');
+        return response.data;
+    }
+
+    // Create a circuit breaker around that function
+    const breakerOptions = {
+        timeout: 3000,                      // 3 seconds before timing out
+        errorThresholdPercentage: 50,       // open circuit if 50% of requests fail
+        resetTimeout: 10000                 // after 10s, try again
+    };
+
+    const breaker = new CircuitBreaker(fetchData, breakerOptions);
+
+    // Add a fallback in case the breaker is open
+    breaker.fallback(() => ({ 
+        message: 'Service temporarily unavailable. Please try again later.' 
+    }));
+
+    // Express route
+    app.get('/data', async (req, res) => {
+        try {
+            const result = await breaker.fire();
+            res.json(result);
+        } catch (err) {
+            res.status(503).json({ 
+                error: 'Downstream service failed', 
+                details: err.message 
+            });
+        }
+    });
+
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+
+---------------------------------------------------------------------
