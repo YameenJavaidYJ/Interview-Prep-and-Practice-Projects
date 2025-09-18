@@ -1,0 +1,40 @@
+1. JavaScript is single-threaded
+
+JavaScript itself runs on one main thread.
+
+This means only one piece of JS code executes at a time.
+
+So, you’re right: if you do
+
+
+console.log(1);
+console.log(2);
+
+they’ll always run in sequence, never literally at the same time.
+
+2. But JS can handle async operations
+
+How? By not doing everything itself.
+
+JavaScript is often run inside a host environment (like a browser or Node.js).
+
+The host provides APIs that can run tasks outside of the single JS thread.
+Examples:
+
+setTimeout
+
+DOM events (clicks, input)
+
+AJAX / fetch
+
+File system/network access in Node.js
+
+These don’t block the main thread. Instead:
+
+You call fetch("...") → JS thread asks the browser to handle it.
+
+The browser (or Node.js internals) does the networking in another thread.
+
+When done, it pushes a callback back to the event loop queue.
+
+The JS thread eventually picks it up and runs your callback.

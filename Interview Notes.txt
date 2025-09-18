@@ -139,6 +139,39 @@ Repository Pattern
     -> Implementation: Interface defines methods (get, save, delete), concrete class implements actual database operations
 ```
 
+process.nexttick vs setimmediate
+----
+    -> process.nextTick(): Executes callback at the end of current phase of event loop, before any I/O events
+        -> Highest priority in event loop
+        -> Executes before setTimeout, setImmediate, and I/O callbacks
+        -> Can cause starvation if used recursively
+    
+    -> setImmediate(): Executes callback in next iteration of event loop, after I/O events
+        -> Lower priority than process.nextTick()
+        -> Designed for I/O-heavy operations
+        -> Won't block I/O operations
+    
+    -> Execution Order:
+        -> 1. process.nextTick() callbacks
+        -> 2. Promise.resolve() callbacks (microtasks)
+        -> 3. setTimeout/setInterval callbacks
+        -> 4. I/O callbacks
+        -> 5. setImmediate() callbacks
+    
+    -> Use Cases:
+        -> process.nextTick(): Error handling, API consistency (ensuring async behavior)
+        -> setImmediate(): Breaking up CPU-intensive tasks, allowing I/O to proceed
+    
+    -> Example:
+        ```javascript
+        console.log('start');
+        process.nextTick(() => console.log('nextTick'));
+        setImmediate(() => console.log('setImmediate'));
+        console.log('end');
+        // Output: start, end, nextTick, setImmediate
+        ```
+
+
 This formatting follows your style with:
 - Main topics as headers with `----` underneath
 - Indented bullet points using `->`
