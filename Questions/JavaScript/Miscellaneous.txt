@@ -1,3 +1,8 @@
+Primitive Types in JS -> string, number, boolean, null, undefined, symbol, bigint.
+Non Primitive Types in JS -> Object, Array, Function, Date, RegExp
+
+array.length = 0 -> console.log(array) -> []
+
 Difference between == and === in JavaScript
     == → loose equality, checks values after type coercion.
     === → strict equality, checks both value and type.

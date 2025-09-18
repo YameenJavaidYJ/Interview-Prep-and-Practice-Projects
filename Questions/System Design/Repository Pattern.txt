@@ -1,0 +1,26 @@
+Repository Pattern
+----
+
+The Repository pattern is a design pattern that acts as an intermediary between the business logic layer and the data access layer of an application, providing a centralized and abstract interface for data operations. It encapsulates the logic for retrieving, saving, updating, and deleting data, allowing the business logic to interact with data without needing to know the specifics of the underlying data source, such as databases or APIs. This improves code maintainability, facilitates unit testing by allowing the use of mock data, and allows for easier switching of data sources.
+
+How it Works
+----
+    → Abstraction: A repository, often defined as an interface, declares methods for common data operations like get(), save(), delete(), and so on.
+    
+    → Encapsulation: A concrete implementation of this interface contains the actual code to interact with the data source, such as a specific database or a web service.
+    
+    → Decoupling: The business logic interacts with the repository interface instead of the data source, effectively decoupling the two layers.
+    
+    → Data Source Independence: The application is unaware of the underlying data storage mechanism; it only interacts with the repository.
+
+Benefits
+----
+    → Centralized Data Access Logic: All data access code is in one place, making it easier to manage and modify.
+    
+    → Improved Testability: Allows developers to easily create mock repositories with dummy data for unit testing the business logic in isolation.
+    
+    → Code Reusability: Data access logic can be reused across different parts of the application.
+    
+    → Separation of Concerns: Separates the business logic from the data persistence details, leading to a cleaner architecture.
+    
+    → Flexibility: Makes it easier to switch data sources or implement different data access technologies without impacting the business logic.

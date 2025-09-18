@@ -1,0 +1,147 @@
+I'll help you format and provide context for these interview topics using your preferred style. Let me first examine some of your existing files to understand your formatting style better.
+
+[3 tools called]
+
+Now I understand your formatting style! Let me format the interview topics from your notes with proper context and your preferred indentation and dash formatting:
+
+```txt
+Datadog vs Sentry
+----
+    → Datadog: Full-stack observability platform for monitoring infrastructure, applications, and logs. Provides metrics, traces, and alerts for performance monitoring across entire tech stack.
+    
+    → Sentry: Error tracking and performance monitoring focused on application-level issues. Specializes in catching exceptions, crashes, and performance bottlenecks in code.
+    
+    → Key Difference: Datadog is broader (infrastructure + apps), Sentry is deeper (application errors + performance).
+
+----------------
+
+DB Caching
+----
+    → Database caching stores frequently accessed data in memory to reduce database load and improve response times.
+    
+    → Types:
+        → Query Result Caching: Cache query results (Redis, Memcached)
+        → Application-level Caching: Cache objects/data structures in app memory
+        → Database-level Caching: Built-in DB caches (MySQL query cache, PostgreSQL buffer cache)
+    
+    → Strategies:
+        → Cache-aside: App manages cache, loads data on cache miss
+        → Write-through: Write to cache and DB simultaneously
+        → Write-behind: Write to cache first, DB later (async)
+
+----------------
+
+DB Replicas
+----
+    → Database replication creates copies of data across multiple database instances for availability, performance, and disaster recovery.
+    
+    → Types:
+        → Master-Slave: One write node (master), multiple read nodes (slaves)
+        → Master-Master: Multiple nodes can handle both reads and writes
+        → Read Replicas: Dedicated read-only copies to distribute read load
+    
+    → Benefits: Load distribution, fault tolerance, geographic distribution, backup/recovery
+
+----------------
+
+Why ORMs vs Sequelize vs Others
+----
+    → ORMs (Object-Relational Mapping): Map database tables to objects in code, abstract SQL queries.
+    
+    → Sequelize: Popular Node.js ORM for SQL databases (PostgreSQL, MySQL, SQLite)
+        → Pros: Model definitions, migrations, validations, associations
+        → Cons: Performance overhead, learning curve, complex queries can be harder
+    
+    → Alternatives:
+        → Prisma: Type-safe ORM with auto-generated client
+        → TypeORM: TypeScript-first ORM with decorators
+        → Knex.js: Query builder (not full ORM)
+        → Raw SQL: Direct database queries for maximum control
+
+----------------
+
+How JS Works in Browser vs Node.js
+----
+    → Browser JavaScript:
+        → Runs in V8 (Chrome) or other JS engines
+        → Has DOM API, Web APIs (fetch, localStorage, etc.)
+        → Event loop handles UI events, network requests
+        → Sandboxed environment for security
+    
+    → Node.js JavaScript:
+        → Runs on V8 engine outside browser
+        → Has file system, networking, process APIs
+        → Event loop handles I/O operations, timers
+        → Can access system resources directly
+    
+    → Common: Same language syntax, event-driven, single-threaded with async I/O
+
+----------------
+
+SDLC (Software Development Life Cycle)
+----
+    → Planning: Requirements gathering, project scope definition
+    → Analysis: System requirements, feasibility study
+    → Design: Architecture, UI/UX design, database design
+    → Implementation: Coding, development
+    → Testing: Unit testing, integration testing, user acceptance testing
+    → Deployment: Production release, environment setup
+    → Maintenance: Bug fixes, updates, monitoring
+    
+    → Methodologies: Waterfall, Agile, Scrum, DevOps
+
+----------------
+
+Why Choose Microservices?
+----
+    → Scalability: Scale individual services based on demand
+    → Technology Diversity: Different services can use different tech stacks
+    → Team Independence: Teams can work on services independently
+    → Fault Isolation: Failure in one service doesn't bring down entire system
+    → Deployment Flexibility: Deploy services independently without affecting others
+    
+    → Trade-offs: Increased complexity, network latency, data consistency challenges, monitoring overhead
+
+----------------
+
+NoSQL vs SQL
+----
+    → SQL (Relational):
+        → Structured schema, tables with relationships
+        → ACID compliance (Atomicity, Consistency, Isolation, Durability)
+        → Complex queries with JOINs
+        → Examples: PostgreSQL, MySQL, Oracle
+    
+    → NoSQL (Non-relational):
+        → Flexible schema, document/key-value/graph/column-family
+        → BASE properties (Basically Available, Soft state, Eventually consistent)
+        → Horizontal scalability
+        → Examples: MongoDB, Redis, Cassandra, Neo4j
+    
+    → Use SQL for: Complex transactions, reporting, structured data
+    → Use NoSQL for: Rapid development, unstructured data, high scalability
+
+----------------
+
+Repository Pattern
+----
+    → Design pattern that acts as intermediary between business logic and data access layers
+    → Provides centralized, abstract interface for data operations (CRUD)
+    → Encapsulates data retrieval/storage logic, hiding database implementation details
+    
+    → Benefits:
+        → Separation of concerns
+        → Improved testability (mock repositories)
+        → Code reusability
+        → Data source independence
+        → Centralized data access logic
+    
+    → Implementation: Interface defines methods (get, save, delete), concrete class implements actual database operations
+```
+
+This formatting follows your style with:
+- Main topics as headers with `----` underneath
+- Indented bullet points using `→`
+- Clear section separators with `----------------`
+- Concise but comprehensive explanations
+- Practical examples and comparisons

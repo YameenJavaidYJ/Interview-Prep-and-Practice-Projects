@@ -1,0 +1,115 @@
+AI INTERVIEW QUESTION SUGGESTIONS
+==================================
+
+1. SYSTEM DESIGN & ARCHITECTURE
+===============================
+
+CQRS AND EVENT SOURCING
+-----------------------
+    -> Q: What is the difference between CQRS and Event Sourcing, and when would you use them?
+    -> Context: Tests your knowledge of scalable architectures beyond simple CRUD
+
+API GATEWAY VS BFF (BACKEND FOR FRONTEND)
+-----------------------------------------
+    -> Q: Why would you use a BFF layer with Next.js, and how does it differ from an API Gateway?
+    -> Context: Evaluates understanding of frontend-backend interaction patterns in microservices
+
+HORIZONTAL VS VERTICAL SCALING
+------------------------------
+    -> Q: How would you scale a high-traffic Next.js app differently at the frontend and backend layers?
+    -> Context: Checks scalability awareness for both server-side rendering and APIs
+
+2. DATABASES & DATA HANDLING
+============================
+
+ACID VS BASE TRADEOFFS
+----------------------
+    -> Q: Explain ACID vs BASE consistency models. When would you choose eventual consistency?
+    -> Context: Many real systems (like microservices with replicas) rely on eventual consistency
+
+SHARDING VS REPLICATION
+-----------------------
+    -> Q: What's the difference between database sharding and replication, and when would you use each?
+    -> Context: Goes deeper than just replicas — tests distributed DB knowledge
+
+QUERY OPTIMIZATION
+------------------
+    -> Q: How do you identify and fix a slow query in MongoDB or Postgres?
+    -> Context: Evaluates practical debugging skills for production DB issues
+
+3. BACKEND (NODE.JS + NESTJS FOCUS)
+===================================
+
+NESTJS DEPENDENCY INJECTION
+---------------------------
+    -> Q: Why does NestJS use dependency injection, and how does it help in building modular apps?
+    -> Context: Core NestJS concept — tests if you understand its opinionated architecture
+
+ASYNCHRONOUS HANDLING
+---------------------
+    -> Q: How does Node.js handle async operations internally, and why is the event loop important?
+    -> Context: Goes beyond "callbacks vs promises" — shows deep Node.js understanding
+
+AUTHENTICATION & AUTHORIZATION
+------------------------------
+    -> Q: How would you implement role-based access control (RBAC) in a NestJS + MongoDB app?
+    -> Context: Security is a key full-stack responsibility
+
+4. FRONTEND (REACT + NEXT.JS FOCUS)
+===================================
+
+NEXT.JS RENDERING MODES
+-----------------------
+    -> Q: Compare SSR, SSG, ISR, and CSR in Next.js. When would you choose one over another?
+    -> Context: Shows if you understand trade-offs in performance and SEO
+
+HYDRATION AND RECONCILIATION IN REACT
+-------------------------------------
+    -> Q: How does React hydration work in Next.js, and what problems can arise?
+    -> Context: Evaluates deep frontend performance/debugging knowledge
+
+STATE MANAGEMENT
+---------------
+    -> Q: When would you use Redux vs React Query vs Context API in a Next.js app?
+    -> Context: Tests practical decision-making on handling global and async state
+
+5. DEVOPS / MONITORING
+======================
+
+OBSERVABILITY STACK
+-------------------
+    -> Q: How would you set up monitoring for a microservice-based application (Datadog, Prometheus, OpenTelemetry)?
+    -> Context: Goes beyond coding — checks if you think about reliability
+
+CI/CD PIPELINES
+---------------
+    -> Q: How would you design a CI/CD pipeline for a Next.js + NestJS monorepo?
+    -> Context: Practical engineering workflow knowledge
+
+6. GENERAL SOFTWARE ENGINEERING
+===============================
+
+DESIGN PATTERNS
+---------------
+    -> Q: Can you give an example of how you used the Strategy or Factory pattern in a recent project?
+    -> Context: Tests abstract thinking and maintainability
+
+TRADEOFFS IN MICROSERVICES
+--------------------------
+    -> Q: What are the biggest downsides of microservices, and how would you mitigate them?
+    -> Context: Not just "why choose microservices" but whether you know the drawbacks (e.g., complexity, observability)
+
+TESTING STRATEGY
+----------------
+    -> Q: What's your approach to testing in a full-stack MERN/Nest project (unit, integration, e2e)?
+    -> Context: Reveals if you care about quality and not just coding
+
+OTHER LIKELY FULL STACK INTERVIEW QUESTIONS (MERN/NEXT/NEST)
+============================================================
+
+    -> How would you structure a monorepo with Next.js frontend and NestJS backend?
+    -> How do you handle caching in Next.js (getServerSideProps, API routes, edge caching)?
+    -> How do you secure JWT authentication across microservices?
+    -> How do you prevent N+1 query problems in MongoDB or GraphQL?
+    -> How do you implement rate limiting in a Node.js/NestJS API?
+    -> What's the difference between serverless deployment (Vercel, AWS Lambda) vs containerized (Docker + K8s)?
