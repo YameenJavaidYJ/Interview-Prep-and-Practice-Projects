@@ -77,6 +77,13 @@ WebRTC API:
    • Peer-to-peer connections
    • Use Cases: Video calls, file sharing, live streaming
 
+   -> new RTCPeerConnection()
+   -> peerConnection.createOffer()
+   -> peerConnection.createAnswer()
+   -> peerConnection.setLocalDescription()
+   -> peerConnection.setRemoteDescription()
+   -> peerConnection.close()
+
 Service Worker API:
    • Background scripts for offline functionality
    • Push notifications and caching

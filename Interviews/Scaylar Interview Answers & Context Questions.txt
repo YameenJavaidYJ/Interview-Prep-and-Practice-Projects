@@ -1,0 +1,800 @@
+Scaykar Interview Questions - Comprehensive Answers & Context Questions
+
+1. Vacuuming SQL
+
+Answer:
+
+SQL Vacuuming is a database maintenance operation that reclaims storage space and optimizes database performance by:
+
+-   Removing dead tuples (deleted/updated rows that are no longer visible)
+-   Updating table statistics for the query planner
+-   Compacting the database to reduce file size
+-   Freeing up space for reuse
+
+Types:
+
+-   VACUUM - Reclaims space but doesn't lock the table
+-   VACUUM FULL - Reclaims more space but locks the table
+-   VACUUM ANALYZE - Updates statistics for better query planning
+
+When to use:
+
+-   After heavy DELETE/UPDATE operations
+-   When database size grows unexpectedly
+-   Before performance-critical queries
+-   Regular maintenance schedules
+
+Context Questions:
+
+1. "What's the difference between VACUUM and VACUUM FULL in PostgreSQL?"
+2. "How does vacuuming affect database performance during execution?"
+3. "What are dead tuples and how do they accumulate?"
+4. "When would you schedule automatic vacuuming vs manual vacuuming?"
+5. "How does vacuuming relate to MVCC (Multi-Version Concurrency Control)?"
+
+---
+
+2. How DB Scales
+
+Answer:
+
+Database scaling involves two main approaches:
+
+Vertical Scaling (Scale Up):
+
+-   Increase hardware resources (CPU, RAM, Storage)
+-   Upgrade to more powerful servers
+-   Limited by single machine capacity
+-   Easier to implement but expensive
+
+Horizontal Scaling (Scale Out):
+
+-   Add more database servers
+-   Distribute data across multiple nodes
+-   More complex but cost-effective
+-   Better for high-traffic applications
+
+Techniques:
+
+-   Read Replicas - Multiple read-only copies
+-   Sharding - Partition data across servers
+-   Master-Slave - One write, multiple reads
+-   Master-Master - Multiple write nodes
+-   Caching - Redis/Memcached for frequently accessed data
+
+Context Questions:
+
+1. "What's the difference between read replicas and sharding?"
+2. "How do you handle data consistency in a distributed database?"
+3. "What are the challenges of database sharding?"
+4. "How would you implement database failover?"
+5. "What's the CAP theorem and how does it affect database scaling decisions?"
+
+---
+
+3. Error Boundary React JS
+
+Answer:
+
+Error Boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of crashing the entire app.
+
+Key Points:
+
+-   Only catch errors in child components, not in the error boundary itself
+-   Only catch errors during rendering, lifecycle methods, and constructors
+-   Don't catch errors in event handlers, async code, or during server-side rendering
+
+Implementation:
+
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {hasError: false};
+    }
+
+    static getDerivedStateFromError(error) {
+        return {hasError: true};
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.log("Error caught:", error, errorInfo);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <h1>Something went wrong.</h1>;
+        }
+        return this.props.children;
+    }
+}
+
+
+
+Context Questions:
+
+1. "What types of errors can error boundaries catch vs what they can't?"
+2. "How would you implement error reporting in an error boundary?"
+3. "What's the difference between getDerivedStateFromError and componentDidCatch?"
+4. "How do you test error boundaries?"
+5. "When would you use multiple error boundaries in a single app?"
+
+---
+
+4. What is Bounded Context
+
+Answer:
+
+Bounded Context is a core concept in Domain-Driven Design (DDD) that defines the boundaries within which a particular domain model is valid and meaningful.
+
+Key Concepts:
+
+-   Context Boundary - Clear limits where a model applies
+-   Ubiquitous Language - Common vocabulary within the context
+-   Model Consistency - Same concepts mean the same thing within boundaries
+-   Context Mapping - How different bounded contexts interact
+
+Example:
+
+-   User Management Context - User, Profile, Authentication
+-   Order Management Context - Order, Payment, Shipping
+-   Inventory Context - Product, Stock, Warehouse
+
+Benefits:
+
+-   Prevents model pollution
+-   Enables team autonomy
+-   Simplifies complex domains
+-   Improves maintainability
+
+Context Questions:
+
+1. "How do you identify boundaries between different contexts?"
+2. "What are the different types of relationships between bounded contexts?"
+3. "How does bounded context relate to microservices architecture?"
+4. "What's the difference between bounded context and subdomain?"
+5. "How do you handle data consistency across bounded contexts?"
+
+---
+
+5. PostgreSQL vs MySQL
+
+Answer:
+
+Feature          | PostgreSQL                    | MySQL                       
+---------------- | ----------------------------- | --------------------------- 
+Type         | Object-relational DB          | Relational DB               
+ACID         | Full ACID compliance          | ACID with InnoDB            
+Data Types   | Rich (JSON, Arrays, Custom)   | Standard SQL types          
+Performance  | Better for complex queries    | Better for simple reads     
+Replication  | Advanced (streaming, logical) | Master-slave, master-master 
+Extensions   | Extensive ecosystem           | Limited                     
+JSON Support | Native JSON/JSONB             | JSON (5.7+)                 
+Concurrency  | MVCC                          | Row-level locking           
+Standards    | SQL standard compliant        | SQL with extensions         
+
+When to choose:
+
+-   PostgreSQL: Complex queries, JSON data, ACID critical, extensibility
+-   MySQL: Simple applications, high read performance, web applications
+
+Context Questions:
+
+1. "What are the performance implications of PostgreSQL's MVCC vs MySQL's locking?"
+2. "How does JSONB in PostgreSQL compare to MySQL's JSON implementation?"
+3. "What are the replication differences between the two databases?"
+4. "How do you handle full-text search in PostgreSQL vs MySQL?"
+5. "What are the licensing differences and their implications?"
+
+---
+
+6. How to Optimize DB Queries
+
+Answer:
+
+Query Optimization Techniques:
+
+1. Indexing:
+
+    - Create appropriate indexes on frequently queried columns
+    - Composite indexes for multi-column queries
+    - Avoid over-indexing (slows writes)
+
+2. Query Structure:
+
+    - Use EXPLAIN/EXPLAIN ANALYZE to understand execution plans
+    - Avoid SELECT * - select only needed columns
+    - Use LIMIT for large result sets
+    - Optimize JOINs and subqueries
+
+3. Database Design:
+
+    - Normalize appropriately (avoid over-normalization)
+    - Use appropriate data types
+    - Consider denormalization for read-heavy workloads
+
+4. Caching:
+
+    - Application-level caching (Redis, Memcached)
+    - Query result caching
+    - Database query cache
+
+5. Connection Management:
+    - Connection pooling
+    - Proper connection timeouts
+    - Avoid N+1 queries
+
+Context Questions:
+
+1. "How do you identify slow queries in a production database?"
+2. "What's the difference between clustered and non-clustered indexes?"
+3. "How do you optimize queries with multiple JOINs?"
+4. "What are query hints and when should you use them?"
+5. "How do you handle query optimization in a microservices architecture?"
+
+---
+
+7. How to Optimize React App Performance
+
+Answer:
+
+Performance Optimization Techniques:
+
+1. Code Splitting:
+
+    - Lazy loading components
+    - Route-based code splitting
+    - Dynamic imports
+
+2. Memoization:
+
+    - React.memo for components
+    - useMemo for expensive calculations
+    - useCallback for functions
+
+3. Bundle Optimization:
+
+    - Tree shaking
+    - Bundle analysis
+    - Webpack optimization
+
+4. Rendering Optimization:
+
+    - Avoid unnecessary re-renders
+    - Optimize state updates
+    - Use proper dependency arrays
+
+5. Asset Optimization:
+
+    - Image optimization
+    - CDN usage
+    - Compression
+
+6. React-Specific:
+    - Virtual scrolling for large lists
+    - Suspense for better loading states
+    - Error boundaries
+
+Context Questions:
+
+1. "How do you identify performance bottlenecks in a React app?"
+2. "What's the difference between useMemo and useCallback?"
+3. "How does React's reconciliation algorithm affect performance?"
+4. "When should you use React.memo vs useMemo?"
+5. "How do you optimize a React app for mobile devices?"
+
+---
+
+8. How to Optimize Express App Performance
+
+Answer:
+
+Express.js Performance Optimization:
+
+1. Middleware Optimization:
+
+    - Order middleware efficiently
+    - Use compression middleware
+    - Implement proper error handling
+
+2. Caching:
+
+    - Redis for session storage
+    - Response caching
+    - Static file caching
+
+3. Database Optimization:
+
+    - Connection pooling
+    - Query optimization
+    - Database indexing
+
+4. Code Optimization:
+
+    - Avoid blocking operations
+    - Use async/await properly
+    - Implement proper error handling
+
+5. Infrastructure:
+
+    - Load balancing
+    - CDN for static assets
+    - Process management (PM2)
+
+6. Monitoring:
+    - Performance monitoring
+    - Memory leak detection
+    - Request/response logging
+
+Context Questions:
+
+1. "How do you implement connection pooling in Express.js?"
+2. "What's the difference between clustering and load balancing?"
+3. "How do you handle memory leaks in Node.js applications?"
+4. "What are the best practices for error handling in Express?"
+5. "How do you implement rate limiting in Express applications?"
+
+---
+
+9. What is Dependency Injection
+
+Answer:
+
+Dependency Injection (DI) is a design pattern where dependencies are provided to a class rather than the class creating them itself.
+
+Benefits:
+
+-   Testability - Easy to mock dependencies
+-   Flexibility - Swap implementations easily
+-   Maintainability - Loose coupling between components
+-   Reusability - Components can be reused in different contexts
+
+Types:
+
+1. Constructor Injection - Dependencies passed via constructor
+2. Setter Injection - Dependencies set via setter methods
+3. Interface Injection - Dependencies injected via interfaces
+
+Example:
+
+// Without DI
+class UserService {
+    constructor() {
+        this.database = new Database(); // Tight coupling
+    }
+}
+
+// With DI
+class UserService {
+    constructor(database) {
+        this.database = database; // Loose coupling
+    }
+}
+
+Context Questions:
+
+1. "How does dependency injection improve testability?"
+2. "What's the difference between dependency injection and service locator pattern?"
+3. "How do you implement dependency injection in JavaScript without a framework?"
+4. "What are the downsides of dependency injection?"
+5. "How does NestJS implement dependency injection?"
+
+---
+
+10. What are Scopes in NestJS
+
+Answer:
+
+NestJS Scopes determine the lifetime of provider instances:
+
+1. DEFAULT (Singleton):
+
+    - Single instance shared across the entire application
+    - Created once when the application starts
+    - Most commonly used scope
+
+2. REQUEST:
+
+    - New instance created for each incoming request
+    - Instance is garbage collected after request completes
+    - Useful for request-specific data
+
+3. TRANSIENT:
+    - New instance created every time it's injected
+    - Not shared between consumers
+    - Useful for stateless services
+
+Implementation:
+
+@Injectable({scope: Scope.REQUEST})
+export class UserService {
+    // New instance per request
+}
+
+@Injectable({scope: Scope.TRANSIENT})
+export class LoggerService {
+    // New instance every time
+}
+
+Context Questions:
+
+1. "When would you use REQUEST scope vs DEFAULT scope?"
+2. "How do scopes affect performance in NestJS applications?"
+3. "What are the memory implications of different scopes?"
+4. "How do you handle circular dependencies with different scopes?"
+5. "Can you change the scope of a provider at runtime?"
+
+---
+
+11. How to Scale Database
+
+Answer:
+
+Database Scaling Strategies:
+
+1. Vertical Scaling (Scale Up):
+
+    - Increase CPU, RAM, Storage
+    - Upgrade to more powerful hardware
+    - Limited by single machine capacity
+
+2. Horizontal Scaling (Scale Out):
+
+    - Read Replicas - Multiple read-only copies
+    - Sharding - Partition data across servers
+    - Master-Slave - One write, multiple reads
+    - Master-Master - Multiple write nodes
+
+3. Caching:
+
+    - Redis/Memcached for frequently accessed data
+    - Application-level caching
+    - CDN for static content
+
+4. Database Optimization:
+
+    - Proper indexing
+    - Query optimization
+    - Connection pooling
+
+5. Data Archiving:
+    - Move old data to cheaper storage
+    - Implement data lifecycle policies
+
+Context Questions:
+
+1. "What are the challenges of database sharding?"
+2. "How do you handle data consistency in a distributed database?"
+3. "What's the difference between horizontal and vertical partitioning?"
+4. "How do you implement database failover?"
+5. "What are the trade-offs between consistency and availability in database scaling?"
+
+---
+
+12. How to Scale Express App
+
+Answer:
+
+Express.js Scaling Strategies:
+
+1. Horizontal Scaling:
+
+    - Load Balancing - Distribute requests across multiple instances
+    - Clustering - Use all CPU cores with PM2
+    - Microservices - Split into smaller services
+
+2. Caching:
+
+    - Redis for session storage
+    - Response caching
+    - Static file caching with CDN
+
+3. Database Optimization:
+
+    - Connection pooling
+    - Read replicas
+    - Query optimization
+
+4. Code Optimization:
+
+    - Async/await for non-blocking operations
+    - Proper error handling
+    - Memory leak prevention
+
+5. Infrastructure:
+    - Container orchestration (Docker, Kubernetes)
+    - Auto-scaling based on metrics
+    - Monitoring and logging
+
+Context Questions:
+
+1. "How do you implement sticky sessions in a load-balanced Express app?"
+2. "What's the difference between clustering and load balancing?"
+3. "How do you handle stateful data in a stateless Express app?"
+4. "What are the best practices for monitoring Express applications?"
+5. "How do you implement circuit breakers in Express.js?"
+
+---
+
+13. How to Scale React App
+
+Answer:
+
+React Application Scaling Strategies:
+
+1. Code Splitting:
+
+    - Route-based splitting
+    - Component-based splitting
+    - Dynamic imports
+
+2. Performance Optimization:
+
+    - Memoization (React.memo, useMemo, useCallback)
+    - Virtual scrolling for large lists
+    - Image optimization
+
+3. Architecture:
+
+    - Micro-frontends
+    - Component libraries
+    - State management optimization
+
+4. Infrastructure:
+
+    - CDN for static assets
+    - Server-side rendering (SSR)
+    - Static site generation (SSG)
+
+5. Caching:
+    - Service workers
+    - Browser caching
+    - API response caching
+
+Context Questions:
+
+1. "How do you implement micro-frontends in React?"
+2. "What's the difference between SSR and SSG in React?"
+3. "How do you handle state management in a large React application?"
+4. "What are the best practices for code splitting in React?"
+5. "How do you optimize React apps for mobile devices?"
+
+---
+
+14. What is Functional Programming in React JS
+
+Answer:
+
+Functional Programming in React involves writing components and logic using functional programming principles:
+
+Key Concepts:
+
+1. Pure Functions:
+
+    - Same input always produces same output
+    - No side effects
+    - Predictable behavior
+
+2. Immutable Data:
+
+    - Don't mutate state directly
+    - Use spread operator, map, filter, reduce
+    - Create new objects/arrays instead of modifying existing ones
+
+3. Higher-Order Functions:
+
+    - Functions that take functions as arguments
+    - React.memo, useCallback, useMemo
+    - Custom hooks
+
+4. Composition:
+    - Building complex components from simple ones
+    - Higher-order components (HOCs)
+    - Render props pattern
+
+Examples:
+
+// Pure function
+const calculateTotal = (items) => items.reduce((sum, item) => sum + item.price, 0);
+
+// Immutable state update
+const [items, setItems] = useState([]);
+const addItem = (newItem) => setItems((prev) => [...prev, newItem]);
+
+// Higher-order component
+const withLoading = (Component) => (props) => props.loading ? <Spinner /> : <Component {...props} />;
+
+Context Questions:
+
+1. "How do you ensure immutability in React state updates?"
+2. "What's the difference between functional and class components in terms of FP principles?"
+3. "How do you implement currying in React components?"
+4. "What are the benefits of using pure functions in React?"
+5. "How do you handle side effects in functional programming with React?"
+
+---
+
+Additional Context Questions for Deep Dive:
+
+General Architecture:
+
+1. "How do you design a scalable web application architecture?"
+2. "What are the trade-offs between microservices and monolithic architecture?"
+3. "How do you handle data consistency in distributed systems?"
+4. "What are the key principles of clean architecture?"
+
+Performance & Optimization:
+
+1. "How do you measure and monitor application performance?"
+2. "What are the common performance bottlenecks in web applications?"
+3. "How do you implement caching strategies effectively?"
+4. "What are the best practices for database performance tuning?"
+
+Security & Best Practices:
+
+1. "How do you implement authentication and authorization in web applications?"
+2. "What are the common security vulnerabilities in web applications?"
+3. "How do you handle sensitive data in applications?"
+4. "What are the best practices for API design and versioning?"
+
+---
+
+15. Explain the principles of functional programming and how they are applied in the context of Redux
+
+Answer:
+
+Functional Programming Principles:
+
+1. Pure Functions:
+    - Same input always produces same output
+    - No side effects (no external state modification)
+    - Predictable and testable behavior
+    - Easy to reason about and debug
+
+2. Immutability:
+    - Data cannot be changed after creation
+    - Create new objects/arrays instead of modifying existing ones
+    - Prevents unexpected side effects
+    - Enables time-travel debugging
+
+3. Higher-Order Functions:
+    - Functions that take functions as arguments
+    - Functions that return functions
+    - Enables function composition and reusability
+
+4. Function Composition:
+    - Building complex functions from simple ones
+    - Combining functions to create new functionality
+    - Promotes modularity and reusability
+
+5. Declarative Programming:
+    - Focus on what to do, not how to do it
+    - More readable and maintainable code
+    - Easier to test and debug
+
+How Redux Applies These Principles:
+
+1. Pure Reducers:
+    - Reducers are pure functions that take state and action, return new state
+    - No side effects, no mutations
+    - Same input always produces same output
+    - Example: (state, action) => newState
+
+2. Immutable State:
+    - State is never mutated directly
+    - Always return new state objects
+    - Enables time-travel debugging
+    - Prevents unexpected bugs
+
+3. Action Creators as Higher-Order Functions:
+    - Functions that return action objects
+    - Can be composed and reused
+    - Enable middleware and side effects handling
+
+4. Function Composition in Middleware:
+    - Redux middleware is a higher-order function
+    - Composes multiple middleware functions
+    - Enables side effects handling
+
+5. Declarative State Management:
+    - Describe what state changes should happen
+    - Redux handles the how
+    - More predictable state updates
+
+Context Questions:
+
+1. "How do you handle side effects in Redux while maintaining functional programming principles?"
+2. "What's the difference between Redux and other state management libraries in terms of FP principles?"
+3. "How do you implement immutable updates in Redux reducers?"
+4. "What are the benefits of using pure functions in Redux?"
+5. "How does Redux middleware follow functional programming principles?"
+
+---
+
+16. Use cases and benefits of DB caching and replication or snapshots if they are same
+
+Answer:
+
+Database Caching:
+
+Use Cases:
+- Frequently accessed data that doesn't change often
+- Expensive query results
+- Session data and user preferences
+- API response caching
+- Static content caching
+
+Benefits:
+- Faster data access (memory vs disk)
+- Reduced database load
+- Improved application performance
+- Lower latency for end users
+- Cost-effective scaling
+
+Database Replication:
+
+Use Cases:
+- Read scaling (multiple read replicas)
+- Disaster recovery and backup
+- Geographic distribution
+- Load distribution
+- High availability
+
+Benefits:
+- Improved read performance
+- Data redundancy and fault tolerance
+- Geographic data distribution
+- Load balancing
+- Disaster recovery
+
+Database Snapshots:
+
+Use Cases:
+- Point-in-time backups
+- Data migration and testing
+- Compliance and auditing
+- Development and staging environments
+- Data analysis without affecting production
+
+Benefits:
+- Consistent data state at specific time
+- Fast backup creation
+- Safe testing environment
+- Compliance requirements
+- Data recovery options
+
+Key Differences:
+
+Caching vs Replication:
+- Caching: Temporary, can be lost, faster access
+- Replication: Permanent, persistent, slightly slower
+
+Replication vs Snapshots:
+- Replication: Continuous, real-time, multiple copies
+- Snapshots: Point-in-time, static, single copy
+
+When to Use Each:
+
+Caching:
+- When you need fast access to frequently used data
+- When data can be regenerated if lost
+- For session data and temporary information
+
+Replication:
+- When you need high availability
+- For read scaling
+- For disaster recovery
+
+Snapshots:
+- For backups and compliance
+- For testing and development
+- For data migration
+
+Context Questions:
+
+1. "What are the trade-offs between different caching strategies (Redis vs Memcached)?"
+2. "How do you handle cache invalidation in a distributed system?"
+3. "What's the difference between master-slave and master-master replication?"
+4. "How do you ensure data consistency across multiple database replicas?"
+5. "When would you use database snapshots vs traditional backups?"
+6. "How do you implement read replicas for scaling database reads?"
+7. "What are the challenges of database replication in a microservices architecture?"
