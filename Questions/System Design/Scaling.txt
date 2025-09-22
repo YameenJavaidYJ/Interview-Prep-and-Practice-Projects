@@ -1,0 +1,235 @@
+13. How to Scale React App
+
+Answer:
+
+React Application Scaling Strategies:
+
+1. Code Splitting:
+
+    - Route-based splitting
+    - Component-based splitting
+    - Dynamic imports
+
+2. Performance Optimization:
+
+    - Memoization (React.memo, useMemo, useCallback)
+    - Virtual scrolling for large lists
+    - Image optimization
+
+3. Architecture:
+
+    - Micro-frontends
+    - Component libraries
+    - State management optimization
+
+4. Infrastructure:
+
+    - CDN for static assets
+    - Server-side rendering (SSR)
+    - Static site generation (SSG)
+
+5. Caching:
+    - Service workers
+    - Browser caching
+    - API response caching
+
+---
+
+Additional Questions:
+
+Q: How do you identify performance bottlenecks in a React app?
+
+A:
+- React DevTools Profiler: Identify slow components and renders
+- Browser DevTools: Performance tab, Lighthouse audits
+- Bundle analysis: webpack-bundle-analyzer, source-map-explorer
+- Memory leaks: React DevTools, Chrome DevTools Memory tab
+- Network analysis: Check API response times and payload sizes
+- Real User Monitoring: Track actual user performance metrics
+
+Q: How does React's reconciliation algorithm affect performance?
+
+A:
+- Virtual DOM diffing: Compares virtual DOM trees to minimize real DOM updates
+- Diffing algorithm: O(n) complexity, uses heuristics for efficiency
+- Key prop: Helps React identify which items changed, moved, or were added
+- Reconciliation strategies: Batching updates, skipping unchanged subtrees
+- Performance impact: Can be slow with large lists or complex components
+- Optimization: Use React.memo, useMemo, useCallback to prevent unnecessary re-renders
+
+Q: How do you optimize a React app for mobile devices?
+
+A:
+- Code splitting: Reduce initial bundle size
+- Image optimization: Use WebP, lazy loading, responsive images
+- Touch interactions: Optimize for touch events and gestures
+- Memory management: Avoid memory leaks, optimize for limited RAM
+- Network optimization: Minimize API calls, use caching
+- Performance budgets: Set limits for bundle size and performance metrics
+
+Q: How do you implement micro-frontends in React?
+
+A:
+- Module Federation: Share components between applications
+- Single-spa: Framework-agnostic micro-frontend framework
+- Webpack Module Federation: Built-in support for micro-frontends
+- Communication: Use custom events, shared state, or APIs
+- Deployment: Independent deployment of each micro-frontend
+- Routing: Handle routing between different micro-frontends
+
+Q: What's the difference between SSR and SSG in React?
+
+A:
+- SSR (Server-Side Rendering): Renders on server for each request
+- SSG (Static Site Generation): Pre-renders at build time
+- SSR: Better for dynamic content, SEO, slower initial load
+- SSG: Faster loading, better performance, limited to static content
+- Use cases: SSR for user-specific content, SSG for marketing pages
+- Tools: Next.js supports both SSR and SSG
+
+Q: How do you handle state management in a large React application?
+
+A:
+- Redux: Centralized state management with predictable updates
+- Context API: Built-in React state management for smaller apps
+- Zustand: Lightweight state management library
+- State colocation: Keep state close to where it's used
+- State normalization: Structure state to avoid duplication
+- DevTools: Use Redux DevTools for debugging and time-travel
+
+Q: What are the best practices for code splitting in React?
+
+A:
+- Route-based splitting: Split by routes using React.lazy()
+- Component-based splitting: Split large components
+- Dynamic imports: Use import() for conditional loading
+- Bundle analysis: Use webpack-bundle-analyzer to identify opportunities
+- Preloading: Use webpackPrefetch for critical chunks
+- Error boundaries: Handle loading errors gracefully
+
+Q: How do you ensure immutability in React state updates?
+
+A:
+- Object spread: {...state, newProperty: value}
+- Array methods: [...array, newItem] or array.filter()
+- Nested updates: {...state, user: {...state.user, name: newName}}
+- Immer library: Write mutable code, get immutable updates
+- Structural sharing: Only change what's necessary
+- Avoid: Direct mutations, push(), splice(), direct property assignment
+
+Q: What's the difference between functional and class components in terms of FP principles?
+
+A:
+- Functional: Pure functions, easier to test, more predictable
+- Class: Object-oriented, lifecycle methods, this binding
+- Functional: Better for functional programming principles
+- Class: More familiar to OOP developers
+- Hooks: Functional components can use state and lifecycle
+- Performance: Functional components with hooks are generally faster
+
+Q: How do you implement currying in React components?
+
+A:
+- Higher-order components: Functions that return components
+- Custom hooks: Encapsulate logic and return functions
+- Function composition: Combine multiple functions
+- Partial application: Pre-fill some arguments
+- Example: const withAuth = (Component) => (props) => <Component {...props} auth={auth} />
+- Benefits: Reusability, composition, separation of concerns
+
+Q: What are the benefits of using pure functions in React?
+
+A:
+- Predictability: Same input always produces same output
+- Testability: Easy to test without mocking
+- Performance: Can be memoized with React.memo
+- Debugging: Easier to debug and reason about
+- Reusability: Can be used in different contexts
+- Side effects: No unexpected side effects
+
+Q: How do you handle side effects in functional programming with React?
+
+A:
+- useEffect: Handle side effects in functional components
+- Custom hooks: Encapsulate side effect logic
+- Pure functions: Keep components pure, move side effects to hooks
+- Event handlers: Handle user interactions
+- Async operations: Use async/await or promises
+- Cleanup: Return cleanup functions from useEffect
+
+---------------------------------------------------------------
+
+12. How to Scale Express App
+
+Answer:
+
+Express.js Scaling Strategies:
+
+1. Horizontal Scaling:
+
+    - Load Balancing - Distribute requests across multiple instances
+    - Clustering - Use all CPU cores with PM2
+    - Microservices - Split into smaller services
+
+2. Caching:
+
+    - Redis for session storage
+    - Response caching
+    - Static file caching with CDN
+
+3. Database Optimization:
+
+    - Connection pooling
+    - Read replicas
+    - Query optimization
+
+4. Code Optimization:
+
+    - Async/await for non-blocking operations
+    - Proper error handling
+    - Memory leak prevention
+
+5. Infrastructure:
+    - Container orchestration (Docker, Kubernetes)
+    - Auto-scaling based on metrics
+    - Monitoring and logging
+
+---------------------------------------------------------------
+
+
+11. How to Scale Database
+
+Answer:
+
+Database Scaling Strategies:
+
+1. Vertical Scaling (Scale Up):
+
+    - Increase CPU, RAM, Storage
+    - Upgrade to more powerful hardware
+    - Limited by single machine capacity
+
+2. Horizontal Scaling (Scale Out):
+
+    - Read Replicas - Multiple read-only copies
+    - Sharding - Partition data across servers
+    - Master-Slave - One write, multiple reads
+    - Master-Master - Multiple write nodes
+
+3. Caching:
+
+    - Redis/Memcached for frequently accessed data
+    - Application-level caching
+    - CDN for static content
+
+4. Database Optimization:
+
+    - Proper indexing
+    - Query optimization
+    - Connection pooling
+
+5. Data Archiving:
+    - Move old data to cheaper storage
+    - Implement data lifecycle policies
+
+    

@@ -67,3 +67,18 @@ DRY Principle ("Don’t Repeat Yourself")
     Leads to maintainable and less error-prone code.
 
 In interviews: use when talking about clean code practices.
+
+---
+
+Additional Questions:
+
+Q: How do you design a scalable web application architecture?
+
+A:
+- Microservices: Split into independent services
+- Load balancing: Distribute traffic across multiple servers
+- Caching: Multiple levels (CDN, application, database)
+- Database scaling: Read replicas, sharding, partitioning
+- Message queues: Asynchronous processing
+- Monitoring: Comprehensive logging and metrics
+- Auto-scaling: Dynamic resource allocation based on load

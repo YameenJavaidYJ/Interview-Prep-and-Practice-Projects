@@ -1,0 +1,80 @@
+4. What is Bounded Context
+
+Answer:
+
+Bounded Context is a core concept in Domain-Driven Design (DDD) that defines the boundaries within which a particular domain model is valid and meaningful.
+
+Key Concepts:
+
+-   Context Boundary - Clear limits where a model applies
+-   Ubiquitous Language - Common vocabulary within the context
+-   Model Consistency - Same concepts mean the same thing within boundaries
+-   Context Mapping - How different bounded contexts interact
+
+Example:
+
+-   User Management Context - User, Profile, Authentication
+-   Order Management Context - Order, Payment, Shipping
+-   Inventory Context - Product, Stock, Warehouse
+
+Benefits:
+
+-   Prevents model pollution
+-   Enables team autonomy
+-   Simplifies complex domains
+-   Improves maintainability
+
+---
+
+Additional Questions:
+
+Q: How do you identify boundaries between different contexts?
+
+A:
+- Look for different vocabularies/terminology used by different teams
+- Identify distinct business capabilities and responsibilities
+- Find areas where the same concept means different things
+- Look for different data models for similar concepts
+- Consider team structure and communication patterns
+- Analyze business processes and workflows
+
+Q: What are the different types of relationships between bounded contexts?
+
+A:
+- Shared Kernel: Shared code and data model between contexts
+- Customer-Supplier: One context depends on another's output
+- Conformist: One context adapts to another's model
+- Anticorruption Layer: Translation layer between contexts
+- Open Host Service: Published interface for other contexts
+- Published Language: Common language for context communication
+- Separate Ways: Independent contexts with no integration
+
+Q: How does bounded context relate to microservices architecture?
+
+A:
+- Each bounded context typically maps to one or more microservices
+- Bounded contexts define service boundaries and responsibilities
+- Helps identify what should be in the same service vs separate services
+- Enables independent development and deployment of services
+- Reduces coupling between services by defining clear interfaces
+- Supports team autonomy and technology diversity
+
+Q: What's the difference between bounded context and subdomain?
+
+A:
+- Subdomain: Part of the business domain (core, supporting, generic)
+- Bounded Context: Technical implementation boundary with its own model
+- Subdomain is about business value and importance
+- Bounded Context is about implementation and team boundaries
+- One subdomain can have multiple bounded contexts
+- One bounded context can span multiple subdomains
+
+Q: How do you handle data consistency across bounded contexts?
+
+A:
+- Eventual consistency: Accept temporary inconsistency for better performance
+- Event-driven architecture: Use domain events for communication
+- Saga pattern: Manage distributed transactions across contexts
+- CQRS: Separate read and write models for different contexts
+- API composition: Aggregate data from multiple contexts at query time
+- Event sourcing: Store events and rebuild state as needed

@@ -1,0 +1,50 @@
+3. Error Boundary React JS
+
+Answer:
+
+Error Boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of crashing the entire app.
+
+Key Points:
+
+-   Only catch errors in child components, not in the error boundary itself
+-   Only catch errors during rendering, lifecycle methods, and constructors
+-   Don't catch errors in event handlers, async code, or during server-side rendering
+
+Implementation:
+
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {hasError: false};
+    }
+
+    static getDerivedStateFromError(error) {
+        return {hasError: true};
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.log("Error caught:", error, errorInfo);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <h1>Something went wrong.</h1>;
+        }
+        return this.props.children;
+    }
+}
+
+---
+
+Additional Questions:
+
+Q: How would you implement error reporting in an error boundary?
+
+A:
+- Use componentDidCatch to log errors to external services
+- Send error details to monitoring tools (Sentry, LogRocket, Bugsnag)
+- Include user context, component stack, and error boundary location
+- Implement retry mechanisms for transient errors
+- Add user-friendly error messages with recovery options
+- Example: Log to console, send to analytics, show fallback UI
+

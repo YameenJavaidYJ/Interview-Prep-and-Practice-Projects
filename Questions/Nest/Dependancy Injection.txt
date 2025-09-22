@@ -1,0 +1,93 @@
+
+9. What is Dependency Injection
+
+Answer:
+
+Dependency Injection (DI) is a design pattern where dependencies are provided to a class rather than the class creating them itself.
+
+Benefits:
+
+-   Testability - Easy to mock dependencies
+-   Flexibility - Swap implementations easily
+-   Maintainability - Loose coupling between components
+-   Reusability - Components can be reused in different contexts
+
+Types:
+
+1. Constructor Injection - Dependencies passed via constructor
+2. Setter Injection - Dependencies set via setter methods
+3. Interface Injection - Dependencies injected via interfaces
+
+Example:
+
+// Without DI
+class UserService {
+    constructor() {
+        this.database = new Database(); // Tight coupling
+    }
+}
+
+// With DI
+class UserService {
+    constructor(database) {
+        this.database = database; // Loose coupling
+    }
+}
+
+---
+
+Additional Questions:
+
+Q: What's the difference between dependency injection and service locator pattern?
+
+A:
+- Dependency Injection: Dependencies are provided externally (constructor, setter, interface)
+- Service Locator: Object requests dependencies from a central registry
+- DI: More explicit, better testability, compile-time safety
+- Service Locator: More implicit, harder to test, runtime discovery
+- DI: Inversion of control, dependencies flow inward
+- Service Locator: Object controls its dependencies, dependencies flow outward
+
+Q: How do you implement dependency injection in JavaScript without a framework?
+
+A:
+- Constructor injection: Pass dependencies via constructor parameters
+- Setter injection: Use setter methods to inject dependencies
+- Interface injection: Use interfaces/contracts for dependency contracts
+- Factory pattern: Create objects with dependencies pre-configured
+- Container pattern: Central registry for managing dependencies
+- Example: Manual DI container with registration and resolution methods
+
+---
+
+Additional Questions:
+
+Q: How does dependency injection improve testability?
+
+A:
+- Mocking: Easy to replace dependencies with mocks/stubs
+- Isolation: Test components in isolation from their dependencies
+- Control: Control what dependencies return during testing
+- Fast tests: Mock dependencies for faster test execution
+- Predictable: Dependencies are explicit and controllable
+- Example: Inject mock database instead of real database in tests
+
+Q: What are the downsides of dependency injection?
+
+A:
+- Complexity: More setup and configuration required
+- Learning curve: Developers need to understand DI concepts
+- Over-engineering: Can be overkill for simple applications
+- Performance: Slight overhead for dependency resolution
+- Debugging: Can make debugging more complex
+- Boilerplate: More code required for simple scenarios
+
+Q: How does NestJS implement dependency injection?
+
+A:
+- Decorators: @Injectable(), @Inject() for marking and injecting dependencies
+- Module system: @Module() for organizing providers and dependencies
+- Constructor injection: Dependencies injected via constructor parameters
+- Scopes: Different lifecycle scopes for providers
+- Custom providers: Factory, value, and class providers
+- Circular dependencies: Handle with forwardRef() when needed

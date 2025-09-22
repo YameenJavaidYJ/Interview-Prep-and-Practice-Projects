@@ -3,3 +3,36 @@
     Monolith → all features in one big codebase, tightly coupled, harder to scale independently.
     Microservices → application split into small, independent services (e.g., user service, payment service). Each has its own DB & API.
     👉 Pros: scalability, deploy independently. Cons: more complexity (network, monitoring, coordination).
+
+---
+
+Additional Questions:
+
+Q: What are the trade-offs between microservices and monolithic architecture?
+
+A:
+- Monolith: Simpler deployment, easier debugging, ACID transactions, single technology stack
+- Microservices: Independent scaling, technology diversity, fault isolation, team autonomy
+- Monolith: Harder to scale, single point of failure, tight coupling, large codebase
+- Microservices: Network complexity, distributed transactions, monitoring overhead, data consistency
+
+Q: How do you handle data consistency in distributed systems?
+
+A:
+- Eventual consistency: Accept temporary inconsistency for better performance
+- Saga pattern: Manage distributed transactions across services
+- Event sourcing: Store events and rebuild state
+- CQRS: Separate read and write models
+- Two-phase commit: Synchronous consistency (performance impact)
+- Compensation patterns: Rollback through compensating actions
+
+Q: What are the key principles of clean architecture?
+
+A:
+- Dependency inversion: Dependencies point inward toward business logic
+- Separation of concerns: Each layer has single responsibility
+- Independence: Business logic independent of frameworks, UI, database
+- Testability: Easy to test business logic in isolation
+- Use cases: Encapsulate application business rules
+- Entities: Enterprise business rules and data
+- Interface adapters: Convert data between use cases and external world

@@ -1,0 +1,89 @@
+
+10. What are Scopes in NestJS
+
+Answer:
+
+NestJS Scopes determine the lifetime of provider instances:
+
+1. DEFAULT (Singleton):
+
+    - Single instance shared across the entire application
+    - Created once when the application starts
+    - Most commonly used scope
+
+2. REQUEST:
+
+    - New instance created for each incoming request
+    - Instance is garbage collected after request completes
+    - Useful for request-specific data
+
+3. TRANSIENT:
+    - New instance created every time it's injected
+    - Not shared between consumers
+    - Useful for stateless services
+
+Implementation:
+
+@Injectable({scope: Scope.REQUEST})
+export class UserService {
+    // New instance per request
+}
+
+@Injectable({scope: Scope.TRANSIENT})
+export class LoggerService {
+    // New instance every time
+}
+
+---
+
+Additional Questions:
+
+Q: When would you use REQUEST scope vs DEFAULT scope?
+
+A:
+- REQUEST scope: When you need request-specific data (user context, request ID)
+- DEFAULT scope: For stateless services, shared resources, singletons
+- REQUEST: User service, logging with request context, database transactions
+- DEFAULT: Configuration service, database connection, utility services
+- Performance: DEFAULT is more efficient, REQUEST has overhead per request
+- Memory: REQUEST uses more memory, DEFAULT reuses instances
+
+Q: How do scopes affect performance in NestJS applications?
+
+A:
+- DEFAULT: Best performance, single instance, no creation overhead
+- REQUEST: Moderate performance, instance per request, some overhead
+- TRANSIENT: Worst performance, new instance every injection
+- Memory usage: DEFAULT < REQUEST < TRANSIENT
+- Garbage collection: REQUEST and TRANSIENT create more GC pressure
+- Use DEFAULT when possible for best performance
+
+Q: What are the memory implications of different scopes?
+
+A:
+- DEFAULT: Single instance, minimal memory usage
+- REQUEST: One instance per concurrent request, scales with load
+- TRANSIENT: New instance per injection, highest memory usage
+- Memory leaks: REQUEST scope can cause leaks if not properly cleaned up
+- Monitoring: Track memory usage with different scopes
+- Choose scope based on memory constraints and usage patterns
+
+Q: How do you handle circular dependencies with different scopes?
+
+A:
+- Use forwardRef(): Resolve circular dependencies at runtime
+- Module imports: Import modules in correct order
+- Provider order: Order providers to avoid circular references
+- Scope conflicts: Different scopes can complicate circular dependencies
+- Design: Avoid circular dependencies when possible
+- Testing: Mock dependencies to break circular references
+
+Q: Can you change the scope of a provider at runtime?
+
+A:
+- No: Scopes are defined at provider registration time
+- Static: Scopes are determined when the module is loaded
+- Workaround: Create multiple providers with different scopes
+- Dynamic providers: Use factory providers for dynamic behavior
+- Configuration: Use environment variables to choose provider implementations
+- Best practice: Design with appropriate scope from the beginning

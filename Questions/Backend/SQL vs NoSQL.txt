@@ -4,3 +4,47 @@ SQL: Relational, structured schema, ACID compliance, good for complex queries. (
 
     NoSQL: Non-relational, flexible schema, horizontally scalable, BASE (eventually consistent). (e.g., MongoDB, Cassandra)
     Use SQL for transactions, NoSQL for scalability/unstructured data.
+
+---
+
+Additional Questions:
+
+Q: What are the performance implications of PostgreSQL's MVCC vs MySQL's locking?
+
+A:
+- PostgreSQL MVCC: Readers never block writers, better concurrency, more storage overhead
+- MySQL locking: Readers can block writers, simpler implementation, less storage overhead
+- MVCC: Better for read-heavy workloads, higher storage usage due to versioning
+- Locking: Better for write-heavy workloads, potential for lock contention
+
+Q: How does JSONB in PostgreSQL compare to MySQL's JSON implementation?
+
+A:
+- PostgreSQL JSONB: Binary storage, indexed, supports operators, better performance
+- MySQL JSON: Text storage, functional indexes, limited operators, slower queries
+- JSONB: Better for complex queries, faster updates, more storage efficient
+- MySQL JSON: Simpler implementation, better for simple storage/retrieval
+
+Q: What are the replication differences between the two databases?
+
+A:
+- PostgreSQL: Streaming replication, logical replication, WAL-based
+- MySQL: Binary log replication, statement/row/mixed formats
+- PostgreSQL: More flexible replication options, better consistency
+- MySQL: Simpler setup, more mature tooling, better performance
+
+Q: How do you handle full-text search in PostgreSQL vs MySQL?
+
+A:
+- PostgreSQL: Built-in full-text search, GIN/GiST indexes, ranking, stemming
+- MySQL: Full-text indexes, MATCH/AGAINST syntax, limited features
+- PostgreSQL: More powerful, better performance, more features
+- MySQL: Simpler to use, good for basic search needs
+
+Q: What are the licensing differences and their implications?
+
+A:
+- PostgreSQL: Open source (PostgreSQL License), no restrictions
+- MySQL: Dual licensing (GPL + Commercial), requires commercial license for proprietary use
+- PostgreSQL: No licensing costs, complete freedom
+- MySQL: Potential licensing costs, more restrictive for commercial use

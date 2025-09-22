@@ -7,3 +7,45 @@ How do you secure a web application?
     CSRF & CORS protections.
     Secure storage of secrets → Environment variables, vaults.
     👉 Security is layered defense (defense-in-depth).
+
+---
+
+Additional Questions:
+
+Q: What are the common security vulnerabilities in web applications?
+
+A:
+- OWASP Top 10: Injection, broken authentication, sensitive data exposure
+- Cross-Site Scripting (XSS): Stored, reflected, DOM-based XSS
+- SQL Injection: Parameterized queries, input validation
+- Cross-Site Request Forgery (CSRF): CSRF tokens, SameSite cookies
+- Insecure Direct Object References: Authorization checks, indirect references
+- Security Misconfiguration: Default credentials, unnecessary features
+- Sensitive Data Exposure: Encryption at rest and in transit
+- Insufficient Logging: Security event monitoring, audit trails
+
+---
+
+Additional Questions:
+
+Q: How do you implement authentication and authorization in web applications?
+
+A:
+- Authentication: Verify user identity (login, JWT, OAuth)
+- Authorization: Control access to resources (RBAC, ABAC)
+- JWT tokens: Stateless authentication with signed tokens
+- OAuth 2.0: Third-party authentication (Google, Facebook)
+- Session management: Secure session handling and storage
+- Multi-factor authentication: Additional security layer
+- Password policies: Strong passwords, hashing (bcrypt, Argon2)
+
+Q: How do you handle sensitive data in applications?
+
+A:
+- Encryption: Encrypt data at rest and in transit
+- Hashing: Hash passwords and sensitive data (bcrypt, Argon2)
+- Key management: Secure storage and rotation of encryption keys
+- Data masking: Mask sensitive data in logs and responses
+- PCI DSS: Compliance for payment card data
+- GDPR: Data protection and privacy regulations
+- Secure storage: Use secure vaults for secrets and keys

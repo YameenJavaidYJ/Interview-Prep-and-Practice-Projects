@@ -1,0 +1,57 @@
+1. Vacuuming SQL
+
+Answer:
+
+SQL Vacuuming is a database maintenance operation that reclaims storage space and optimizes database performance by:
+
+-   Removing dead tuples (deleted/updated rows that are no longer visible)
+-   Updating table statistics for the query planner
+-   Compacting the database to reduce file size
+-   Freeing up space for reuse
+
+Types:
+
+-   VACUUM - Reclaims space but doesn't lock the table
+-   VACUUM FULL - Reclaims more space but locks the table
+-   VACUUM ANALYZE - Updates statistics for better query planning
+
+When to use:
+
+-   After heavy DELETE/UPDATE operations
+-   When database size grows unexpectedly
+-   Before performance-critical queries
+-   Regular maintenance schedules
+
+---
+
+Additional Questions:
+
+Q: What's the difference between VACUUM and VACUUM FULL in PostgreSQL?
+
+A: 
+- VACUUM: Non-blocking, reclaims space but doesn't lock table, can run concurrently with other operations
+- VACUUM FULL: Blocking operation, locks table, reclaims more space by rewriting entire table, requires exclusive lock
+- Use VACUUM for regular maintenance, VACUUM FULL only when significant space needs to be reclaimed
+
+Q: How does vacuuming affect database performance during execution?
+
+A:
+- VACUUM: Minimal impact, runs in background, may slightly increase I/O
+- VACUUM FULL: High impact, blocks all operations on table, can cause downtime
+- Performance impact depends on table size and system load
+- Schedule during low-traffic periods for VACUUM FULL
+
+Q: When would you schedule automatic vacuuming vs manual vacuuming?
+
+A:
+- Automatic: Default PostgreSQL behavior, runs based on table activity and dead tuple count
+- Manual: When you need immediate cleanup, after bulk operations, or when autovacuum is disabled
+- Configure autovacuum parameters (vacuum_cost_delay, vacuum_cost_limit) based on system requirements
+
+Q: How does vacuuming relate to MVCC (Multi-Version Concurrency Control)?
+
+A:
+- MVCC creates dead tuples when rows are updated/deleted (old versions remain until vacuumed)
+- Vacuuming removes these dead tuples to reclaim space
+- Without vacuuming, dead tuples accumulate causing table bloat and performance degradation
+- Vacuuming also updates visibility map and free space map for MVCC efficiency

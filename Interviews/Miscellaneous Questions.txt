@@ -1,0 +1,90 @@
+Miscellaneous Questions - Extracted from Scaylar Interview
+
+Context Questions:
+
+1. "What's the difference between VACUUM and VACUUM FULL in PostgreSQL?"
+2. "How does vacuuming affect database performance during execution?"
+4. "When would you schedule automatic vacuuming vs manual vacuuming?"
+5. "How does vacuuming relate to MVCC (Multi-Version Concurrency Control)?"
+
+---
+
+Context Questions:
+
+3. "What are the challenges of database sharding?"
+5. "What's the CAP theorem and how does it affect database scaling decisions?"
+
+---
+
+Context Questions:
+
+2. "How would you implement error reporting in an error boundary?"
+
+---
+
+Context Questions:
+
+1. "How do you identify boundaries between different contexts?"
+2. "What are the different types of relationships between bounded contexts?"
+3. "How does bounded context relate to microservices architecture?"
+4. "What's the difference between bounded context and subdomain?"
+5. "How do you handle data consistency across bounded contexts?"
+
+---
+
+Context Questions:
+
+1. "What are the performance implications of PostgreSQL's MVCC vs MySQL's locking?"
+2. "How does JSONB in PostgreSQL compare to MySQL's JSON implementation?"
+3. "What are the replication differences between the two databases?"
+4. "How do you handle full-text search in PostgreSQL vs MySQL?"
+5. "What are the licensing differences and their implications?"
+
+---
+
+Context Questions:
+
+2. "What's the difference between dependency injection and service locator pattern?"
+3. "How do you implement dependency injection in JavaScript without a framework?"
+
+---
+
+Additional Context Questions for Deep Dive:
+
+General Architecture:
+
+2. "What are the trade-offs between microservices and monolithic architecture?"
+3. "How do you handle data consistency in distributed systems?"
+4. "What are the key principles of clean architecture?"
+
+Performance & Optimization:
+
+1. "How do you measure and monitor application performance?"
+2. "What are the common performance bottlenecks in web applications?"
+3. "How do you implement caching strategies effectively?"
+4. "What are the best practices for database performance tuning?"
+
+Security & Best Practices:
+
+2. "What are the common security vulnerabilities in web applications?"
+
+---
+
+Context Questions:
+
+1. "How do you handle side effects in Redux while maintaining functional programming principles?"
+2. "What's the difference between Redux and other state management libraries in terms of FP principles?"
+3. "How do you implement immutable updates in Redux reducers?"
+4. "What are the benefits of using pure functions in Redux?"
+5. "How does Redux middleware follow functional programming principles?"
+
+---
+
+Context Questions:
+
+2. "How do you handle cache invalidation in a distributed system?"
+3. "What's the difference between master-slave and master-master replication?"
+4. "How do you ensure data consistency across multiple database replicas?"
+5. "When would you use database snapshots vs traditional backups?"
+6. "How do you implement read replicas for scaling database reads?"
+7. "What are the challenges of database replication in a microservices architecture?"
