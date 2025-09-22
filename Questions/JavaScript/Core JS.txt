@@ -505,3 +505,10 @@
     console.log(counter.increment()); // 1
     console.log(counter.getCount());  // 1
     // count is private and cannot be accessed directly
+
+28. How to use variable as key in object?
+
+    const name = "test";
+    const object = {[name]: "yameen"}
+
+    

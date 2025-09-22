@@ -1,0 +1,25 @@
+What is V8 Engine?
+
+How JS Works in Browser vs Node.js
+
+    Browser JavaScript:
+        -> Runs in V8 (Chrome) or other JS engines
+        -> Client-Side Execution: JavaScript runs on the client's machine, interacting with the user interface and the web page.
+        -> DOM Manipulation: It has direct access to the Document Object Model (DOM), allowing manipulation of HTML and CSS to create dynamic and interactive web pages.
+        -> Browser APIs: It leverages browser-specific APIs for tasks like:
+            DOM manipulation: document.getElementById(), element.addEventListener(), etc.
+            Network requests: fetch(), XMLHttpRequest.
+            User interaction: alert(), prompt(), confirm().
+            Storage: localStorage, sessionStorage.
+            Web Workers: For running scripts in the background.
+        -> Event loop handles UI events, network requests
+        -> Sandboxed environment for security
+    
+    Node.js JavaScript:
+        -> Runs on V8 engine outside browser
+        -> Server-Side Execution: JavaScript runs on the server, outside of a browser environment.
+        -> System Access: It provides APIs for interacting with the operating system and file system, enabling tasks like:
+            File I/O: fs module for reading and writing files.
+            Networking: http, https, net modules for creating web servers and network applications.
+            Process management: child_process module for spawning new processes.
+        -> Event loop handles I/O operations, timers
