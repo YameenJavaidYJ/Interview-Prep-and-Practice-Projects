@@ -1,0 +1,53 @@
+Timer Problem: Redis TTL Implementation
+
+-> Core Idea
+---------------------------
+  Lock the slot in Redis with a TTL (e.g., 30 minutes).
+  Create a temporary booking record in your DB with status = pending_payment.
+  If the user completes payment → confirm booking and remove Redis lock.
+  If TTL expires → release slot and discard pending booking.
+
+-> Option A: Redis TTL only
+---------------------------
+  const slotKey = `parking_slot:${slotId}`;
+  // Lock slot for 30 minutes
+  await redis.set(slotKey, userId, "NX", "EX", 1800);
+
+  // On successful payment
+  await redis.del(slotKey); // Unlock
+  updateDB(slotId, "booked");
+
+  ✅ Redis auto-expires key → slot unlocked.
+  ❌ DB booking still exists → needs cleanup.
+
+-> Option B: Background job / scheduler (Recommended)
+---------------------------
+  Create DB booking with status = pending_payment and timestamp.
+  Redis key with TTL locks the slot.
+
+  Use a cron job or worker:
+  SELECT * FROM bookings
+  WHERE status = 'pending_payment' AND createdAt < NOW() - 30min
+
+  Cancel these bookings → update DB and ensure Redis slot released.
+  ✅ Advantages: reliable, scalable, easy to maintain.
+
+-> Option C: Redis Keyspace Notifications
+---------------------------
+  Listen to Redis expiry events → trigger DB booking cancellation.
+  Immediate, but requires extra Redis setup.
+
+-> Full Flow
+---------------------------
+  1. User selects slot:
+     - Redis: lock slot with TTL 30min
+     - DB: create booking (status = pending_payment, timestamp)
+
+  2. User completes payment:
+     - Update DB booking = confirmed
+     - Remove Redis lock
+
+  3. TTL expires before payment:
+     - Cron job or Redis listener triggers:
+       - Update DB booking = expired
+       - Ensure Redis slot is unlocked

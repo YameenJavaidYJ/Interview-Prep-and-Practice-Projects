@@ -1,0 +1,31 @@
+**Question:** Third party API allows 2000 requests/day, but user needs more than 2000. Solution?
+
+**Answer:**
+
+**Problem:** API rate limit: 2000 requests/day, user needs >2000
+
+**Solution Architecture:**
+
+1. **Request Processing**
+   - we will be using a redis counter here that will count and reset daily
+   - Lambda function forwards queue requests to 3rd party API
+   - Ensures we stay within 2000/day limit
+
+2. **Queue System**
+   - SQS queue to buffer excess requests
+   - Store user requests that exceed daily limit
+
+3. **Error Handling**
+   - Failed requests → back to SQS for retry
+   - Ensures no request loss
+
+4. **Scheduled Processing**
+   - EventBridge triggers daily at midnight
+   - Processes queued requests when new daily quota available
+   - Checks queue → processes if not empty
+
+**Key Benefits:**
+- Respects API rate limits
+- No request loss
+- Scales beyond 2000 daily limit
+- Automatic queuing & processing

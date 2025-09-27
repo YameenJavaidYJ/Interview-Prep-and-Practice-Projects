@@ -1,0 +1,30 @@
+⚡ Optimization
+
+👉 Making the current system run more efficiently.
+
+Focus: Speed, efficiency, resource usage (CPU, memory, storage, etc.).
+
+Works on the here and now — improving how well your system performs with its current workload.
+
+Examples:
+
+Reducing algorithm time complexity (O(n²) → O(n log n)).
+
+Caching results to avoid redundant work.
+
+Minifying JS/CSS files for faster web delivery.
+
+Reusing database connections to reduce latency.
+
+📈 Scalability
+
+👉 The ability of a system to handle growth (more users, more data, more traffic) without breaking or slowing down.
+
+    Focus: Capacity and adaptability.
+    Works on the future — designing so the system can expand smoothly.
+
+Examples:
+    Adding more servers (horizontal scaling).
+    Using load balancers to distribute traffic.
+    Designing stateless APIs so they can scale out easily.
+    Choosing a database that can handle sharding/replication.

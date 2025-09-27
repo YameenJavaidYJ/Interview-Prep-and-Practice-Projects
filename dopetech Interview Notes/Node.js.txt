@@ -1,0 +1,204 @@
+Node.js Interview Questions & Answers
+
+-> What is Execution Context?
+---------------------------
+  Execution Context is an environment where JavaScript code is evaluated and executed.
+  - Contains variables, functions, scope chain, 'this' value
+  - Created in phases: Creation, Hoisting, Execution, Cleanup
+
+  ==> Types of Execution Contexts:
+  - Global Execution Context - Main context when script starts
+  - Function Execution Context - Created when function is called
+  - Eval Execution Context - Created when eval() is called
+
+  ==> Execution Context Phase:
+  1. Creation Phase: Memory allocation, variable/function declaration
+  2. Hoisting Phase: var variables set to undefined, functions created
+  3. Execution Phase: Code runs line by line, assignments happen
+  4. Cleanup Phase: Context removed when function completes
+
+  ==> Example:
+  function example() {
+    console.log(a); // undefined (hoisting)
+    var a = "hello";
+    console.log(a); // "hello"
+  }
+
+-> Event Loop & Queues
+---------------------------
+  Event Loop:
+  - Single-threaded mechanism that handles asynchronous operations
+  - Manages callbacks and I/O operations
+  - Runs continuously checking for events
+
+  Queues:
+
+  1. Call Stack:
+     - LIFO (Last In, First Out)
+     - Synchronous function calls
+
+  2. Microtask Queue (Higher Priority):
+     - Promise.then(), queueMicrotask()
+     - Processed after each call stack execution
+
+  3. Macrotask Queue (Lower Priority):
+     - setTimeout(), setInterval(), I/O operations
+     - Processed after microtasks are empty
+
+  Execution Order:
+  1. Call Stack
+  2. Microtask Queue
+  3. Macrotask Queue
+  4. Repeat
+
+-> What is the Event Loop? Explain Macro and Micro Queues
+---------------------------
+  Event Loop Process:
+  1. Execute all synchronous code (Call Stack)
+  2. Process ALL microtasks
+  3. Process ONE macrotask
+  4. Repeat
+
+  Example:
+  console.log('1'); // Call Stack
+
+  setTimeout(() => console.log('2'), 0); // Macrotask
+
+  Promise.resolve().then(() => console.log('3')); // Microtask
+
+  console.log('4'); // Call Stack
+
+  // Output: 1, 4, 3, 2
+
+  Microtask Queue:
+  - Promise.then/catch/finally
+  - queueMicrotask()
+  - process.nextTick() (highest priority)
+
+  Macrotask Queue:
+  - setTimeout/setInterval
+  - I/O operations
+  - setImmediate() (Node.js specific)
+
+-> What is a Callback?
+---------------------------
+  Callback:
+  - Function passed as argument to another function
+  - Executed after asynchronous operation completes
+
+  Types:
+
+  1. Synchronous Callback:
+  const numbers = [1, 2, 3];
+  numbers.forEach(num => console.log(num * 2));
+
+  2. Asynchronous Callback:
+  fs.readFile('file.txt', (err, data) => {
+    if (err) throw err;
+    console.log(data);
+  });
+
+  3. Promise-based (Avoiding Callback Hell):
+  fs.promises.readFile('file.txt')
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
+
+  Callback Hell Problem:
+  // Avoid this
+  getData(function(a) {
+    getMoreData(a, function(b) {
+      getEvenMoreData(b, function(c) {
+        // Nested callbacks
+      });
+    });
+  });
+
+  Solutions:
+  - Promises
+  - Async/Await
+  - Modular functions
+
+
+-> What happens when 1000 requests are sent to a Node Server?
+---------------------------
+  Without Clustering:
+  - Single event loop processes requests
+  - CPU-bound tasks block other requests
+  - Memory usage increases
+  - Potential memory leaks
+
+  With Clustering:
+
+  import { cluster } from 'cluster';
+
+  if (cluster.isMaster) {
+    for (let i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    }
+  } else {
+    // Worker process
+    app.listen(3000);
+  }
+
+  -> Theading (Worker Thread)
+
+  Load Balancing:
+  - Distribute requests across multiple instances
+  - Use PM2, Nginx, or cloud load balancers
+
+  Optimization Strategies:
+  - Connection pooling
+  - Caching
+  - Rate limiting
+  - Async processing
+
+-> How does Execution Context work with Event Loop?
+---------------------------
+  => Execution Context Lifecycle:
+  - Created when function enters call stack
+  - Contains all variables and functions in scope
+  - Controls 'this' value and lexical environment
+
+  => Relationship with Event Loop:
+  - Each synchronous context runs completely in call stack
+  - Async operations create new contexts when callbacks execute
+  - Context memories are maintained through closures
+
+  ==> Example:
+  setTimeout(function() {
+    // New execution context created when this callback runs
+    console.log(this); // 'this' changes based on strict mode
+  }, 1000);
+
+  function outer() {
+    var contextVar = 'preserved';
+    setTimeout(function() {
+      // Has access to contextVar through closure mechanism
+      console.log(contextVar);
+    }, 2000);
+  }
+
+-> What is Call Stack vs Execution Context?
+---------------------------
+  Call Stack is execution stack that tracks function calls.
+  Execution Context is the environment where code runs.
+
+  ==> Call Stack:
+  - LIFO structure tracking function calls
+  - Contains currently executing function
+  - Pushes on function call, pops on return
+
+  ==> Execution Context:
+  - Contains variables, 'this', scope chain
+  - Created for each function call
+  - Stored in heap memory, referenced by call stack
+
+  ==> Example:
+  function a() {
+    const x = 1; // New execution context created
+    function b() { 
+      console.log(x); // Access via scope chain
+    }
+    return b;
+  }
+  // When a() completes, its context stored until b() calls it

@@ -1,0 +1,63 @@
+⚡ Special Notes
+
+    typeof null === "object" → this is a historic bug in JS.
+    Functions: typeof function(){} === "function" (special case).
+    Arrays: Array.isArray([]) is the proper way to check (not typeof).
+    NaN is of type "number" 🤯.
+
+ Memory Management & Variable Types
+    Q: How does JavaScript handle memory and variable types?
+    A:
+    -> Primitives (string, number, boolean, etc.):
+        - passed by Value
+        - Immutable, stored directly in the stack
+        - Can't change the value itself, only reassign variable
+        - Copied by value (independent copies)
+    
+    -> Objects/arrays/functions:
+        - passed by Reference
+        - Mutable, stored in the heap
+        - Variable holds reference to heap location
+        - Multiple variables can point to same object
+        - Shared by reference (mutations visible across variables)
+    
+    -> let vs const: (declaration keywords)
+        - let: allows reassignment of variable
+        - const: prevents reassignment, but object contents can still mutate
+
+        -> Scope
+            var → function-scoped
+            let / const → block-scoped
+
+        -> Hoisting
+            var → hoisted and initialized as undefined
+            let / const → hoisted too, but live in the temporal dead zone until execution reaches their declaration
+
+        -> Redeclaration
+            var → can redeclare in the same scope
+            let / const → cannot redeclare in the same scope
+
+    -> The Temporal Dead Zone (TDZ) is the period of time between:
+        When a variable is hoisted to the top of its block scope, and
+        When it is actually initialized in the code.
+    
+    -> Garbage Collection:
+        - Old unreferenced values are automatically cleared
+        - Prevents memory leaks in long-running applications
+    
+    ```js
+    // Primitives - copied by value
+    let a = 5;
+    let b = a; // b gets copy of value
+    a = 10;    // a changes, b stays 5
+    
+    // Objects - shared by reference
+    let obj1 = { name: 'John' };
+    let obj2 = obj1; // obj2 points to same object
+    obj1.name = 'Jane'; // Both obj1 and obj2 see the change
+    
+    // const with objects
+    const arr = [1, 2, 3];
+    arr.push(4); // ✅ Allowed - mutating contents
+    // arr = [5, 6]; // ❌ Error - reassigning variable
+    ```

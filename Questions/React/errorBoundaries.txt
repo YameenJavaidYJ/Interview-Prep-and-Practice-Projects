@@ -1,50 +1,134 @@
-3. Error Boundary React JS
+ERROR BOUNDARIES - COMPREHENSIVE GUIDE
+--------
 
-Answer:
+WHAT ARE ERROR BOUNDARIES?
+--------
 
-Error Boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of crashing the entire app.
+React components that catch JavaScript errors in their child component tree,
+log those errors, and display a fallback UI instead of crashing the entire app.
 
-Key Points:
+-> KEY CHARACTERISTICS:
+    - Only work with class components (no functional equivalent yet)
+    - Catch errors during rendering, lifecycle methods, and constructors
+    - Cannot catch errors in event handlers, async code, or SSR
 
--   Only catch errors in child components, not in the error boundary itself
--   Only catch errors during rendering, lifecycle methods, and constructors
--   Don't catch errors in event handlers, async code, or during server-side rendering
+--------
 
-Implementation:
+MODERN IMPLEMENTATION (2024)
+--------
 
-class ErrorBoundary extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {hasError: false};
-    }
+-> IMPLEMENTATION OPTIONS:
+    1. Traditional Class Component Error Boundary
+    2. React Error Boundary Library (recommended)
+    3. Custom Error Boundary with advanced features
 
-    static getDerivedStateFromError(error) {
-        return {hasError: true};
-    }
+-> LIBRARY RECOMMENDATION:
+    - Use react-error-boundary package over custom implementations
+    - Provides hooks and components for modern React patterns
+    - Better TypeScript support and testing utilities
 
-    componentDidCatch(error, errorInfo) {
-        console.log("Error caught:", error, errorInfo);
-    }
+-> MONITORING INTEGRATION:
+    - Sentry: Real-time error tracking
+    - LogRocket: Session replay + error tracking  
+    - Bugsnag: Error monitoring with context
+    - Rollbar: Error aggregation and analysis
 
-    render() {
-        if (this.state.hasError) {
-            return <h1>Something went wrong.</h1>;
-        }
-        return this.props.children;
-    }
-}
+--------
 
----
+WHAT ERROR BOUNDARIES DON'T CATCH
+--------
 
-Additional Questions:
+❌ Event handlers (onClick, onSubmit, etc.)
+❌ Async code (setTimeout, promises, async/await)
+❌ Server-side rendering errors
+❌ Errors in the error boundary itself
+❌ Errors during event bubbling
 
-Q: How would you implement error reporting in an error boundary?
+--------
 
-A:
-- Use componentDidCatch to log errors to external services
-- Send error details to monitoring tools (Sentry, LogRocket, Bugsnag)
-- Include user context, component stack, and error boundary location
-- Implement retry mechanisms for transient errors
-- Add user-friendly error messages with recovery options
-- Example: Log to console, send to analytics, show fallback UI
+BEST PRACTICES (2024)
+--------
 
+-> 1. STRATEGIC PLACEMENT:
+    - Route-level boundaries for page sections
+    - Feature-level boundaries for specific features
+    - Third-party component boundaries
+    - Don't wrap every component - be strategic
+
+-> 2. MULTIPLE LEVELS:
+    - Implement boundaries at different component levels
+    - Allow graceful degradation
+    - Prevent single point of failure
+
+-> 3. RICH ERROR REPORTING:
+    - Include user context and app state
+    - Add error categorization
+    - Include stack traces and component hierarchy
+
+-> 4. USER-FRIENDLY FALLBACKS:
+    - Provide meaningful error messages
+    - Include recovery options (retry, refresh)
+    - Maintain app functionality where possible
+
+-> 5. TESTING:
+    - Write tests for error boundary behavior
+    - Test both error catching and fallback rendering
+    - Include integration tests
+
+--------
+
+COMMON USE CASES
+--------
+
+-> ROUTE-LEVEL BOUNDARIES:
+    - Catch errors in entire page sections
+    - Prevent entire app crashes
+    - Provide page-level error recovery
+
+-> FEATURE BOUNDARIES:
+    - Isolate failures in specific features
+    - Allow other features to continue working
+    - Provide feature-specific error handling
+
+-> THIRD-PARTY COMPONENT BOUNDARIES:
+    - Wrap external libraries
+    - Prevent third-party errors from crashing app
+    - Provide fallback for missing components
+
+-> FORM BOUNDARIES:
+    - Handle validation and submission errors
+    - Prevent form crashes from breaking UX
+    - Provide form-specific error recovery
+
+-> API INTEGRATION BOUNDARIES:
+    - Handle network and data errors
+    - Provide offline/error states
+    - Allow graceful API failure handling
+
+--------
+
+REACT 19+ INTEGRATION
+--------
+
+-> SUSPENSE INTEGRATION:
+    - Error boundaries work better with Suspense
+    - Improved error handling for async components
+    - Better integration with concurrent features
+
+-> FUTURE CONSIDERATIONS:
+    - Potential functional component error boundaries
+    - Better integration with React Server Components
+    - Enhanced error recovery mechanisms
+
+--------
+
+IMPLEMENTATION EXAMPLES
+--------
+
+See errorBoundaries_Code.ts for:
+    - Traditional class component error boundary
+    - Modern library implementation
+    - Multiple error boundary levels
+    - Recovery strategies
+    - Context-aware error boundaries
+    - Graceful degradation patterns

@@ -1,0 +1,13 @@
+Deep Copy vs Shallow Copy
+    Q: Difference between deep and shallow copy?
+    A:
+    -> Shallow Copy: Copies references, nested objects shared
+    -> Deep Copy: Complete independent copy
+    ```js
+    // Shallow
+    const shallow = {...obj}; // or Object.assign({}, obj)
+    
+    // Deep
+    const deep = JSON.parse(JSON.stringify(obj)); // limited
+    const deep = structuredClone(obj); // modern browsers
+    ```

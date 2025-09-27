@@ -1,0 +1,32 @@
+JavaScript Threading - Interview Guide
+--------
+
+-> Core Question
+Q: Does JavaScript have threads?
+
+-> Answer
+JavaScript is single-threaded but uses:
+
+    -> Web Workers (Browser)
+        - True parallelism for CPU-intensive tasks
+        - Run in separate threads
+        - Communicate via message passing
+        - Cannot access DOM directly
+
+    -> Worker Threads (Node.js)
+        - Similar concept to Web Workers
+        - Handle CPU-intensive operations
+        - Prevent blocking the main thread
+
+    -> Event Loop
+        - Handles async operations without blocking
+        - Single-threaded but non-blocking
+        - Uses callbacks, promises, and async/await
+
+--------
+
+-> Key Points
+    - Main thread: Single-threaded execution
+    - Background threads: Web APIs, Workers
+    - Non-blocking: Event loop prevents blocking
+    - Concurrency: Achieved through async patterns, not multi-threading

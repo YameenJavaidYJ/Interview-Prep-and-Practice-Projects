@@ -1,99 +1,118 @@
---------------------------------------------------------------------------------
+What is Browser API?
+--------
 
-1. What is Browser API?
+-> Question: What is browser API?
 
-Question: What is browser API?
-
-Answer:
+-> Answer:
 Browser APIs (Application Programming Interfaces) are built-in interfaces 
 provided by web browsers that allow JavaScript to interact with the browser 
 environment and perform various operations beyond core JavaScript functionality.
 
+--------
+
 Key Browser APIs:
+--------
 
-DOM API:
-   • Manipulates HTML elements and document structure
-   • Methods: getElementById(), querySelector(), createElement()
-   • Use Cases: Dynamic content updates, form handling, UI interactions
+-> DOM API:
+    - Manipulates HTML elements and document structure
+    - Methods: getElementById(), querySelector(), createElement()
+    - Use Cases: Dynamic content updates, form handling, UI interactions
 
-   -> document.getElementById
-   -> document.querySelector
-   -> document.createElement
-   
+    -> document.getElementById
+    -> document.querySelector
+    -> document.createElement
 
-Fetch API:
-   • Makes HTTP requests to servers
-   • Modern replacement for XMLHttpRequest
-   • Returns Promises for asynchronous operations
-   • Supports all HTTP methods: GET, POST, PUT, DELETE, PATCH
-   • Use Cases: API integration, CRUD operations, server communication
+--------
 
-   -> GET: fetch("https://api.example.com/data")
-   -> POST: fetch(url, {method: "POST", body: JSON.stringify(data)})
-   -> PUT: fetch(url, {method: "PUT", body: JSON.stringify(data)})
-   -> DELETE: fetch(url, {method: "DELETE"})
-   -> PATCH: fetch(url, {method: "PATCH", body: JSON.stringify(data)})
+-> Fetch API:
+    - Makes HTTP requests to servers
+    - Modern replacement for XMLHttpRequest
+    - Returns Promises for asynchronous operations
+    - Supports all HTTP methods: GET, POST, PUT, DELETE, PATCH
+    - Use Cases: API integration, CRUD operations, server communication
 
-Web Storage API:
-   • localStorage - persistent storage across browser sessions
-   • sessionStorage - temporary storage for current session
-   • indexedDB - client-side database for large amounts of data
-   • Use Cases: User preferences, offline data, caching
+    -> GET: fetch("https://api.example.com/data")
+    -> POST: fetch(url, {method: "POST", body: JSON.stringify(data)})
+    -> PUT: fetch(url, {method: "PUT", body: JSON.stringify(data)})
+    -> DELETE: fetch(url, {method: "DELETE"})
+    -> PATCH: fetch(url, {method: "PATCH", body: JSON.stringify(data)})
 
-   -> localStorage.setItem("userPrefs", JSON.stringify(userPreferences));
-   -> localStorage.getItem("userPrefs")
-   -> localStorage.removeItem("userPrefs")
-   -> sessionStorage.setItem("currentPage", "dashboard")
-   -> sessionStorage.getItem("currentPage")
-   -> sessionStorage.clear()
-   -> indexedDB.open("MyDatabase", 1)
-   
-Geolocation API:
-   • Access user's geographical location
-   • navigator.geolocation.getCurrentPosition()
-   • Use Cases: Location-based services, maps, weather apps
+--------
 
-   -> navigator.geolocation.getCurrentPosition()
-   -> navigator.geolocation.watchPosition()
-   -> navigator.geolocation.clearWatch()
+-> Web Storage API:
+    - localStorage - persistent storage across browser sessions
+    - sessionStorage - temporary storage for current session
+    - indexedDB - client-side database for large amounts of data
+    - Use Cases: User preferences, offline data, caching
 
-Canvas API:
-   • Draw 2D graphics and animations
-   • Pixel manipulation and image processing
-   • Use Cases: Games, data visualization, image editing
+    -> localStorage.setItem("userPrefs", JSON.stringify(userPreferences));
+    -> localStorage.getItem("userPrefs")
+    -> localStorage.removeItem("userPrefs")
+    -> sessionStorage.setItem("currentPage", "dashboard")
+    -> sessionStorage.getItem("currentPage")
+    -> sessionStorage.clear()
+    -> indexedDB.open("MyDatabase", 1)
 
-Web Workers API:
-   • Run JavaScript in background threads
-   • Prevents blocking the main UI thread
-   • Use Cases: Heavy computations, data processing
+--------
 
-   -> new Worker("worker.js")
-   -> worker.postMessage("Hello from main thread")
-   -> worker.onmessage = (event) => {console.log(event.data)}
-   -> worker.terminate()
+-> Geolocation API:
+    - Access user's geographical location
+    - navigator.geolocation.getCurrentPosition()
+    - Use Cases: Location-based services, maps, weather apps
 
-WebRTC API:
-   • Real-time communication (video, audio, data)
-   • Peer-to-peer connections
-   • Use Cases: Video calls, file sharing, live streaming
+    -> navigator.geolocation.getCurrentPosition()
+    -> navigator.geolocation.watchPosition()
+    -> navigator.geolocation.clearWatch()
 
-   -> new RTCPeerConnection()
-   -> peerConnection.createOffer()
-   -> peerConnection.createAnswer()
-   -> peerConnection.setLocalDescription()
-   -> peerConnection.setRemoteDescription()
-   -> peerConnection.close()
+--------
 
-Service Worker API:
-   • Background scripts for offline functionality
-   • Push notifications and caching
-   • Use Cases: Offline apps, background sync, notifications
+-> Canvas API:
+    - Draw 2D graphics and animations
+    - Pixel manipulation and image processing
+    - Use Cases: Games, data visualization, image editing
 
-Additional APIs:
-   • Notification API - Browser notifications
-   • History API - Browser history manipulation
-   • Intersection Observer API - Element visibility detection
-   • Drag and Drop API - File and element dragging
-   • Web Speech API - Speech recognition and synthesis
+--------
+
+-> Web Workers API:
+    - Run JavaScript in background threads
+    - Prevents blocking the main UI thread
+    - Use Cases: Heavy computations, data processing
+
+    -> new Worker("worker.js")
+    -> worker.postMessage("Hello from main thread")
+    -> worker.onmessage = (event) => {console.log(event.data)}
+    -> worker.terminate()
+
+--------
+
+-> WebRTC API:
+    - Real-time communication (video, audio, data)
+    - Peer-to-peer connections
+    - Use Cases: Video calls, file sharing, live streaming
+
+    -> new RTCPeerConnection()
+    -> peerConnection.createOffer()
+    -> peerConnection.createAnswer()
+    -> peerConnection.setLocalDescription()
+    -> peerConnection.setRemoteDescription()
+    -> peerConnection.close()
+
+--------
+
+-> Service Worker API:
+    - Background scripts for offline functionality
+    - Push notifications and caching
+    - Use Cases: Offline apps, background sync, notifications
+
+--------
+
+-> Additional APIs:
+    - Notification API - Browser notifications
+    - History API - Browser history manipulation
+    - Intersection Observer API - Element visibility detection
+    - Drag and Drop API - File and element dragging
+    - Web Speech API - Speech recognition and synthesis
+
+--------
 
 Code examples available in: browserApi_Code.ts

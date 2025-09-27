@@ -1,0 +1,116 @@
+React Interview Questions & Answers
+
+-> SSR vs SSG vs ISR vs CSR
+---------------------------
+  => SSR (Server-Side Rendering):
+  - HTML generated on server for each request
+  - Good for dynamic content, SEO
+  - Higher server load, slower TTFB
+
+  The server runs your code (usually React/Vue/etc. + server logic).
+  It executes the JavaScript on the server, not in the browser.
+  The server outputs a complete HTML document (with real content inside), which is sent 
+    to the browser.
+  Then the client-side JavaScript "hydrates" the HTML (attaches event listeners, makes 
+    it interactive).
+
+  ==> Example Usage:
+  - E-commerce product pages with dynamic pricing/stock
+  - Dashboard applications with personalized content
+  - Blog posts that need real-time comments/social features
+
+  => SSG (Static Site Generation):
+  - HTML pre-built at build time
+  - Fastest loading, great for static content
+  - Limited dynamic capabilities
+
+  At build time (e.g., when you deploy), the server runs your JS once, generates plain .html files, and saves them.
+
+  At runtime (when a user visits), the server just serves that prebuilt HTML file instantly—no computation needed.
+
+  Client-side JS still exists to hydrate and add interactivity, but the HTML itself is already sitting on disk.
+
+  HTML exists ahead of time.
+
+  Browser & crawlers immediately get HTML (great SEO).
+  But content is only as "fresh" as your last build (limited for dynamic data unless you add techniques like ISR or client-side fetching).
+
+  ==> Example Usage:
+  - Marketing websites, portfolios, documentation sites
+  - Landing pages with static content and fixed information
+  - Blog with pre-written articles published at deployment
+
+  => ISR (Incremental Static Regeneration):
+  - Combines SSG + on-demand revalidation
+  - Best of both worlds - fast + dynamic
+  - Revalidates pages when needed
+
+  ==> Example Usage:
+  - News websites with frequently updated articles
+  - Product catalogs with changing inventory
+  - Social media feeds that update content periodically
+
+  => CSR (Client-Side Rendering):
+  - HTML generated in browser
+  - Fast navigation, poor SEO
+  - Requires JavaScript to be enabled
+
+  ==> Example Usage:
+  - Single-page applications (SPAs) like admin dashboards
+  - Web apps requiring real-time interactions
+  - Complex user interfaces with heavy client-side logic
+
+-> How many DOMs does React have?
+---------------------------
+  React has two DOMs:
+  1. Real DOM - Browser's actual DOM
+  2. Virtual DOM - JavaScript representation of Real DOM
+
+  React uses Virtual DOM for efficient updates and reconciliation.
+
+-> How does React know which element to re-render?
+---------------------------
+  React uses:
+  - Keys - Unique identifiers to track elements
+  - Reconciliation algorithm - Compares Virtual DOM trees
+  - Diffing algorithm - Finds minimum changes needed
+
+-> Go-tos to cut render work
+---------------------------
+  React.memo():
+  const MyComponent = React.memo(({ name }) => <div>{name}</div>);
+
+  useMemo():
+  const expensiveValue = useMemo(() => heavyCalculation(), [dependency]);
+
+  useCallback():
+  const memoizedCallback = useCallback(() => doSomething(), [dependency]);
+
+  Proper keying:
+  {items.map(item => <Item key={item.id} />)}
+
+-> What are HOCs (Higher-Order Components)?
+---------------------------
+  HOCs are functions that take a component and return a new component with added functionality.
+
+  const withAuth = (WrappedComponent) => {
+    return (props) => {
+      if (isAuthenticated) {
+        return <WrappedComponent {...props} />;
+      }
+      return <LoginPage />;
+    };
+  };
+
+-> What are Custom Hooks?
+---------------------------
+  Custom hooks are functions that start with "use" and can call other hooks to share logic between components.
+
+  const useCounter = (initialValue = 0) => {
+    const [count, setCount] = useState(initialValue);
+    
+    const increment = () => setCount(count + 1);
+    const decrement = () => setCount(count - 1);
+    
+    return { count, increment, decrement };
+  };

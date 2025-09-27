@@ -1,58 +1,262 @@
-Closures vs Currying
+Closures and Currying - Interview Guide
+--------
 
-* What is a closure? 
-* What is currying? 
-How are they different? Give examples. 
-* When would you use currying?
+1. CLOSURES
+--------
 
-• Closure: a function + lexical environment of captured variables. 
-Even after outer function returns, inner function still has access to those variables. Example: a counter factory. 
+-> What is a Closure?
+A closure is a function that has access to variables in its lexical scope even after the outer function has returned. It "closes over" the variables from its surrounding environment.
 
-------------------------------------
+Key Points:
+    - Function + Lexical Environment of captured variables
+    - Variables remain accessible even after outer function returns
+    - Essential for data privacy and module patterns
 
-    function createCounter() {
+-> Lexical Scope
+    - Scope determined by where the variable is written in source code
+    - Fixed at lexing time (when code is parsed)
+    - Function remembers variables from when it was defined, not where it's called
+
+-> Closure Example - Counter Factory
+```javascript
+function createCounter() {
     let count = 0; // private variable
 
     return function() {
         count++; 
         return count;
     };
-    }
+}
 
-    const counter1 = createCounter();
-    console.log(counter1()); // 1
-    console.log(counter1()); // 2
-    console.log(counter1()); // 3
+const counter1 = createCounter();
+console.log(counter1()); // 1
+console.log(counter1()); // 2
+console.log(counter1()); // 3
 
-    const counter2 = createCounter();
-    console.log(counter2()); // 1 (independent counter)
+const counter2 = createCounter();
+console.log(counter2()); // 1 (independent counter)
+```
 
--------------------------------------
+-> Closure Use Cases
+    - Module pattern (data privacy)
+    - Event handlers with state
+    - Currying and partial application
+    - Memoization
 
-• Currying: transforming a function that takes N arguments into a sequence of functions each taking one argument; 
-i.e. f(a,b,c) → f(a)(b)(c). Currying normally uses closures. 
+--------
 
--------------------------------------
+2. CURRYING
+--------
 
-    // Normal function
-    function add(a, b, c) {
+-> What is Currying?
+Transforming a function that takes multiple arguments into a sequence of functions, each taking one argument.
+
+Transformation: f(a,b,c) → f(a)(b)(c)
+
+-> Currying Example
+```javascript
+// Normal function
+function add(a, b, c) {
     return a + b + c;
-    }
-    console.log(add(1, 2, 3)); // 6
+}
+console.log(add(1, 2, 3)); // 6
 
-    // Curried version
-    function curriedAdd(a) {
+// Curried version
+function curriedAdd(a) {
     return function(b) {
         return function(c) {
-        return a + b + c;  // closure keeps 'a' and 'b'
+            return a + b + c;  // closure keeps 'a' and 'b'
         };
     };
+}
+
+console.log(curriedAdd(1)(2)(3)); // 6
+
+// Partial application
+const add5 = curriedAdd(5);
+console.log(add5(2)(3)); // 10
+```
+
+-> When to Use Currying?
+    - Partial Application: Pre-fill some arguments
+    - Functional Composition: Chain operations
+    - Reusability: Create specialized functions
+    - Pipeline Operations: Data transformation chains
+
+-> Key Difference
+    - Closure: About scope and variable access
+    - Currying: About function structure and argument handling
+    - Note: Currying typically uses closures internally
+
+--------
+
+3. ARROW FUNCTIONS vs REGULAR FUNCTIONS
+--------
+
+-> Arrow Functions
+```javascript
+const arrow = (a, b) => a + b;
+```
+
+Characteristics:
+    - No own this - lexically inherited from surrounding scope
+    - No arguments object
+    - Cannot be constructors (no new keyword)
+    - Cannot be hoisted
+    - Implicit return for single expressions
+    - Shorter syntax
+
+-> Regular Functions
+```javascript
+function regular(a, b) {
+    return a + b;
+}
+```
+
+Characteristics:
+    - Own this context
+    - Has arguments object
+    - Can be constructors
+    - Function declarations are hoisted
+    - Explicit return required
+
+-> The arguments Object
+    - Array-like object (not real array) available in regular functions
+    - Contains all passed arguments regardless of declared parameters
+    - Not available in arrow functions
+
+--------
+
+4. THE this KEYWORD
+--------
+
+-> What is this?
+A special keyword referring to the execution context - the environment where code is executed.
+
+-> this Binding Rules
+
+    -> 1. Global Scope
+```javascript
+console.log(this); // window (browser) or global/undefined (Node)
+```
+
+    -> 2. Object Method
+        ```javascript
+        const obj = {
+            name: 'John',
+            greet() {
+                console.log(this.name); // 'John' - this = obj
+            }
+        };
+        obj.greet();
+        ```
+
+    -> 3. Standalone Function
+        ```javascript
+        function standalone() {
+            console.log(this); // window (non-strict) or undefined (strict)
+        }
+        standalone();
+        ```
+
+    -> 4. Event Listener
+        ```javascript
+        button.addEventListener('click', function() {
+            console.log(this); // button element
+        });
+        ```
+
+    -> 5. Arrow Function
+        ```javascript
+        const obj = {
+            name: 'John',
+            greet: () => {
+                console.log(this); // lexically inherited from surrounding scope
+            }
+        };
+        ```
+
+-> Class Methods - this Binding Issue
+
+    -> Regular Methods (Problem)
+```javascript
+class User {
+    constructor(name) {
+        this.name = name;
     }
+    
+    greet() {
+        console.log(`Hi, I am ${this.name}`);
+    }
+}
 
-    console.log(curriedAdd(1)(2)(3));
+const u = new User("Alice");
+u.greet(); // ✅ "Hi, I am Alice"
 
-------------------------------------
+// Problem when extracted:
+const fn = u.greet;
+fn(); // ❌ "Hi, I am undefined" (this is lost)
+```
 
+    -> Arrow Function Methods (Solution)
+        ```javascript
+        class User {
+            constructor(name) {
+                this.name = name;
+            }
+            
+            greet = () => {
+                console.log(`Hi, I am ${this.name}`);
+            }
+        }
 
-• Differences: currying is a structure/technique for arguments, closure is about scope and capturing context.
-• Use cases: partial application, functional composition, pipelines, etc.
+        const u = new User("Alice");
+        const fn = u.greet;
+        fn(); // ✅ "Hi, I am Alice" (this is lexically bound)
+        ```
+
+    -> Manual Binding (Alternative Solution)
+        ```javascript
+        class User {
+            constructor(name) {
+                this.name = name;
+                this.greet = this.greet.bind(this); // manual binding
+            }
+            
+            greet() {
+                console.log(`Hi, I am ${this.name}`);
+            }
+        }
+        ```
+
+--------
+
+5. INTERVIEW KEY POINTS
+--------
+
+-> Common Questions
+    1. "Explain closures in JavaScript"
+        - Function + lexical environment
+        - Variables remain accessible after outer function returns
+        - Use cases: privacy, state management, currying
+
+    2. "What's the difference between closures and currying?"
+        - Closure: scope and variable access mechanism
+        - Currying: function transformation technique
+        - Currying often uses closures
+
+    3. "Why do arrow functions not have their own this?"
+        - Lexical binding - inherits from surrounding scope
+        - Prevents common this binding issues
+        - Useful in event handlers and class methods
+
+    4. "When would you use currying?"
+        - Partial application
+        - Functional composition
+        - Creating reusable, specialized functions
+
+-> Key Takeaways
+    - Closures: Essential for data privacy and state management
+    - Currying: Powerful for functional programming patterns
+    - Arrow vs Regular: Choose based on this binding needs
+    - this: Understanding binding rules is crucial for React and general JS development

@@ -1,0 +1,32 @@
+Authentication
+    Q: How to implement auth in React?
+    A:
+    ```js
+    // Context for auth state
+    const AuthContext = createContext();
+    
+    // Protected routes
+    const ProtectedRoute = ({ children }) => {
+        const { user } = useContext(AuthContext);
+        return user ? children : <Navigate to="/login" />;
+    };
+    
+    // Token storage
+    localStorage.setItem('token', token);
+    // or httpOnly cookies for security
+    ```
+
+    Authorization
+    Q: Role-based access control?
+    A:
+    ```js
+    const RoleGuard = ({ roles, children }) => {
+        const { user } = useContext(AuthContext);
+        return roles.includes(user.role) ? children : <Unauthorized />;
+    };
+    
+    // Usage
+    <RoleGuard roles={['admin', 'editor']}>
+        <AdminPanel />
+    </RoleGuard>
+    ```

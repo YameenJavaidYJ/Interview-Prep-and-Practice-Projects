@@ -1,0 +1,15 @@
+DevOps
+
+A culture + set of practices that aims to bring development and operations closer together.
+
+Focuses on automation, CI/CD pipelines, monitoring, faster releases, and collaboration between dev and ops teams.
+
+Example: Setting up GitHub Actions for automated deployments, or adding monitoring tools like Sentry/New Relic.
+
+Infrastructure (Infra)
+
+The actual foundation your applications run on: servers, networks, cloud services, storage, databases, scaling architecture.
+
+Focuses on designing, building, and maintaining systems so applications are reliable, secure, and scalable.
+
+Example: Choosing between AWS ECS vs Kubernetes, setting up load balancers, or optimizing database clusters.

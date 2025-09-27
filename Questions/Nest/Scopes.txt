@@ -18,6 +18,7 @@ NestJS Scopes determine the lifetime of provider instances:
     - Useful for request-specific data
 
 3. TRANSIENT:
+
     - New instance created every time it's injected
     - Not shared between consumers
     - Useful for stateless services

@@ -1,0 +1,144 @@
+Miscellaneous Questions - Extracted from Scaylar Interview
+
+Context Questions:
+
+1. "What's the difference between VACUUM and VACUUM FULL in PostgreSQL?"
+2. "How does vacuuming affect database performance during execution?"
+4. "When would you schedule automatic vacuuming vs manual vacuuming?"
+5. "How does vacuuming relate to MVCC (Multi-Version Concurrency Control)?"
+
+3. "What are the challenges of database sharding?"
+5. "What's the CAP theorem and how does it affect database scaling decisions?"
+
+2. "How would you implement error reporting in an error boundary?"
+
+1. "How do you identify boundaries between different contexts?"
+2. "What are the different types of relationships between bounded contexts?"
+3. "How does bounded context relate to microservices architecture?"
+4. "What's the difference between bounded context and subdomain?"
+5. "How do you handle data consistency across bounded contexts?"
+
+1. "What are the performance implications of PostgreSQL's MVCC vs MySQL's locking?"
+2. "How does JSONB in PostgreSQL compare to MySQL's JSON implementation?"
+3. "What are the replication differences between the two databases?"
+4. "How do you handle full-text search in PostgreSQL vs MySQL?"
+5. "What are the licensing differences and their implications?"
+
+2. "What's the difference between dependency injection and service locator pattern?"
+3. "How do you implement dependency injection in JavaScript without a framework?"
+
+2. "What are the trade-offs between microservices and monolithic architecture?"
+3. "How do you handle data consistency in distributed systems?"
+4. "What are the key principles of clean architecture?"
+
+1. "How do you measure and monitor application performance?"
+2. "What are the common performance bottlenecks in web applications?"
+3. "How do you implement caching strategies effectively?"
+4. "What are the best practices for database performance tuning?"
+
+2. "What are the common security vulnerabilities in web applications?"
+
+1. "How do you handle side effects in Redux while maintaining functional programming principles?"
+2. "What's the difference between Redux and other state management libraries in terms of FP principles?"
+3. "How do you implement immutable updates in Redux reducers?"
+4. "What are the benefits of using pure functions in Redux?"
+5. "How does Redux middleware follow functional programming principles?"
+
+2. "How do you handle cache invalidation in a distributed system?"
+3. "What's the difference between master-slave and master-master replication?"
+4. "How do you ensure data consistency across multiple database replicas?"
+5. "When would you use database snapshots vs traditional backups?"
+6. "How do you implement read replicas for scaling database reads?"
+7. "What are the challenges of database replication in a microservices architecture?"
+
+
+Scaylar Interview Questions - Comprehensive Answers & Context Questions
+
+Context Questions:
+
+3. "What are dead tuples and how do they accumulate?"
+
+Answer:
+Dead tuples are old versions of rows that are no longer visible to any transaction due to PostgreSQL's MVCC (Multi-Version Concurrency Control) system. They accumulate when:
+- Rows are updated (old version becomes dead tuple)
+- Rows are deleted (entire row becomes dead tuple)
+- Transactions that created these versions complete
+
+Dead tuples take up space but are not immediately removed. They are cleaned up by the VACUUM process, which can be automatic or manual.
+
+---
+
+Context Questions:
+
+1. "What types of errors can error boundaries catch vs what they can't?"
+
+Answer:
+Error boundaries CAN catch:
+- Errors during rendering
+- Errors in lifecycle methods
+- Errors in constructors of class components
+- Errors in the whole tree below them
+
+Error boundaries CANNOT catch:
+- Errors inside event handlers
+- Errors in asynchronous code (setTimeout, promises)
+- Errors during server-side rendering
+- Errors thrown in the error boundary itself
+
+---
+
+Context Questions:
+
+1. "How do you test error boundaries?"
+
+Answer:
+- Use React Testing Library or Enzyme
+- Simulate errors by throwing exceptions in child components
+- Test both error state and recovery scenarios
+- Mock console.error to avoid noise in tests
+- Test error reporting integration
+- Verify fallback UI is rendered correctly
+
+---
+
+Context Questions:
+
+5. "When would you use multiple error boundaries in a single app?"
+
+Answer:
+- Different sections of the app (header, sidebar, main content)
+- Different feature areas (user profile, dashboard, settings)
+- Different levels of error handling (critical vs non-critical)
+- Different error recovery strategies
+- Isolate errors to prevent entire app crashes
+- Provide more specific error messages to users
+
+---
+
+Context Questions:
+
+1. "What are the best practices for API design and versioning?"
+
+Answer:
+- Use semantic versioning (v1, v2, v3)
+- Include version in URL path (/api/v1/users) or headers
+- Maintain backward compatibility when possible
+- Deprecate old versions with proper notice
+- Use consistent naming conventions
+- Document API changes and migration guides
+- Implement proper HTTP status codes
+- Use content negotiation for different formats
+
+---
+
+Context Questions:
+
+1. "What are the trade-offs between different caching strategies (Redis vs Memcached)?"
+
+Answer:
+- Redis: Rich data types, persistence, clustering, more memory usage
+- Memcached: Simple key-value, higher performance, less memory usage
+- Redis: Better for complex data structures, pub/sub, transactions
+- Memcached: Better for simple caching, higher throughput
+- Use Redis: When you need persistence, complex data types, clustering
+- Use Memcached: When you need maximum performance for simple caching

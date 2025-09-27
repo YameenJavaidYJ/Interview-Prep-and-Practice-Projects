@@ -1,0 +1,111 @@
+sport sport id and sport name
+score sport id player id and score 
+player player id and player name
+
+q1 -> player name , sport name -> if i get player id and sport id
+db.score.aggregate([
+  {
+    $lookup: {
+      from: "player",
+      localField: "player_id",
+      foreignField: "player_id",
+      as: "player_data"
+    }
+  },
+  {
+    $lookup: {
+      from: "sport", 
+      localField: "sport_id",
+      foreignField: "sport_id",
+      as: "sport_data"
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      player_name: { $arrayElemAt: ["$player_data.player_name", 0] },
+      sport_name: { $arrayElemAt: ["$sport_data.sport_name", 0] },
+      score: 1
+    }
+  }
+])
+
+score.aggregate
+  -> loohup player on id
+  -> lookup sport on id
+  -> project to get player name and score name
+
+--------------------------------
+First lookup: Join score → player collection using player_id to get player names
+Second lookup: Join score → sport collection using sport_id to get sport names
+Project: Extract clean player_name, sport_name, and score fields, hide _id
+--------------------------------
+
+q2 -> sport's max score
+db.score.aggregate([
+  {
+    $group: {
+      _id: "$sport_id",
+      max_score: { $max: "$score" }
+    }
+  }
+])
+
+score.aggregate 
+  group-> max score (max score)
+
+-----------------------------------
+Group by: Sport ID as the group key
+Max operator: Find highest score within each sport group
+Result: Returns sport_id and their corresponding maximum scores
+-----------------------------------
+
+q3 -> sport max score by each player
+db.score.aggregate([
+  {
+    $lookup: {
+      from: "sport",
+      localField: "sport_id",
+      foreignField: "sport_id",
+      as: "sport_info"
+    }
+  },
+  {
+    $lookup: {
+      from: "player", 
+      localField: "player_id",
+      foreignField: "player_id",
+      as: "player_info"
+    }
+  },
+  {
+    $group: {
+      _id: {
+        sport_name: { $arrayElemAt: ["$sport_info.sport_name", 0] },
+        player_name: { $arrayElemAt: ["$player_info.player_name", 0] }
+      },
+      max_score: { $max: "$score" }
+    }
+  },
+  {
+    $sort: { 
+      "_id.sport_name": 1, 
+      "max_score": -1 
+    }
+  }
+])
+
+score.aggregate
+  lookup on player
+  lookup on sport
+  group 
+    sport_name
+    player_name
+    max_score {max score}
+
+
+-----------------------------------
+Join collections: Score → Sport → Player to get names
+Group by: Both sport_name AND player_name to find player's best score per sport
+Sort output: Alphabetically by sport, then highest scores first
+-----------------------------------

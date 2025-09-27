@@ -1,0 +1,33 @@
+String to Number
+
+    Number("123");          // 123
+
+    parseInt("123");        // 123
+    parseInt("123px");      // 123 (stops at non-digit)
+    parseFloat("12.34");    // 12.34
+
+    +"123";   // 123
+
+    "123" * 1;   // 123
+    "12.34" - 0; // 12.34
+
+    Math.floor(), Math.ceil(), etc. (force coercion)
+
+    JSON.parse()
+
+Number to String
+    
+    String(123);   // "123"
+    String(12.34); // "12.34"
+
+    (123).toString();    // "123"
+    (12.34).toString();  // "12.34"
+
+    123 + "";    // "123"
+    12.34 + "";  // "12.34"
+
+    `${123}`;    // "123"
+    `${12.34}`;  // "12.34"
+
+    JSON.stringify(123);    // "123"
+    JSON.stringify(12.34);  // "12.34"

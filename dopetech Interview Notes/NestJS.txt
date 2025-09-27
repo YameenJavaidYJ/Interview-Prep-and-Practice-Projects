@@ -1,0 +1,199 @@
+NestJS Interview Questions & Answers
+
+-> Models, Services, Controllers, Validators (Architecture)
+---------------------------
+  Models:
+  - Define data structure and relationships
+  - Use TypeORM entities or plain classes
+
+  @Entity()
+  export class User {
+    @PrimaryGeneratedColumn()
+    id: number;
+    
+    @Column()
+    name: string;
+  }
+
+  Services:
+  - Business logic layer
+  - Injectable classes with @Injectable()
+
+  @Injectable()
+  export class UserService {
+    async findAll(): Promise<User[]> {
+      return this.userRepository.find();
+    }
+  }
+
+  Controllers:
+  - Handle HTTP requests
+  - Route handlers with decorators
+
+  @Controller('users')
+  export class UserController {
+    @Get()
+    findAll(): Promise<User[]> {
+      return this.userService.findAll();
+    }
+  }
+
+  Validators:
+  - Data validation using class-validator
+
+  export class CreateUserDto {
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+    
+    @IsEmail()
+    email: string;
+  }
+
+-> Why do we use NestJS?
+---------------------------
+  - Modular Architecture - Organized, scalable structure
+  - TypeScript Support - Type safety out of the box
+  - Dependency Injection 
+    -> Easy testing and modularity 
+    -> class or component does not create its own components instead injects 
+  - Decorators - Clean, readable code
+  - Built-in Features - Guards, Pipes, Interceptors
+  - Microservices Ready - Easy scaling to microservices
+
+-> JWT Auth with Guard + Custom Decorator
+---------------------------
+  JWT Strategy:
+
+  @Injectable()
+  export class JwtStrategy extends PassportStrategy(Strategy) {
+    constructor() {
+      super({
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: process.env.JWT_SECRET,
+      });
+    }
+    
+    async validate(payload: any) {
+      return { userId: payload.sub, username: payload.username };
+    }
+  }
+
+  Auth Guard:
+
+  @Injectable()
+  export class JwtAuthGuard extends AuthGuard('jwt') {}
+
+  Custom Decorator:
+
+  export const CurrentUser = createParamDecorator(
+    (data: unknown, ctx: ExecutionContext) => {
+      const request = ctx.switchToHttp().getRequest();
+      return request.user;
+    },
+  );
+
+  // Usage
+  @Get('profile')
+  @UseGuards(JwtAuthGuard)
+  getProfile(@CurrentUser() user: any) {
+    return user;
+  }
+
+-> Scheduled Jobs vs Queue Workers
+---------------------------
+  Cron Jobs (Scheduled):
+
+  @Injectable()
+  export class TasksService {
+    @Cron('45 * * * * *') // Every 45 seconds
+    handleCron() {
+      console.log('Cron job executed');
+    }
+  }
+
+  Queue Workers:
+
+  @Processor('email')
+  export class EmailProcessor {
+    @Process('send-welcome')
+    async handleWelcomeEmail(job: Job) {
+      // Process email
+    }
+  }
+
+  Use Cases:
+  - Cron: Time-based tasks (reports, cleanup)
+  - Queues: Asynchronous processing (emails, file uploads)
+
+-> Redis Caching with TTL & Invalidation
+---------------------------
+  Setup:
+
+  @Injectable()
+  export class CacheService {
+    constructor(
+      @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    ) {}
+    
+    async get(key: string) {
+      return this.cacheManager.get(key);
+    }
+    
+    async set(key: string, value: any, ttl = 300) {
+      await this.cacheManager.set(key, value, ttl);
+    }
+  }
+
+  Invalidation Strategies:
+  1. Time-based: Automatic expiration
+  2. Manual: cacheManager.del(key)
+  3. Pattern-based: Clear cache by pattern
+  4. Event-driven: Invalidate on data changes
+
+-> Rate Limiting in NestJS
+---------------------------
+  Global Rate Limiting:
+
+  // main.ts
+  app.use(rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+  }));
+
+  Controller-level:
+
+  @UseGuards(ThrottlerGuard)
+  @Throttle(10, 60) // 10 requests per 60 seconds
+  @Controller('api')
+  export class ApiController {}
+
+  Placement:
+  - Gateway level: API Gateway (Kong, AWS API Gateway)
+  - Application level: NestJS middleware/guards
+  - Reverse proxy: Nginx, Cloudflare
+
+-> What are Validators and DTOs?
+---------------------------
+  DTOs (Data Transfer Objects):
+  - Define data structure for API endpoints
+  - Type safety and documentation
+
+  Validators:
+  - Validate incoming data using decorators
+  - Built on class-validator
+
+  export class CreateUserDto {
+    @IsString()
+    @Length(2, 50)
+    name: string;
+    
+    @IsEmail()
+    email: string;
+    
+    @IsOptional()
+    @IsString()
+    phone?: string;
+  }
+
+

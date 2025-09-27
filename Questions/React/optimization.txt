@@ -1,0 +1,81 @@
+Performance Optimization Guide
+--------
+
+General Optimization Strategies
+--------
+
+-> Core Question
+Q: How to optimize code?
+
+-> Answer
+    - Algorithm optimization - Choose right data structures
+    - Reduce complexity - Avoid nested loops
+    - Memoization - Cache expensive computations
+    - Lazy loading - Load resources when needed
+    - Bundle optimization - Tree shaking, code splitting
+    - Image optimization - WebP, lazy loading
+    - Caching strategies - Browser cache, CDN
+    - Database optimization - Indexing, query optimization
+    - Memory management - Avoid memory leaks
+    - Debouncing/Throttling - Limit function calls
+
+--------
+
+React-Specific Optimizations
+--------
+
+-> Component-Level
+    - Component splitting - Smaller, focused components
+    - Prop drilling avoidance - Context API, state management
+    - Unnecessary re-renders - React DevTools Profiler
+    - Bundle analysis - webpack-bundle-analyzer
+
+--------
+
+React Performance Optimization
+--------
+
+-> Core Question
+Q: How to optimize React performance?
+
+-> Answer
+    - React.memo() - Prevent unnecessary re-renders
+    - useMemo() - Memoize expensive calculations
+    - useCallback() - Memoize functions
+    - Code splitting - React.lazy(), Suspense
+    - Virtual scrolling - For large lists
+    - Key props - Help React identify changes
+
+--------
+
+Advanced Techniques
+--------
+
+-> Virtual Scrolling
+    - Fetch on scroll - Load data as user scrolls
+    - Window technique - Only render visible items
+    - Performance benefit - Handle thousands of items
+
+-> Lazy Loading Example
+```javascript
+const LazyComponent = React.lazy(() => import('./HeavyComponent'));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LazyComponent />
+    </Suspense>
+  );
+}
+```
+
+-> Key Props Importance
+Q: What happens if we don't use key props?
+
+A: Without keys, React:
+    - Cannot efficiently identify which items changed
+    - Re-renders entire lists on updates
+    - Causes performance issues with large lists
+    - May cause state bugs with form inputs
+
+Best Practice: Use stable, unique keys (IDs, not array indices)

@@ -1,0 +1,69 @@
+Question 1: Minimum Meeting Rooms Required
+
+-> Problem Statement
+---------------------------
+You're given a day's schedule as a set of meeting time intervals. 
+Meetings that overlap in time require separate rooms. 
+Meetings that end at time t and another that starts at time t do not overlap 
+  (i.e., intervals are half-open: [start, end)).
+
+Task: 
+  Write a function that returns the minimum number of rooms required so that all meetings 
+  can be held without time conflicts.
+
+-> Input Constraints
+---------------------------
+  1 ≤ n ≤ 100,000
+  0 ≤ start < end ≤ 10^9
+  Intervals are not guaranteed to be sorted
+  Times are integers; treat intervals as [start, end)
+
+-> Output
+---------------------------
+  A single integer: the minimum number of rooms needed.
+
+-> Examples
+---------------------------
+  Input: [[0,30],[5,10],[15,20]] → Output: 2
+  Input: [[7,10],[2,4]] → Output: 1
+  Input: [[1,5],[2,6],[4,8]] → Output: 3
+
+
+Timeline Events (O(n log n))
+-----------------------------------------
+function minMeetingRoomsTimeline(intervals) {
+  if (!intervals || intervals.length === 0) return 0;
+  
+  const events = [];
+  
+  // Create events: +1 start, -1 end
+  for (const [start, end] of intervals) {
+      events.push([start, 1]);
+      events.push([end, -1]);
+  }
+  
+  // Sort: time first, then end events before start events
+  events.sort((a, b) => a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]);
+  
+  let concurrent = 0;
+  let maxRooms = 0;
+  
+  for (const [time, delta] of events) {
+      concurrent += delta;
+      maxRooms = Math.max(maxRooms, concurrent);
+  }
+  
+  return maxRooms;
+}
+
+-> Simple Algorithm Explanation
+---------------------------
+• For each meeting [start, end]:
+  -> +1 means meeting starts here
+  -> -1 means meeting ends here
+  - Create start event: [start, +1] 
+  - Create end event: [end, -1]
+• Sort all events by time
+• Track how many meetings are active at each moment
+• Answer: maximum concurrent meetings seen
+

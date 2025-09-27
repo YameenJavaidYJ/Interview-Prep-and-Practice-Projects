@@ -3,7 +3,8 @@
 
 Answer:
 
-Dependency Injection (DI) is a design pattern where dependencies are provided to a class rather than the class creating them itself.
+    Dependency Injection (DI) is a design pattern where dependencies are provided to a class 
+    rather than the class creating them itself.
 
 Benefits:
 

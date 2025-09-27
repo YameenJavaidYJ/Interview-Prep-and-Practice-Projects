@@ -1,0 +1,41 @@
+What is React?
+    Q: Explain React
+    A: 
+    -> Library for building UI components
+    -> Declarative - describe what UI should look like
+    -> Component-based - reusable, composable pieces
+    -> Virtual DOM - efficient updates
+    -> Unidirectional data flow
+
+
+Imperative Programming
+
+Definition: You tell the computer step by step how to do something.
+
+Focus: The process — exact instructions to change the UI state.
+
+Example (Vanilla JS DOM):
+
+// Goal: show a message in the DOM
+const div = document.createElement("div");
+div.textContent = "Hello World";
+document.body.appendChild(div);
+div.style.color = "blue";
+
+Declarative Programming
+
+Definition: You tell the computer what you want, and the framework figures out how to make it happen.
+
+Focus: The result — describe the final UI, not the steps.
+
+Example (React):
+
+function App() {
+  return <div style={{ color: "blue" }}>Hello World</div>;
+}
+
+🔹 Key Difference in UI
+
+Imperative = “Do this, then this, then this…” (manual DOM scripting).
+
+Declarative = “Here’s what the UI should look like given the state” (React computes the diff and updates efficiently).

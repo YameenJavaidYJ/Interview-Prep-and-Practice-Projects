@@ -1,0 +1,74 @@
+Next.js Interview Questions & Answers
+
+-> Server Actions and Revalidation
+---------------------------
+  Server Actions:
+  - Server-side functions that run on the server
+  - Can be called directly from client components
+  - Handle form submissions, mutations, etc.
+
+  app/actions.ts
+  'use server'
+  export async function createPost(formData: FormData) {
+    const title = formData.get('title')
+    // Database operation
+  }
+
+  Revalidation Methods:
+
+  1. revalidatePath() - Revalidate specific paths
+  revalidatePath('/posts')
+
+  2. revalidateTag() - Revalidate cached data by tag
+  revalidateTag('posts')
+
+  3. router.refresh() - Client-side refresh
+  router.refresh()
+
+  4. Time-based revalidation - Automatic revalidation
+  fetch(url, { next: { revalidate: 60 } }) // 60 seconds
+
+-> What are Server Actions and how do we revalidate data?
+---------------------------
+  Server Actions:
+  - Functions that execute on the server
+  - Can be invoked from client components
+  - Handle database mutations, API calls
+
+  Revalidation Strategies:
+
+  1. After Server Action:
+  'use server'
+  async function updatePost(id, data) {
+    await db.posts.update(id, data)
+    revalidatePath('/posts')
+  }
+
+  2. On-demand revalidation:
+  await fetch('/api/revalidate?path=/posts&secret=token')
+
+  3. Tag-based revalidation:
+  fetch(url, { next: { tags: ['posts'] } })
+  // Later: revalidateTag('posts')
+
+
+-> Can a client-side rendered (CSR) component have SSR?
+---------------------------
+  CSR component: Component that renders only on the client (browser), e.g., using React's useEffect for data fetching.
+  SSR requirement: Component must be able to render on the server first.
+
+  Answer: Not directly.
+  - If component relies on browser-only APIs (window, document, localStorage), it cannot be server-rendered
+  - Server environment doesn't have these browser APIs
+  - Can be adapted with conditional rendering or fallback content for server
+
+-> Can an SSR component become client-side rendered?
+---------------------------
+  SSR component: Pre-rendered on the server and sent to the client.
+
+  Hydration process: React "hydrates" the HTML into fully interactive components once it reaches the browser.
+
+  Answer: Yes.
+  - All SSR components become CSR on the client after hydration
+  - They start as SSR but behave like CSR afterward
+  - Hydration bridges static HTML with interactive JavaScript

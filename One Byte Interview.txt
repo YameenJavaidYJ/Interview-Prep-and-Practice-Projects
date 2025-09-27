@@ -1,0 +1,274 @@
+Parking Reservation System – Interview Problem Statement
+Context
+
+You are designing a parking reservation system where users can reserve parking slots near their destination. The system must support both mobile users and on-site kiosks at parking lots.
+
+Functional Requirements
+
+Find available parking
+
+A user provides a destination or desired lot and a time interval they want to park.
+
+The system should show available slots (or at least enough to let the user choose) within a 500-meter radius of the destination.
+
+If multiple slots are available, the system can show all or the top options based on distance or user preference.
+
+Showing all slots is optional; the key is to ensure the user can select a valid slot.
+
+Slot reservation
+
+User can hold a slot for 15 minutes for free without payment.
+
+User can also directly pay and confirm a reservation.
+
+Held slots must be temporarily locked from other users to avoid conflicts.
+
+Automatic release of held slots
+
+If the user does not complete payment or confirm usage within the 15-minute hold window, the slot should be released automatically and become available for others.
+
+Avoid slot booking overlaps
+
+No two reservations (hold or confirmed) should overlap for the same slot.
+
+Same vehicle / license plate can have multiple bookings, as long as they are at different times or different slots.
+
+Kiosk support
+
+A kiosk at the parking lot can display available slots for on-the-spot users.
+
+The kiosk can initiate holds, accept payments, and generate QR codes/tickets.
+
+Kiosk has a fixed location, so geospatial computation is simpler than for mobile users.
+
+Payment handling
+
+For paid reservations, integrate with a payment service.
+
+Handle success, failure, and delayed payments.
+
+If payment fails or is not completed within the hold window, the reservation should expire automatically.
+
+Non-Functional Requirements
+
+Scalability
+
+System should handle high read traffic (thousands of users querying availability concurrently).
+
+Should support high concurrency for booking attempts to the same slot without conflicts.
+
+Performance
+
+Searching for available slots (radius query) should return quickly, ideally <200 ms.
+
+Booking creation must be atomic to avoid overlaps.
+
+Consistency
+
+Slot availability and booking states must always be up-to-date and accurate.
+
+No overlapping active bookings for a slot should ever exist.
+
+Reliability
+
+System must handle network issues, payment failures, or client crashes without leaving slots in an invalid state.
+
+Extensibility
+
+Should allow future features like dynamic pricing, slot prioritization, or loyalty programs.
+
+Design Clarifications / Hints
+
+The system should support both mobile and kiosk clients.
+
+For mobile users, geospatial searches are necessary; for kiosk, the location is fixed, simplifying queries.
+
+Showing all slots to the user is optional; the main goal is to enable selection of a valid available slot.
+
+The system must prevent booking overlaps using database-level constraints or backend logic.
+
+Held slots are temporary — must implement expiry and cleanup.
+
+✅ Summary of Key Challenges
+
+Real-time availability and geospatial queries.
+
+Atomic booking / hold creation to prevent overlaps.
+
+Timer-based automatic release of free holds.
+
+Payment integration with eventual consistency.
+
+Handling multiple client types (mobile vs kiosk) with slightly different UX requirements.
+
+Scaling read-heavy queries (availability search) and write-heavy operations (booking) simultaneously.
+
+This statement frames the full scope of the interview-level problem without overloading with unnecessary "show all slots" complexity, but still allows you to discuss UX tradeoffs if asked.
+
+If you want, I can now draw a concise diagram showing mobile + kiosk + backend flow including holds, payments, and expiry — that's the kind of visual that impresses in interviews. It would make this problem statement extremely clear.
+
+--------------------
+
+Redis Interview Questions & Answers
+
+Why Use Redis?
+
+1. **Performance**
+   - In-memory storage provides sub-millisecond response times
+   - Much faster than disk-based databases for read operations
+   - Essential for real-time applications like parking slot availability
+
+2. **Caching**
+   - Reduces database load by storing frequently accessed data
+   - Improves application response times
+   - Reduces costs by minimizing database queries
+
+3. **Session Management**
+   - Store user sessions across multiple servers
+   - Enables horizontal scaling of web applications
+   - Automatic session expiration
+
+4. **Real-time Features**
+   - Pub/Sub messaging for real-time notifications
+   - Live updates for slot availability
+   - WebSocket-like functionality
+
+5. **Data Structures**
+   - Rich data types (strings, lists, sets, sorted sets, hashes)
+   - Atomic operations
+   - Built-in expiration support
+
+Other Uses of Redis
+
+1. **Leaderboards & Rankings**
+   - Sorted sets for ranking systems
+   - Real-time score updates
+   - Gaming applications
+
+2. **Rate Limiting**
+   - Track API request counts per user/IP
+   - Implement sliding window algorithms
+   - Prevent abuse and DDoS attacks
+
+3. **Message Queues**
+   - List data structure for FIFO queues
+   - Background job processing
+   - Decouple services
+
+4. **Geospatial Data**
+   - Store location coordinates
+   - Calculate distances between points
+   - Find nearby locations (perfect for parking slots)
+
+5. **Distributed Locks**
+   - Prevent race conditions
+   - Ensure only one process can access a resource
+   - Critical for slot reservation system
+
+6. **Analytics & Counting**
+   - Real-time metrics
+   - User behavior tracking
+   - Performance monitoring
+
+7. **Full-Text Search**
+   - RedisSearch module
+   - Index and search text data
+   - Fast search capabilities
+
+Redis Restarts & Persistence
+
+1. **Persistence Options**
+   - RDB (Redis Database Backup): Point-in-time snapshots
+   - AOF (Append Only File): Logs every write operation
+   - Both: Maximum durability
+
+2. **Restart Scenarios**
+   - Planned maintenance: Graceful shutdown with persistence
+   - Crash recovery: Automatic recovery from persistence files
+   - Memory pressure: OS may kill Redis process
+
+3. **Data Recovery**
+   - RDB: Fast startup, may lose recent data
+   - AOF: Slower startup, more durable
+   - Replication: Master-slave setup for high availability
+
+4. **Best Practices**
+   - Configure appropriate persistence strategy
+   - Monitor memory usage
+   - Set up replication for production
+   - Use Redis Sentinel for automatic failover
+
+Redis in Parking System Context
+
+1. **Slot Availability Cache**
+   - Cache frequently queried slot data
+   - Reduce database load for geospatial queries
+   - Fast response times for mobile users
+
+2. **Session Storage**
+   - Store user sessions and preferences
+   - Track user location and search history
+   - Enable seamless mobile-kiosk experience
+
+3. **Real-time Updates**
+   - Pub/Sub for slot status changes
+   - Notify users when slots become available
+   - Live updates for kiosk displays
+
+4. **Rate Limiting**
+   - Prevent abuse of booking system
+   - Limit requests per user/IP
+   - Protect against automated attacks
+
+5. **Temporary Holds**
+   - Store 15-minute hold information
+   - Automatic expiration for held slots
+   - Prevent double-booking conflicts
+
+6. **Geospatial Queries**
+   - Store parking lot coordinates
+   - Find slots within 500m radius
+   - Calculate distances efficiently
+
+Performance Benefits
+
+1. **Response Time**
+   - Sub-millisecond for cached data
+   - <200ms requirement easily met
+   - Better user experience
+
+2. **Scalability**
+   - Handle thousands of concurrent users
+   - Reduce database bottleneck
+   - Horizontal scaling support
+
+3. **Cost Efficiency**
+   - Reduce database load
+   - Lower infrastructure costs
+   - Better resource utilization
+
+Common Redis Interview Questions
+
+1. **"Why Redis over Memcached?"**
+   - Rich data structures
+   - Persistence options
+   - Built-in replication
+   - Pub/Sub messaging
+
+2. **"How do you handle Redis failures?"**
+   - Replication setup
+   - Sentinel for automatic failover
+   - Application-level fallback
+   - Circuit breaker pattern
+
+3. **"Redis memory management?"**
+   - Eviction policies (LRU, LFU, etc.)
+   - Memory usage monitoring
+   - Data expiration strategies
+   - Memory optimization techniques
+
+4. **"Redis vs Database?"**
+   - Use Redis for caching and real-time data
+   - Use database for persistent storage
+   - Hybrid approach for best performance
+   - Data consistency considerations

@@ -1,0 +1,166 @@
+REACT HOOKS - COMPREHENSIVE GUIDE
+--------
+
+OVERVIEW
+--------
+React Hooks allow functional components to use state and lifecycle features
+without converting to class components.
+
+--------
+
+CORE HOOKS
+--------
+
+-> useState Hook
+Purpose: Manage local component state
+
+BASIC USAGE:
+const [state, setState] = useState(initialValue);
+
+ADVANCED PATTERNS:
+    - Functional updates: setState(prev => prev + 1)
+    - Lazy initialization: useState(() => expensiveCalculation())
+    - Object state: const [user, setUser] = useState({name: '', email: ''})
+
+-> useState vs useRef
+useState: Triggers re-render when changed
+useRef: Persists across renders, NO re-render trigger
+
+WHEN TO USE useRef:
+    - DOM references
+    - Timer IDs
+    - Previous values storage
+    - Mutable values without re-render
+
+-> useReducer Hook
+Purpose: Manage complex state logic with predictable updates
+
+WHEN TO USE useReducer:
+    - Complex state structure
+    - Multiple sub-values in state
+    - State logic involves multiple interactions
+    - Need to abstract state update logic
+    - Performance optimization with batch updates
+
+BASIC PATTERN:
+const [state, dispatch] = useReducer(reducer, initialState);
+
+REDUCER FUNCTION:
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'ACTION_TYPE':
+      return { ...state, newValue: action.payload };
+    default:
+      return state;
+  }
+};
+
+ADVANTAGES OVER useState:
+    - Centralized state logic
+    - Predictable state transitions
+    - Better for complex state
+    - Easier testing
+    - Performance optimization
+
+--------
+
+HOOKS COMPARISON
+--------
+
+-> useState:
+    ✅ Simple state management
+    ✅ Direct state updates
+    ❌ Complex logic becomes messy
+    ❌ Multiple useState calls
+
+-> useReducer:
+    ✅ Complex state logic
+    ✅ Centralized updates
+    ✅ Predictable transitions
+    ❌ More boilerplate
+    ❌ Overkill for simple state
+
+-> useRef:
+    ✅ No re-renders
+    ✅ Persistent values
+    ✅ DOM references
+    ❌ No automatic updates
+    ❌ Manual change tracking
+
+--------
+
+BEST PRACTICES
+--------
+
+-> 1. HOOK RULES:
+    - Only call hooks at top level
+    - Only call hooks from React functions
+    - Use ESLint plugin for hook rules
+
+-> 2. PERFORMANCE:
+    - Use useCallback for function memoization
+    - Use useMemo for expensive calculations
+    - Avoid unnecessary re-renders
+
+-> 3. STATE DESIGN:
+    - Keep state as minimal as possible
+    - Derive computed values instead of storing them
+    - Use multiple useState for unrelated state
+
+-> 4. COMPLEX STATE:
+    - Use useReducer for complex state logic
+    - Consider state machines for complex flows
+    - Split large state objects into smaller pieces
+
+--------
+
+COMMON PATTERNS
+--------
+
+-> 1. FORM HANDLING:
+    const [formData, setFormData] = useState({});
+    const updateField = (field, value) => {
+      setFormData(prev => ({ ...prev, [field]: value }));
+    };
+
+-> 2. COUNTER WITH useReducer:
+    const counterReducer = (state, action) => {
+      switch (action.type) {
+        case 'increment': return { count: state.count + 1 };
+        case 'decrement': return { count: state.count - 1 };
+        case 'reset': return { count: 0 };
+        default: return state;
+      }
+    };
+
+-> 3. PREVIOUS VALUE TRACKING:
+    const usePrevious = (value) => {
+      const ref = useRef();
+      useEffect(() => {
+        ref.current = value;
+      });
+      return ref.current;
+    };
+
+--------
+
+DECISION MATRIX
+--------
+
+-> Choose useState when:
+    □ Simple state values
+    □ Direct state updates
+    □ Few state variables
+    □ No complex logic
+
+-> Choose useReducer when:
+    □ Complex state structure
+    □ Multiple related state updates
+    □ Need predictable state changes
+    □ Complex business logic
+
+-> Choose useRef when:
+    □ Need DOM references
+    □ Store values without re-render
+    □ Track previous values
+    □ Timer/interval management

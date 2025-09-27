@@ -1,0 +1,451 @@
+Dubizzle Interviews - Technical Questions
+--------
+
+1. Batching in React
+--------
+
+-> What is Batching
+React groups multiple state updates into a single render for performance.
+
+--------
+
+Previous Versions (React <18)
+--------
+
+-> Behavior
+    - Batching happens only inside React event handlers
+    - Async updates (like setTimeout, fetch, Promises) did not batch
+
+-> Example
+function Counter() {
+  const [count, setCount] = React.useState(0);
+
+  const handleClick = () => {
+    setCount(count + 1);
+    setCount(count + 1);
+    console.log(count); // still old value
+  };
+
+  return <button onClick={handleClick}>{count}</button>;
+}
+
+-> Result
+count would increment only by 1, even though setCount is called twice, because updates outside React events are not batched.
+
+--------
+
+React 18+ (automatic batching)
+--------
+
+-> Behavior
+    - Batching happens even inside async operations (Promises, setTimeout, etc.)
+    - Multiple state updates are merged into one render, improving performance
+
+-> Example
+function Counter() {
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setCount(c => c + 1);
+      setCount(c => c + 1);
+    }, 1000);
+  }, []);
+
+  return <div>{count}</div>;
+}
+
+-> Result
+Now count increments by 2 after 1 second — batching works in async updates.
+
+--------
+
+2. Execution Context (JS concept)
+--------
+
+-> What is Execution Context
+An execution context is the environment where JS code is evaluated and executed.
+
+-> Each function call creates a new function execution context, including:
+    - Variable environment (var, let, const)
+    - Scope chain
+    - this binding
+    - Reference to outer lexical environment
+
+-> Types:
+    - Global execution context (default)
+    - Function execution context
+    - Eval context (rarely used)
+
+-> Example
+let a = 10;
+
+function foo() {
+  let b = 20;
+  console.log(a + b); // 30
+}
+foo();
+
+-> Result
+foo creates a new execution context with its own b.
+
+--------
+
+3. Using let instead of useState in React
+--------
+
+-> Question
+No, the component will not re-render if you just use let:
+
+-> Example
+let count = 0;
+
+function Counter() {
+  return (
+    <div>
+      {count}
+      <button onClick={() => { count += 1; }}>Increment</button>
+    </div>
+  );
+}
+
+-> Result
+Clicking the button changes count, but React does not re-render because let is not reactive.
+
+-> Solution
+useState is required to trigger re-render on state change.
+
+--------
+
+4. JS Array Rotation Example
+--------
+
+-> Problem
+Rotate an array n times to the right:
+
+-> Solution
+function rotateArray(arr, n) {
+  const len = arr.length;
+  n = n % len; // handle rotations > length
+  return [...arr.slice(-n), ...arr.slice(0, len - n)];
+}
+
+-> Example
+const arr = [1, 2, 3, 4, 5];
+const rotated = rotateArray(arr, 2);
+console.log(rotated); // [4, 5, 1, 2, 3]
+
+-> Explanation
+    - slice(-n) → last n elements
+    - slice(0, len-n) → first part of array
+    - Combine → rotated array
+
+--------
+
+Summary
+--------
+
+-> Key Points
+    - Batching: React 18+ batches async state updates automatically
+    - Execution Context: Environment where JS code runs (scope, this, variables)
+    - let vs useState: let does not trigger re-render
+    - Array rotation: Use slice and spread to rotate n times
+
+--------
+
+5. Variable vs State in React - UI Updates
+--------
+
+-> Question
+If I use a variable `count` and state `counter`, and change both, but the UI only sees the change of state. The counter value keeps increasing but count stays 0. Why?
+
+-> Example
+let count = 0; // Regular variable
+const [counter, setCounter] = useState(0); // React state
+
+function Component() {
+  const handleClick = () => {
+    count += 1; // Changes variable
+    setCounter(prev => prev + 1); // Changes state
+    console.log(count); // Shows incremented value
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p> {/* Always shows 0 */}
+      <p>Counter: {counter}</p> {/* Shows incremented value */}
+      <button onClick={handleClick}>Increment Both</button>
+    </div>
+  );
+}
+
+-> Explanation
+    - Regular variables (let, var, const) are NOT reactive
+    - React only re-renders when state changes
+    - Variable changes don't trigger component re-render
+    - UI only reflects state values, not variable values
+
+-> Why This Happens
+    - React's Virtual DOM only updates when state changes
+    - Regular variables exist in JavaScript scope but not in React's tracking system
+    - Component re-render is triggered by state updates, not variable mutations
+    - JSX expressions are evaluated during render, so they only see current state
+
+-> Solution
+Always use useState for values that need to trigger UI updates:
+
+const [count, setCount] = useState(0);
+const [counter, setCounter] = useState(0);
+
+function Component() {
+  const handleClick = () => {
+    setCount(prev => prev + 1);
+    setCounter(prev => prev + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p> {/* Now updates correctly */}
+      <p>Counter: {counter}</p> {/* Updates correctly */}
+      <button onClick={handleClick}>Increment Both</button>
+    </div>
+  );
+}
+
+--------
+
+6. Object Mutations
+--------
+
+-> What is Object Mutations
+Directly modifying the properties of an existing object instead of creating a new one.
+
+-> Example (Bad - Mutating)
+const user = { name: 'John', age: 25 };
+user.age = 26; // Mutates original object
+user.city = 'NYC'; // Adds new property
+
+-> Example (Good - Immutable)
+const user = { name: 'John', age: 25 };
+const updatedUser = { ...user, age: 26, city: 'NYC' }; // Creates new object
+
+-> Why Avoid Mutations
+    - React relies on reference equality for re-renders
+    - Mutations can cause unexpected bugs
+    - Harder to track state changes
+    - Breaks React's optimization (React.memo, useMemo)
+
+-> React Best Practices
+    - Use spread operator (...)
+    - Use Object.assign()
+    - Use libraries like Immer
+    - Always return new objects/arrays
+
+--------
+
+7. Client Side Rendering (CSR)
+--------
+
+-> What is CSR
+Rendering web pages entirely in the browser using JavaScript after the initial HTML is loaded.
+
+-> How it Works
+    1. Browser loads minimal HTML shell
+    2. JavaScript bundle downloads
+    3. JavaScript executes and renders content
+    4. User sees fully rendered page
+
+-> Example (React CSR)
+function App() {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    fetch('/api/data')
+      .then(res => res.json())
+      .then(setData);
+  }, []);
+  
+  return <div>{data ? data.title : 'Loading...'}</div>;
+}
+
+-> Pros
+    - Fast navigation between pages
+    - Rich interactivity
+    - Good for dynamic content
+    - Smooth user experience
+
+-> Cons
+    - Slower initial page load
+    - SEO challenges
+    - Requires JavaScript enabled
+    - Larger bundle sizes
+
+--------
+
+8. Server Side Rendering (SSR)
+--------
+
+-> What is SSR
+Rendering web pages on the server and sending fully rendered HTML to the browser.
+
+-> How it Works
+    1. User requests page
+    2. Server runs React code
+    3. Server generates HTML
+    4. Browser receives complete HTML
+    5. JavaScript hydrates for interactivity
+
+-> Example (Next.js SSR)
+export async function getServerSideProps() {
+  const data = await fetch('https://api.example.com/data');
+  return {
+    props: { data: await data.json() }
+  };
+}
+
+function Page({ data }) {
+  return <div>{data.title}</div>;
+}
+
+-> Pros
+    - Faster initial page load
+    - Better SEO
+    - Works without JavaScript
+    - Better Core Web Vitals
+
+-> Cons
+    - Slower navigation between pages
+    - Higher server load
+    - More complex deployment
+    - Potential hydration mismatches
+
+--------
+
+9. Static Site Generation (SSG)
+--------
+
+-> What is SSG
+Pre-generating static HTML files at build time, not on each request.
+
+-> How it Works
+    1. Build time: Generate all pages
+    2. Deploy static files to CDN
+    3. User requests page
+    4. CDN serves pre-built HTML instantly
+
+-> Example (Next.js SSG)
+export async function getStaticProps() {
+  const data = await fetch('https://api.example.com/data');
+  return {
+    props: { data: await data.json() },
+    revalidate: 3600 // Regenerate every hour
+  };
+}
+
+function Page({ data }) {
+  return <div>{data.title}</div>;
+}
+
+-> Pros
+    - Fastest possible loading
+    - Excellent SEO
+    - Can be served from CDN
+    - Lower server costs
+    - High reliability
+
+-> Cons
+    - Not suitable for dynamic content
+    - Requires rebuild for content changes
+    - Limited real-time updates
+    - Build time increases with page count
+
+--------
+
+Summary
+--------
+
+-> Key Points
+    - Object Mutations: Avoid direct modifications, use immutable patterns
+    - CSR: Client renders everything, good for SPAs
+    - SSR: Server renders HTML, good for SEO and initial load
+    - SSG: Pre-built static files, fastest loading and best SEO
+
+--------
+
+10. JavaScript Variable Declaration Questions
+--------
+
+-> Question 1: Object Reassignment
+const object = {test: 112233}
+object = {}
+
+Is it an error case?
+
+-> Answer: YES, it's an error
+    - const variables cannot be reassigned
+    - This will throw: "TypeError: Assignment to constant variable"
+    - const creates a read-only reference to the value
+
+-> Explanation
+const object = {test: 112233}; // Creates constant reference
+object = {}; // ❌ ERROR: Cannot reassign const variable
+
+-> What's Allowed with const
+const object = {test: 112233};
+object.test = 456; // ✅ OK: Modifying properties
+object.newProp = 'value'; // ✅ OK: Adding properties
+delete object.test; // ✅ OK: Deleting properties
+
+-> Correct Alternatives
+// Option 1: Use let instead
+let object = {test: 112233};
+object = {}; // ✅ OK: let allows reassignment
+
+// Option 2: Create new const variable
+const object = {test: 112233};
+const newObject = {}; // ✅ OK: Different variable
+
+--------
+
+-> Question 2: Variable Redeclaration
+let x = 2;
+and then let x = 3;
+
+Is this valid?
+
+-> Answer: NO, it's an error
+    - let variables cannot be redeclared in the same scope
+    - This will throw: "SyntaxError: Identifier 'x' has already been declared"
+
+-> Explanation
+let x = 2; // Declares variable x
+let x = 3; // ❌ ERROR: Cannot redeclare x
+
+-> What's Allowed with let
+let x = 2;
+x = 3; // ✅ OK: Reassignment is allowed
+x = 'hello'; // ✅ OK: Can change type
+
+-> Scope Rules
+// Different scopes - OK
+let x = 2;
+if (true) {
+    let x = 3; // ✅ OK: Different scope
+    console.log(x); // 3
+}
+console.log(x); // 2
+
+-> Comparison with var
+var x = 2;
+var x = 3; // ✅ OK: var allows redeclaration (but not recommended)
+
+--------
+
+Summary
+--------
+
+-> Key Points
+    - const: Cannot reassign, but can modify object properties
+    - let: Cannot redeclare, but can reassign
+    - var: Allows both redeclaration and reassignment (avoid in modern JS)
+    - Scope matters: Same variable name in different scopes is OK

@@ -1,0 +1,46 @@
+# Hotel Reservations System - Full Stack Interview Question
+
+## How the Question is Typically Asked:
+"Design a hotel reservation system that allows users to 
+    -> search for hotels, 
+    -> view room availability, 
+    -> make bookings,
+    -> manage their reservations. 
+
+Walk me through the complete system architecture, 
+    -> including frontend, backend, and database design. 
+    -> Consider scalability, user experience, and business requirements."
+
+## What It Covers (All Three Areas):
+
+### Frontend (User Interface):
+- Hotel search interface with filters (location, dates, price range, amenities)
+- Room selection and booking flow
+- User authentication and profile management
+- Reservation management dashboard
+- Payment integration UI
+- Real-time availability updates
+
+### Backend (Server Logic):
+- RESTful APIs for hotel search, booking, and user management
+- Authentication and authorization middleware
+- Payment processing integration
+- Email notifications for confirmations
+- Inventory management for room availability
+- Rate limiting and security measures
+
+### Database Design:
+- User profiles and authentication data
+- Hotel and room information schemas
+- Reservation and booking records
+- Pricing and availability tables
+- Payment transaction logs
+- Audit trails for compliance
+
+## Key Technical Concepts Tested:
+- System architecture and scalability
+- Database relationships and optimization
+- API design and security
+- Real-time data synchronization
+- Payment processing workflows
+- Error handling and edge cases

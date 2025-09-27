@@ -1,0 +1,204 @@
+React 19 Changes - New Hooks Guide
+--------
+
+OVERVIEW
+--------
+React 19 introduces several new hooks and improvements to enhance developer experience and performance.
+
+--------
+
+useLayoutEffect
+--------
+
+-> What it is
+    A React hook that runs synchronously after all DOM mutations but before the browser paints.
+
+-> When it runs
+    - After React updates the DOM
+    - Before the browser paints the screen
+    - Synchronously (blocks browser painting)
+
+-> Use cases
+    - DOM measurements (element dimensions, scroll position)
+    - Synchronous DOM manipulations
+    - Preventing visual flicker
+    - Reading layout properties before paint
+
+-> Example
+    ```javascript
+    useLayoutEffect(() => {
+        // Measure element after DOM update
+        const rect = elementRef.current.getBoundingClientRect();
+        setElementSize(rect);
+    }, []);
+    ```
+
+-> Key differences from useEffect
+    - useEffect: Runs asynchronously after paint
+    - useLayoutEffect: Runs synchronously before paint
+    - useLayoutEffect can cause performance issues if overused
+
+--------
+
+useActionState
+--------
+
+-> What it is
+    A hook for managing form submissions and server actions with built-in state management.
+
+-> Purpose
+    - Handles form submissions
+    - Manages pending states
+    - Provides error handling
+    - Integrates with server actions
+
+-> Syntax
+    ```javascript
+    const [state, formAction, isPending] = useActionState(action, initialState);
+    ```
+
+-> Parameters
+    - action: Server action function
+    - initialState: Initial state value
+
+-> Returns
+    - state: Current state from the action
+    - formAction: Action function to use in forms
+    - isPending: Boolean indicating if action is running
+
+-> Example
+    ```javascript
+    async function updateUser(prevState, formData) {
+        const name = formData.get('name');
+        if (!name) return { error: 'Name is required' };
+        
+        try {
+            await updateUserInDB(name);
+            return { success: 'User updated!' };
+        } catch (error) {
+            return { error: 'Update failed' };
+        }
+    }
+
+    function UserForm() {
+        const [state, formAction, isPending] = useActionState(updateUser, {});
+        
+        return (
+            <form action={formAction}>
+                <input name="name" required />
+                <button disabled={isPending}>
+                    {isPending ? 'Updating...' : 'Update'}
+                </button>
+                {state.error && <p>{state.error}</p>}
+                {state.success && <p>{state.success}</p>}
+            </form>
+        );
+    }
+    ```
+
+--------
+
+useOptimistic
+--------
+
+-> What it is
+    A hook for implementing optimistic updates in user interfaces.
+
+-> Purpose
+    - Shows immediate UI updates before server confirmation
+    - Provides fallback state if server operation fails
+    - Improves perceived performance
+
+-> Syntax
+    ```javascript
+    const [optimisticState, addOptimistic] = useOptimistic(state, reducer);
+    ```
+
+-> Parameters
+    - state: Current state
+    - reducer: Function to handle optimistic updates
+
+-> Returns
+    - optimisticState: Optimistic version of state
+    - addOptimistic: Function to trigger optimistic update
+
+-> Example
+    ```javascript
+    function reducer(state, optimisticValue) {
+        return [...state, { ...optimisticValue, sending: true }];
+    }
+
+    function MessageList({ messages }) {
+        const [optimisticMessages, addOptimistic] = useOptimistic(messages, reducer);
+        
+        async function sendMessage(formData) {
+            const message = {
+                text: formData.get('text'),
+                id: Date.now(),
+            };
+            
+            // Optimistic update
+            addOptimistic(message);
+            
+            try {
+                await sendMessageToServer(message);
+            } catch (error) {
+                // Handle error - optimistic state will revert
+            }
+        }
+        
+        return (
+            <div>
+                {optimisticMessages.map(msg => (
+                    <div key={msg.id}>
+                        {msg.text}
+                        {msg.sending && <span>Sending...</span>}
+                    </div>
+                ))}
+                <form action={sendMessage}>
+                    <input name="text" required />
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        );
+    }
+    ```
+
+--------
+
+BEST PRACTICES
+--------
+
+-> useLayoutEffect
+    - Use sparingly - can block browser painting
+    - Prefer useEffect for most side effects
+    - Only use when you need synchronous DOM measurements
+
+-> useActionState
+    - Perfect for form submissions
+    - Integrates well with server actions
+    - Provides built-in loading states
+
+-> useOptimistic
+    - Great for improving perceived performance
+    - Always handle error cases
+    - Use for operations that might fail
+
+--------
+
+MIGRATION NOTES
+--------
+
+-> From useEffect to useLayoutEffect
+    - Only change if you need synchronous DOM access
+    - Consider performance implications
+
+-> From useState + useEffect to useActionState
+    - Simplifies form handling
+    - Reduces boilerplate code
+    - Better integration with server actions
+
+-> Adding useOptimistic
+    - Enhances user experience
+    - Requires proper error handling
+    - Works well with async operations

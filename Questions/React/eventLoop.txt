@@ -1,40 +1,185 @@
-1. JavaScript is single-threaded
+https://chatgpt.com/c/68d445d2-dd48-8323-9d6a-aa55f503b95e
 
-JavaScript itself runs on one main thread.
+JavaScript Event Loop
+--------
 
-This means only one piece of JS code executes at a time.
+-> Overview
+The JavaScript Event Loop is a fundamental concept that explains how JavaScript handles asynchronous operations despite being single-threaded.
 
-So, you’re right: if you do
+--------
+
+-> 1. JavaScript Single-Threaded Nature
+
+    -> Core Concept
+        - JavaScript runs on one main thread
+        - Only one piece of JS code executes at a time
+        - Code runs sequentially, never simultaneously
+
+    -> Example
+        ```javascript
+        console.log(1);
+        console.log(2);
+        // Always runs in sequence: 1, then 2
+        ```
+
+--------
+
+-> 2. Asynchronous Operations Handling
+
+    -> How JavaScript Handles Async
+        JavaScript doesn't handle everything itself. It relies on host environments:
+        - Browser (Chrome, Firefox, Safari)
+        - Node.js
+
+    -> Host Environment APIs
+        The host provides APIs that run tasks outside the single JS thread:
+        - setTimeout / setInterval
+        - DOM events (clicks, input)
+        - AJAX / fetch
+        - File system/network access (Node.js)
+
+    -> Async Flow Process
+        1. Call: fetch("...") → JS thread asks browser to handle it
+        2. Execution: Browser does networking in another thread
+        3. Callback: When done, pushes callback to event loop queue
+        4. Processing: JS thread picks up and runs the callback
+
+--------
+
+    process.nextTick (Node.js only, special queue)
+    Microtasks (Promises, queueMicrotask)
+    Timers (setTimeout, setInterval)
+    I/O callbacks (DOM events, fs/network in Node)
+    Check phase (setImmediate, Node.js only)
+    Close callbacks (Node.js only)
+
+--------
+
+-> 3. Browser Event Loop
+
+    -> Components
+
+        -> Call Stack
+            - Executes synchronous JS line by line
+            - If stack is busy → nothing else runs
+
+        -> Web APIs
+            - Browser-provided APIs (timers, DOM events, fetch, geolocation)
+            - Async tasks register here first
+
+        -> Microtask Queue
+            - Higher priority than macrotasks
+            - Contains:
+                -> Promises (.then, .catch, .finally)
+                -> MutationObserver
+                -> queueMicrotask
+            - Drained completely before moving to next macrotask
+
+        -> Macrotask Queue (Task Queue / Callback Queue)
+            - Stores callbacks from APIs (setTimeout, setInterval, DOM events)
+            - FIFO: processed one at a time after call stack clears
+
+        -> Render Pipeline
+            - After microtasks finish, browser may repaint/re-render DOM
+            - Happens between macrotask cycles, not on every microtask
+
+--------
+
+-> 4. Node.js Event Loop (Libuv-based)
+
+    -> Overview
+        Node.js uses an event loop powered by libuv, with different phases than the browser.
+
+    -> Event Loop Phases
+
+        1. Timers Phase
+            - Executes callbacks scheduled by setTimeout and setInterval
+
+        2. Pending Callbacks
+            - Executes I/O callbacks deferred from previous cycle
+            - Example: TCP errors
+
+        3. Idle, Prepare (Internal)
+            - Used internally by Node.js
+            - Not for user code
+
+        4. Poll Phase
+            - Retrieves new I/O events
+            - Executes I/O-related callbacks:
+                -> Data received from socket
+                -> File read operations
+            - If nothing in poll queue → can block waiting for new events
+
+        5. Check Phase
+            - Executes setImmediate callbacks
+
+        6. Close Callbacks
+            - Runs close event callbacks
+            - Example: socket.on('close', ...)
+
+        Between each phase:
+        - process.nextTick queue (runs **first**)
+        - Promise microtask queue (runs **after nextTick**)
+
+--------
+
+-> Key Takeaways
+    1. JavaScript is single-threaded but handles async operations through host environments
+    2. Browser Event Loop has Call Stack, Web APIs, Macrotask Queue, Microtask Queue, and Render Pipeline
+    3. Microtasks have higher priority than macrotasks
+    4. Node.js Event Loop has 6 distinct phases for different types of operations
+    5. Understanding the event loop is crucial for predictable async behavior and performance optimization
 
 
-console.log(1);
-console.log(2);
+--------
 
-they’ll always run in sequence, never literally at the same time.
+setImmediate(callback)
+--------
 
-2. But JS can handle async operations
+-> What it does
+    Schedules the callback to run in the Check phase of the event loop.
 
-How? By not doing everything itself.
+-> When it runs
+    After I/O events are processed (i.e., after the Poll phase finishes).
 
-JavaScript is often run inside a host environment (like a browser or Node.js).
+-> Queue Type
+    It's a macrotask in the Check queue.
 
-The host provides APIs that can run tasks outside of the single JS thread.
-Examples:
+-> Use case
+    When you want a callback to run after I/O is complete, but not block the current turn of the event loop.
 
-setTimeout
+-> Execution Order
+    - If called from the main script → order is not guaranteed.
+    - If called inside an I/O callback → setImmediate always wins (runs before setTimeout).
 
-DOM events (clicks, input)
+--------
 
-AJAX / fetch
+process.nextTick(callback)
+--------
 
-File system/network access in Node.js
+-> What it does
+    Schedules the callback to run immediately after the current operation, before the event loop continues.
 
-These don’t block the main thread. Instead:
+-> When it runs
+    After the current function finishes but before any I/O, timers, or setImmediate.
 
-You call fetch("...") → JS thread asks the browser to handle it.
+-> Queue Type
+    It's part of the nextTick queue, which has higher priority than microtasks (Promises) in Node.js.
 
-The browser (or Node.js internals) does the networking in another thread.
+-> Use case
+    For deferring work to the next tick of the event loop without waiting for any phase.
 
-When done, it pushes a callback back to the event loop queue.
+--------
 
-The JS thread eventually picks it up and runs your callback.
+-> Where process.nextTick really runs
+
+It does not go into any of the 6 event loop phases (Timers, Poll, Check, etc.).
+
+Instead, Node.js has a special queue just for nextTick callbacks.
+
+After the current synchronous operation finishes (or after the currently executing macrotask), Node drains the nextTick queue first, before:
+
+    - Promises/microtasks
+    - Timers (setTimeout, setInterval)
+    - I/O callbacks
+    - setImmediate

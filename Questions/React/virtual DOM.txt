@@ -1,0 +1,50 @@
+ Virtual DOM
+    Q: How does Virtual DOM work?
+    A:
+    -> 1. Creates virtual representation of real DOM
+    -> 2. When state changes, creates new virtual DOM
+    -> 3. Diffing algorithm compares old vs new virtual DOM
+    -> 4. Reconciliation - updates only changed parts
+    -> 5. Batch updates for performance
+
+
+React doesn’t use timestamps to decide batches.
+Instead, it relies on the context in which the updates happen.
+
+1. Event boundaries (before React 18)
+
+If multiple state updates happen during the execution of one React event handler, React will batch them together.
+
+Example:
+
+function handleClick() {
+  setCount(c => c + 1);
+  setName("Alice");
+}
+
+
+Both updates are batched into one render cycle because they happen during the same event handler call.
+
+
+
+2. Automatic batching (React 18 and later)
+
+Starting with React 18, batching isn’t limited to event handlers anymore:
+
+Updates inside promises, timeouts, async/await, or native event listeners also get batched.
+
+Example:
+
+setTimeout(() => {
+  setCount(c => c + 1);
+  setName("Alice");
+}, 0);
+
+
+🔥 Before React 18 → 2 renders (no batching).
+🔥 React 18+ → 1 render (batched automatically).
+
+
+study controlling batching
+
+flush sync vs useTransition in case of batching
