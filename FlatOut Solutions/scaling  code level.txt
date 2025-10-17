@@ -1,0 +1,19 @@
+-> Stateless services: no in-memory session; persist state in DB/cache so you can
+-> add instances.
+-> Config-driven: no hardcoded host/ports/limits; 12-factor friendly (ENV vars).
+-> Efficient I/O: async/non-blocking, connection pooling, reuse HTTP/TCP clients.
+-> Batching & pagination: avoid N+1; batch DB/external calls; paginate reads/writes.
+-> Caching: in-memory (LRU) for hot keys; Redis for shared cache; use TTLs/ETags.
+-> Idempotency: idempotency keys for POST; safe retries without double effects.
+-> Rate limiting/throttling: protect downstreams; backpressure on queues.
+-> Timeouts/retries/circuit breakers: fail fast, exponential backoff, isolate failures.
+-> Queue offloading: move heavy/slow tasks to background workers (message queues).
+-> Data model for scale: proper indexes, read replicas, selective denormalization,
+-> partition-ready keys.
+-> Concurrency control: optimistic locking (ETags/version), avoid wide locks.
+-> Serialization efficiency: prefer JSON with gzip/brotli; avoid huge payloads;
+-> stream when large.
+-> Hot-path optimization: profile, cache computed results, avoid synchronous "fan-out".
+-> Observability: metrics (latency, QPS, error), tracing, structured logs for
+-> bottleneck detection.
+-> Feature flags/toggles: roll out gradually; disable load-heavy features quickly.

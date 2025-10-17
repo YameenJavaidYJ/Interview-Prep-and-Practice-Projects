@@ -1,0 +1,11 @@
+-> Planning and Analysis: Gather business requirements with stakeholders; produce an SRS
+    (Software Requirement Specification) and validate it with business.
+-> Design: Translate SRS (Software Requirement Specification) into UX/UI and system architecture; 
+    designers create pages; 
+    developers define high‑level architecture and technical specs.
+-> Development: Implement features and APIs; follow coding standards; commit via version control;
+    integrate continuously.
+-> Testing: Perform functional, integration, and regression tests to ensure a stable, bug‑free
+    banking platform.
+-> Deployment and Maintenance: Release to production, monitor, and iterate; apply the same
+    process for new features and ongoing improvements.

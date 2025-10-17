@@ -1,0 +1,20 @@
+-> Robust APIs are designed to be predictable, resilient, and secure under
+    real-world conditions:
+-> Reliability: timeouts, retries with exponential backoff, idempotency
+    (idempotency keys), circuit breakers.
+-> Backward compatibility: versioning, schema contracts (OpenAPI),
+    deprecation policies.
+-> Defensive design: strict input validation, sane defaults,
+    rate limiting/throttling, pagination, payload size limits.
+-> Consistent semantics: stable status codes, clear error models
+    (machine-readable error codes), idempotent PUT/DELETE.
+-> Observability: structured logs, trace IDs, metrics (latency, error rate),
+    health/readiness probes.
+-> Performance: caching (ETags, Cache-Control), batching, compression,
+    n+1 avoidance.
+-> Security: authn/authz (OAuth2/OIDC), least-privilege scopes, TLS everywhere,
+    audit logs.
+-> Data integrity: transactional boundaries, concurrency control (ETags/If-Match),
+    exactly-once or at-least-once patterns where appropriate.
+-> Testing & rollout: contract tests, load/soak tests, chaos drills,
+    canary/blue-green deploys, feature flags.
